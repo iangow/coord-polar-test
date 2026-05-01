@@ -3,3 +3,8 @@ __pycache__/
 *.py[cod]
 .quarto/
 *_files/
+_book/
+*.html
+
+/.quarto/
+**/*.quarto_ipynb

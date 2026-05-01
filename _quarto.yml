@@ -1,0 +1,17 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Polar Coordinates with plotnine"
+  chapters:
+    - index.qmd
+    - ggplot2-examples.qmd
+    - socviz-examples.qmd
+
+format:
+  html:
+    theme: cosmo
+
+execute:
+  warning: false

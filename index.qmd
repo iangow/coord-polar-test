@@ -1,0 +1,14 @@
+# Polar Coordinates with plotnine
+
+This book collects examples of `coord_polar()` for
+[plotnine](https://plotnine.org), the Python grammar of graphics library.
+
+The examples serve as targets for development and as a reference for users.
+They are drawn from two sources:
+
+- The [ggplot2 book](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar),
+  which documents `coord_polar()` in R's ggplot2.
+- The [socviz](https://socviz.co) package, which provides real-world datasets
+  used in data-visualisation teaching.
+
+The source is at <https://github.com/iangow/coord-polar-test>.
