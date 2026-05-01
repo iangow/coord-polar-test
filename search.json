@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Polar Coordinates with plotnine",
+    "section": "",
+    "text": "1 Polar Coordinates with plotnine\nThis book collects examples of coord_polar() for plotnine, the Python grammar of graphics library.\nThe examples serve as targets for development and as a reference for users. They are drawn from two sources:\n\nThe ggplot2 book, which documents coord_polar() in R’s ggplot2.\nThe socviz package, which provides real-world datasets used in data-visualisation teaching.\n\nThe source is at https://github.com/iangow/coord-polar-test.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Polar Coordinates with plotnine</span>"
+    ]
+  },
+  {
+    "objectID": "ggplot2-examples.html",
+    "href": "ggplot2-examples.html",
+    "title": "2  ggplot2 book examples",
+    "section": "",
+    "text": "2.1 Bar → Pie → Bullseye (mtcars)\nThe following examples are adapted from the ggplot2 book’s coord chapter.\nA stacked bar chart becomes a pie chart when theta = \"y\" maps height (count) to angle, and a bullseye chart when the default theta = \"x\" maps the discrete x position to angle instead.\nmtcars_pl = (\n    pl.from_pandas(mtcars)\n    .with_columns(\n        pl.lit(\"1\").alias(\"x\"),\n        pl.col(\"cyl\").cast(pl.Utf8),\n    )\n)\n(\n    mtcars_pl\n    .ggplot(aes(x=\"x\", fill=\"cyl\"))\n    .geom_bar(width=1)\n    .scale_x_discrete(expand=(0, 0))\n    .scale_y_continuous(expand=(0, 0))\n    .add_theme(legend_position=\"none\", figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 2.1: Stacked bar chart\n(\n    mtcars_pl\n    .ggplot(aes(x=\"x\", fill=\"cyl\"))\n    .geom_bar(width=1)\n    .coord_polar(theta=\"y\")\n    .scale_x_discrete(expand=(0, 0))\n    .scale_y_continuous(expand=(0, 0))\n    .add_theme(legend_position=\"none\", figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 2.2: Pie chart: coord_polar(theta=‘y’)\n(\n    mtcars_pl\n    .ggplot(aes(x=\"x\", fill=\"cyl\"))\n    .geom_bar(width=1)\n    .coord_polar()\n    .scale_x_discrete(expand=(0, 0))\n    .scale_y_continuous(expand=(0, 0))\n    .add_theme(legend_position=\"none\", figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 2.3: Bullseye chart: coord_polar()",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>ggplot2 book examples</span>"
+    ]
+  },
+  {
+    "objectID": "ggplot2-examples.html#polar-path-spiral",
+    "href": "ggplot2-examples.html#polar-path-spiral",
+    "title": "2  ggplot2 book examples",
+    "section": "2.2 Polar path (spiral)",
+    "text": "2.2 Polar path (spiral)\nIn ggplot2 a straight line in Cartesian space becomes a spiral in polar coordinates. theta = \"x\" maps the x-column (here: angle in radians) to the angular axis; y maps to radius.\n\nn = 100\nspiral = pl.DataFrame({\n    \"r\":     np.linspace(0, 1, n),\n    \"theta\": np.linspace(0, 3 / 2 * np.pi, n),\n})\n\n(\n    spiral\n    .ggplot(aes(x=\"theta\", y=\"r\"))\n    .geom_path()\n    .geom_point(size=2, color=\"red\")\n    .coord_polar()\n    .add_theme(figure_size=(5, 5))\n)\n\n\n\n\n\n\n\nFigure 2.4: A Cartesian line becomes a spiral under coord_polar()",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>ggplot2 book examples</span>"
+    ]
+  },
+  {
+    "objectID": "socviz-examples.html",
+    "href": "socviz-examples.html",
+    "title": "3  socviz examples",
+    "section": "",
+    "text": "3.1 FARS pedestrian data\nThe farsinvolved dataset records daily counts of child pedestrians (aged 0–17) involved in fatal motor vehicle crashes in the United States from 2009 to 2023. We aggregate by calendar month and day, averaging across years. Year 2000 is used as a placeholder date because 2000 was a leap year.\nfarsinvolved = sv.load_data(\"farsinvolved\")\n\nmonth_order = [\n    \"January\", \"February\", \"March\", \"April\", \"May\", \"June\",\n    \"July\", \"August\", \"September\", \"October\", \"November\", \"December\",\n]\nmonth_num = {m: i + 1 for i, m in enumerate(month_order)}\n\nfars_agg = (\n    farsinvolved\n    .with_columns(pl.col(\"day\").cast(pl.Int32))\n    .group_by(\"month\", \"day\")\n    .agg(n=pl.col(\"n\").mean())\n    .with_columns(\n        month_num=pl.col(\"month\").replace(month_num).cast(pl.Int32),\n    )\n    .with_columns(\n        fake_yr=pl.date(2000, pl.col(\"month_num\"), pl.col(\"day\")),\n        flag=(pl.col(\"month\") == \"October\") & (pl.col(\"day\") == 31),\n    )\n    .sort(\"fake_yr\")\n)\nHalloween (October 31) stands out as the single most dangerous day for child pedestrians.\nplot_data = fars_agg.with_columns(doy=pl.col(\"fake_yr\").dt.ordinal_day())\nhalloween = plot_data.filter(pl.col(\"flag\"))\n\nn_label = plot_data[\"n\"].max() + 0.5\nmonth_starts = pl.DataFrame({\n    \"doy\":   [date(2000, m, 15).timetuple().tm_yday for m in range(1, 13)],\n    \"label\": [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n               \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"],\n    \"n\":     [n_label] * 12,\n})\n\n(\n    plot_data\n    .ggplot(aes(x=\"doy\", y=\"n\"))\n    .geom_point(shape=\"o\", size=1.5, color=\"#222222\", fill=\"white\", stroke=0.4)\n    .geom_point(data=halloween, mapping=aes(x=\"doy\", y=\"n\"),\n                size=4, color=\"#E06000\", inherit_aes=False)\n    .geom_text(data=month_starts, mapping=aes(x=\"doy\", y=\"n\", label=\"label\"),\n               size=7, color=\"#444444\", inherit_aes=False)\n    .coord_polar()\n    .labs(\n        title=\"Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes\",\n        subtitle=\"Daily average, 2009–2023\",\n    )\n    .add_theme(\n        axis_title=p9.element_blank(),\n        axis_text=p9.element_blank(),\n        axis_ticks=p9.element_blank(),\n        figure_size=(6, 6),\n    )\n)\n\n\n\n\n\n\n\nFigure 3.1: Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes. Daily average, 2009–2023.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>socviz examples</span>"
+    ]
+  }
+]
