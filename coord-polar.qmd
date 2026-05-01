@@ -7,9 +7,11 @@ execute:
 ```{python}
 from datetime import date
 
+import numpy as np
 import polars as pl
 import plotnine_polars as p9
 import socviz_pl as sv
+from plotnine.data import mtcars
 from plotnine_polars import aes
 ```
 
@@ -85,5 +87,92 @@ month_starts = pl.DataFrame({
         axis_ticks=p9.element_blank(),
         figure_size=(6, 6),
     )
+)
+```
+
+## Examples from the ggplot2 book
+
+The following examples are adapted from the
+[ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).
+
+### Bar → Pie → Bullseye (mtcars)
+
+A stacked bar chart becomes a pie chart when `theta = "y"` maps height (count)
+to angle, and a bullseye chart when the default `theta = "x"` maps the discrete
+x position to angle instead.
+
+```{python}
+mtcars_pl = (
+    pl.from_pandas(mtcars)
+    .with_columns(
+        pl.lit("1").alias("x"),
+        pl.col("cyl").cast(pl.Utf8),
+    )
+)
+```
+
+```{python}
+#| label: fig-mtcars-bar
+#| fig-cap: "Stacked bar chart"
+(
+    mtcars_pl
+    .ggplot(aes(x="x", fill="cyl"))
+    .geom_bar(width=1)
+    .scale_x_discrete(expand=(0, 0))
+    .scale_y_continuous(expand=(0, 0))
+    .add_theme(legend_position="none", figure_size=(4, 4))
+)
+```
+
+```{python}
+#| label: fig-mtcars-pie
+#| fig-cap: "Pie chart: coord_polar(theta='y')"
+(
+    mtcars_pl
+    .ggplot(aes(x="x", fill="cyl"))
+    .geom_bar(width=1)
+    .coord_polar(theta="y")
+    .scale_x_discrete(expand=(0, 0))
+    .scale_y_continuous(expand=(0, 0))
+    .add_theme(legend_position="none", figure_size=(4, 4))
+)
+```
+
+```{python}
+#| label: fig-mtcars-bullseye
+#| fig-cap: "Bullseye chart: coord_polar()"
+(
+    mtcars_pl
+    .ggplot(aes(x="x", fill="cyl"))
+    .geom_bar(width=1)
+    .coord_polar()
+    .scale_x_discrete(expand=(0, 0))
+    .scale_y_continuous(expand=(0, 0))
+    .add_theme(legend_position="none", figure_size=(4, 4))
+)
+```
+
+### Polar path (spiral)
+
+In ggplot2 a straight line in Cartesian space becomes a spiral in polar
+coordinates. `theta = "x"` maps the x-column (here: angle in radians) to the
+angular axis; y maps to radius.
+
+```{python}
+#| label: fig-polar-spiral
+#| fig-cap: "A Cartesian line becomes a spiral under coord_polar()"
+n = 100
+spiral = pl.DataFrame({
+    "r":     np.linspace(0, 1, n),
+    "theta": np.linspace(0, 3 / 2 * np.pi, n),
+})
+
+(
+    spiral
+    .ggplot(aes(x="theta", y="r"))
+    .geom_path()
+    .geom_point(size=2, color="red")
+    .coord_polar()
+    .add_theme(figure_size=(5, 5))
 )
 ```
