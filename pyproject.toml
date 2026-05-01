@@ -1,0 +1,16 @@
+[project]
+name = "coord-polar-test"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "plotnine",
+    "plotnine-polars",
+    "socviz-polars",
+    "polars",
+    "ipykernel",
+]
+
+[tool.uv.sources]
+plotnine = { path = "../plotnine", editable = true }
+plotnine-polars = { path = "../plotnine_polars", editable = true }
+socviz-polars = { path = "../socviz-polars", editable = true }
