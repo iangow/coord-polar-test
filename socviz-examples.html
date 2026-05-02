@@ -204,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="87278e50" class="cell" data-execution_count="1">
+<div id="941e27e8" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -215,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="fars-pedestrian-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="fars-pedestrian-data"><span class="header-section-number">4.1</span> FARS pedestrian data</h2>
 <p>The <code>farsinvolved</code> dataset records daily counts of child pedestrians (aged 0–17) involved in fatal motor vehicle crashes in the United States from 2009 to 2023. We aggregate by calendar month and day, averaging across years. Year 2000 is used as a placeholder date because 2000 was a leap year.</p>
-<div id="7f28d538" class="cell" data-execution_count="2">
+<div id="78675aa9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>farsinvolved <span class="op">=</span> sv.load_data(<span class="st">"farsinvolved"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>month_order <span class="op">=</span> [</span>
@@ -269,21 +269,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"#444444"</span>, size<span class="op">=</span><span class="dv">7</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    .geom_text(data<span class="op">=</span>plot_data.<span class="bu">filter</span>(pl.col(<span class="st">"day_type"</span>) <span class="op">==</span> <span class="st">"Halloween"</span>),</span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>               mapping<span class="op">=</span>aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, label<span class="op">=</span><span class="st">"day_type"</span>),</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"#E06000"</span>, size<span class="op">=</span><span class="dv">7</span>, nudge_x<span class="op">=</span><span class="dv">2</span>, nudge_y<span class="op">=-</span><span class="dv">1</span>, ha<span class="op">=</span><span class="st">"right"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    .coord_radial(inner_radius<span class="op">=</span><span class="fl">0.25</span>, r_axis_inside<span class="op">=</span><span class="va">True</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(limits<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">4.25</span>))</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes"</span>,</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Daily average, 2009–2023"</span>,</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        axis_ticks_major_x<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>),</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"#E06000"</span>, size<span class="op">=</span><span class="dv">7</span>, nudge_x<span class="op">=</span><span class="dv">2</span>, nudge_y<span class="op">=-</span><span class="dv">1</span>, </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>               ha<span class="op">=</span><span class="st">"right"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    .coord_radial(inner_radius<span class="op">=</span><span class="fl">0.25</span>, r_axis_inside<span class="op">=</span><span class="va">True</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(limits<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">4.25</span>))</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes"</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Daily average, 2009–2023"</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        axis_ticks_major_x<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>),</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div id="fig-coord-polar-fars" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
