@@ -11,4 +11,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-plotnine = { git = "https://github.com/iangow/plotnine", branch = "coord-polar" }
+plotnine = { path = "/Users/igow/git/plotnine", editable = true }

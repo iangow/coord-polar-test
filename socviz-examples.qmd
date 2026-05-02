@@ -44,37 +44,53 @@ fars_agg = (
 Halloween (October 31) stands out as the single most dangerous day for child
 pedestrians.
 
+The chart below uses `coord_radial()` with `inner_radius=0.25` to create a
+donut-shaped calendar, matching the style from
+[*Data Visualization: A Practical Introduction*](https://socviz.co/08-polishing.html#workhorses-show-ponies-unicorns).
+The r-axis limits are fixed at `(0, 4.25)` so the hollow centre corresponds
+to zero daily average fatalities, and `r_axis_inside=True` keeps the radial
+tick labels inside the ring.
+
 ```{python}
 #| label: fig-coord-polar-fars
 #| fig-cap: "Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes. Daily average, 2009–2023."
-plot_data = fars_agg.with_columns(doy=pl.col("fake_yr").dt.ordinal_day())
-halloween = plot_data.filter(pl.col("flag"))
 
-n_label = plot_data["n"].max() + 0.5
+plot_data = (
+    fars_agg
+    .with_columns(
+        doy=pl.col("fake_yr").dt.ordinal_day(),
+        day_type=pl.when(pl.col("flag"))
+                   .then(pl.lit("Halloween"))
+                   .otherwise(pl.lit("Other")),
+    )
+)
+
 month_starts = pl.DataFrame({
     "doy":   [date(2000, m, 15).timetuple().tm_yday for m in range(1, 13)],
     "label": ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    "n":     [n_label] * 12,
+    "n":     [4.0] * 12,
 })
 
 (
     plot_data
-    .ggplot(aes(x="doy", y="n"))
-    .geom_point(shape="o", size=1.5, color="#222222", fill="white", stroke=0.4)
-    .geom_point(data=halloween, mapping=aes(x="doy", y="n"),
-                size=4, color="#E06000", inherit_aes=False)
+    .ggplot(aes(x="doy", y="n", fill="day_type", color="day_type"))
+    .geom_point(shape="o", size=2.5, stroke=0.4)
+    .scale_fill_manual(values={"Halloween": "#E06000", "Other": "white"})
+    .scale_color_manual(values={"Halloween": "#333333", "Other": "#222222"})
     .geom_text(data=month_starts, mapping=aes(x="doy", y="n", label="label"),
-               size=7, color="#444444", inherit_aes=False)
-    .coord_polar()
+               color="#444444", size=7, inherit_aes=False)
+    .coord_radial(inner_radius=0.25, r_axis_inside=True, expand=False)
+    .scale_y_continuous(limits=(0, 4.25))
     .labs(
         title="Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes",
         subtitle="Daily average, 2009–2023",
     )
     .add_theme(
         axis_title=p9.element_blank(),
-        axis_text=p9.element_blank(),
-        axis_ticks=p9.element_blank(),
+        axis_text_x=p9.element_blank(),
+        axis_ticks_major_x=p9.element_blank(),
+        legend_position="none",
         figure_size=(6, 6),
     )
 )
