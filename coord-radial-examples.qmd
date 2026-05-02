@@ -44,7 +44,7 @@ This is the `coord_radial` equivalent of the `coord_polar` pie chart.
     .coord_radial(theta="y", expand=False)
     .scale_x_discrete(expand=(0, 0))
     .scale_y_continuous(expand=(0, 0))
-    .add_theme(legend_position="none", figure_size=(4, 4))
+    .add_theme(figure_size=(4, 4))
 )
 ```
 
@@ -57,12 +57,24 @@ orientation.
 ```{python}
 #| label: fig-radial-coxcomb
 #| fig-cap: "Coxcomb chart: bar heights encode count, angles encode category"
-(
+cxc = (
     mtcars_pl
-    .ggplot(aes(x="cyl", fill="cyl"))
+    .ggplot(aes(x="cyl"))
     .geom_bar(width=1, color="black")
+)
+
+(   cxc
     .coord_radial(expand=False)
-    .add_theme(legend_position="none", figure_size=(4, 4))
+    .add_theme(figure_size=(4, 4))
+)
+```
+
+```{python}
+#| label: fig-radial-coxcomb2
+#| fig-cap: "Coxcomb chart: bar heights encode count, angles encode category"
+(   cxc
+    .coord_radial(theta="y", expand=False)
+    .add_theme(figure_size=(4, 4))
 )
 ```
 
@@ -82,6 +94,27 @@ Swapping the aesthetics — stacking the cyl groups on a single x position with
     .scale_x_discrete(expand=(0, 0))
     .scale_y_continuous(expand=(0, 0))
     .add_theme(legend_position="none", figure_size=(4, 4))
+)
+```
+
+
+```{python}
+df = pl.DataFrame({
+  "variable": ["does not resemble", "resembles"],
+  "value":[20, 80]
+})
+```
+
+```{python}
+import math
+
+(
+    df
+    .ggplot(aes(x=1, y="value", fill="variable"))
+    .geom_col(width = 1)
+    .scale_fill_manual(values=["red", "yellow"])
+    .coord_radial("y", start = math.pi / 3, expand=False)
+    .labs(title = "Pac-Man")
 )
 ```
 
@@ -131,6 +164,8 @@ pac_data = pl.DataFrame({
 )
 ```
 
+
+
 ## Partial polar scatter
 
 Providing both `start` and `end` limits the plot to an arc rather than a
@@ -146,6 +181,26 @@ to radius.
     .ggplot(aes(x="disp", y="mpg"))
     .geom_point()
     .coord_radial(start=-0.4 * np.pi, end=0.4 * np.pi, inner_radius=0.3)
+    .add_theme(figure_size=(5, 5))
+)
+```
+
+`thetalim` and `rlim` zoom into a data-space window on each axis without removing
+points — equivalent to `coord_cartesian(xlim=..., ylim=...)` in Cartesian space.
+
+```{python}
+#| label: fig-radial-partial-zoom
+#| fig-cap: "Partial polar scatter with thetalim and rlim zooming into a data window"
+(
+    pl.from_pandas(mtcars)
+    .ggplot(aes(x="disp", y="mpg"))
+    .geom_point()
+    .coord_radial(
+        start=-0.4 * np.pi, end=0.4 * np.pi,
+        inner_radius=0.3,
+        thetalim=(200, 300),
+        rlim=(15, 30),
+    )
     .add_theme(figure_size=(5, 5))
 )
 ```
