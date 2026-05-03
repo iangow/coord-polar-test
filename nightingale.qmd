@@ -63,11 +63,16 @@ nightingale = pl.concat([
 
 To create overlapping bars with `geom_col(position="identity")`, the data must
 be sorted so that the **largest** value for each month comes first — it is drawn
-behind, letting the smaller wedges appear on top.  `month` is parsed to a Polars `Date`; `month_num` orders months from April (1)
-to March (12) via `.dt.month()` and modulo arithmetic; `month_label` gives the
-short abbreviation for use as the plot aesthetic.
+behind, letting the smaller wedges appear on top.  `month_label` is an `Enum`
+with categories in April-to-March order, so Polars sorts it correctly without
+a separate ordering column.
 
 ```{python}
+month_enum = pl.Enum([
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec", "Jan", "Feb", "Mar",
+])
+
 ng_long = (
     nightingale
     .unpivot(
@@ -77,16 +82,12 @@ ng_long = (
         value_name="deaths",
     )
     .with_columns(
-        month_num=(pl.col("month").dt.month() - 4).mod(12) + 1,
-        month_label=pl.col("month").dt.strftime("%b"),
+        month_label=pl.col("month").dt.strftime("%b").cast(month_enum),
     )
-    .sort(["period", "month_num", "deaths"], descending=[False, False, True])
+    .sort(["period", "month_label", "deaths"], descending=[False, False, True])
 )
 
-months_ordered = (
-    ng_long.select(["month_label", "month_num"]).unique()
-    .sort("month_num")["month_label"].to_list()
-)
+months_ordered = list(month_enum.categories)
 ```
 
 ## The Rose Diagram
@@ -160,7 +161,7 @@ def _radial_angle(idx, n=12, start_deg=270):
     return -(start_deg + (idx + 0.5) / n * 360) % 360
 
 month_angles_df = pl.DataFrame({
-    "month_label": months_ordered,
+    "month_label": pl.Series(months_ordered, dtype=month_enum),
     "angle": [_radial_angle(i) for i in range(12)],
 })
 
