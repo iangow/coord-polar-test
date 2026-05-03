@@ -1,7 +1,6 @@
 # ggplot2 `coord_radial()` examples
 
-`coord_radial()` is a modernised polar coordinate system introduced in
-ggplot2 3.5.0. Compared with `coord_polar()` it adds three key capabilities:
+Version 3.5.0 of `ggplot2` introducted `coord_radial()`, a modernized polar coordinate system adds three key capabilities over `coord_polar()`:
 
 - **Partial arcs** via an `end` argument (any arc from a sliver to a full circle).
 - **Inner radius** (`inner_radius`) to create donut and gauge charts.
@@ -12,9 +11,9 @@ The examples below are adapted from the
 [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/coord_radial.html).
 
 ::: {.callout-caution}
-The examples in this chapter require the `coord-polar` branch of
+All of the examples on this page require the `coord-polar` branch of
 [iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-Standard releases of plotnine do not yet include these changes.
+The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
 :::
 
 ```{python}
@@ -24,6 +23,14 @@ import plotnine_polars as p9
 from plotnine.data import mtcars
 from plotnine_polars import aes
 ```
+
+::: {.callout-note}
+In this chapter, I use `plotnine_polars`, a package with that does two thing with less than 100 lines of code.
+First, it reexports all the functions from `plotnine` as methods that can be used with plot objects created by `plotnine`.
+Second, it creates a custom `ggplot` namespace for Polars `DataFrame` objects so that plots can be created using a `.ggplot.plot()` method or using the simple `.ggplot()` shortcut.^[Basically, the `__call__` method of the `ggplot` namespace is mapped to `.plot()`.]
+
+In this way, `plotnine_polars` allows me to use method chains to access most of the functionality of `plotnine` without having to do things like running `from plotnine import *` or creating intermediate variables.^[To be fair, the `>>` operator in `plotnine` already addresses the second item.]
+:::
 
 ```{python}
 mtcars_pl = (
@@ -38,11 +45,11 @@ mtcars_pl = (
 ## Pie chart
 
 A stacked bar chart becomes a pie chart under `coord_radial(theta="y")`.
-This is the `coord_radial` equivalent of the `coord_polar` pie chart.
+This is the `coord_radial()` equivalent of the `coord_polar()` pie chart.
 
 ```{python}
 #| label: fig-radial-pie
-#| fig-cap: "Pie chart with coord_radial(theta='y')"
+#| fig-cap: "Pie chart with `coord_radial(theta='y')`"
 (
     mtcars_pl
     .ggplot(aes(x="x", fill="cyl"))
@@ -56,9 +63,8 @@ This is the `coord_radial` equivalent of the `coord_polar` pie chart.
 
 ## Coxcomb chart
 
-A coxcomb (rose) chart maps each discrete category to an equal angular slice
-but lets the bar *height* encode the count.  This is the default `theta="x"`
-orientation.
+A **coxcomb chart** or **rose chart** maps each discrete category to an equal angular slice but lets the bar *height* encode the count [@sec-night provides a deeper example of a coxcomb chart.]
+This is the default `theta="x"` orientation.
 
 ```{python}
 #| label: fig-radial-coxcomb

@@ -392,10 +392,10 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "jupyter" },
-    { name = "plotnine", editable = "/Users/iangow/git/plotnine" },
+    { name = "plotnine", git = "https://github.com/iangow/plotnine?branch=coord-polar" },
     { name = "plotnine-polars" },
     { name = "polars" },
-    { name = "socviz-py", editable = "/Users/iangow/git/socviz_py" },
+    { name = "socviz-py", specifier = ">=0.0.6" },
 ]
 
 [[package]]
@@ -1510,7 +1510,8 @@ wheels = [
 
 [[package]]
 name = "plotnine"
-source = { editable = "/Users/iangow/git/plotnine" }
+version = "999.post2746+ga974de21c"
+source = { git = "https://github.com/iangow/plotnine?branch=coord-polar#a974de21c81a9978336bbbcf67ed185b6a03646c" }
 dependencies = [
     { name = "matplotlib" },
     { name = "mizani" },
@@ -1519,45 +1520,6 @@ dependencies = [
     { name = "scipy" },
     { name = "statsmodels" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "adjusttext", marker = "extra == 'extra'", specifier = ">=1.2.0" },
-    { name = "build", marker = "extra == 'build'" },
-    { name = "click", marker = "extra == 'doc'" },
-    { name = "geodatasets", marker = "extra == 'extra'", specifier = ">=2024.8.0" },
-    { name = "geopandas", marker = "extra == 'extra'", specifier = ">=1.0.0" },
-    { name = "griffe", marker = "extra == 'doc'", specifier = "==1.15.0" },
-    { name = "ipython", marker = "extra == 'typing'" },
-    { name = "jupyter", marker = "extra == 'doc'" },
-    { name = "matplotlib", specifier = ">=3.8.0" },
-    { name = "mizani", specifier = "~=0.14.0" },
-    { name = "numpy", specifier = ">=1.23.5" },
-    { name = "numpydoc", marker = "extra == 'doc'", specifier = ">=0.9.1" },
-    { name = "pandas", specifier = ">=2.2.0" },
-    { name = "pandas-stubs", marker = "extra == 'typing'" },
-    { name = "plotnine", extras = ["build"], marker = "extra == 'all'" },
-    { name = "plotnine", extras = ["dev"], marker = "extra == 'all'" },
-    { name = "plotnine", extras = ["doc"], marker = "extra == 'all'" },
-    { name = "plotnine", extras = ["extra"], marker = "extra == 'all'" },
-    { name = "plotnine", extras = ["lint"], marker = "extra == 'all'" },
-    { name = "plotnine", extras = ["test"], marker = "extra == 'all'" },
-    { name = "plotnine", extras = ["typing"], marker = "extra == 'dev'" },
-    { name = "polars", marker = "extra == 'extra'", specifier = ">=1.24.0" },
-    { name = "pre-commit", marker = "extra == 'dev'" },
-    { name = "pyarrow", marker = "extra == 'extra'", specifier = ">=19.0.1" },
-    { name = "pyright", marker = "extra == 'typing'", specifier = "==1.1.408" },
-    { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=4.0.0" },
-    { name = "quartodoc", marker = "extra == 'doc'", specifier = ">=0.11.1" },
-    { name = "ruff", marker = "extra == 'lint'" },
-    { name = "scikit-learn", marker = "extra == 'extra'", specifier = ">=1.3.0" },
-    { name = "scikit-misc", marker = "extra == 'extra'", specifier = ">=0.5.1" },
-    { name = "scipy", specifier = ">=1.8.0" },
-    { name = "statsmodels", specifier = ">=0.14.6" },
-    { name = "twine", marker = "extra == 'dev'" },
-    { name = "wheel", marker = "extra == 'build'" },
-]
-provides-extras = ["all", "extra", "doc", "lint", "test", "build", "dev", "typing"]
 
 [[package]]
 name = "plotnine-polars"
@@ -2104,27 +2066,14 @@ wheels = [
 [[package]]
 name = "socviz-py"
 version = "0.0.6"
-source = { editable = "/Users/iangow/git/socviz_py" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "polars", extra = ["pyarrow"] },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "build", marker = "extra == 'dev'" },
-    { name = "duckdb", marker = "extra == 'dev'" },
-    { name = "geodatasets", marker = "extra == 'dev'" },
-    { name = "pandas", marker = "extra == 'dev'" },
-    { name = "pandas", marker = "extra == 'pandas'" },
-    { name = "plotnine", marker = "extra == 'dev'" },
-    { name = "plotnine", marker = "extra == 'plots'" },
-    { name = "polars", extras = ["pyarrow"] },
-    { name = "pyarrow", marker = "extra == 'pandas'" },
-    { name = "pytest", marker = "extra == 'dev'" },
-    { name = "requests", marker = "extra == 'dev'" },
-    { name = "twine", marker = "extra == 'dev'" },
+sdist = { url = "https://files.pythonhosted.org/packages/5d/72/1a6dbf282fb7daaefd4828662e4f121c846be67f240bb0cd57d58cd4e0e9/socviz_py-0.0.6.tar.gz", hash = "sha256:621b3caa523c548990c30fcdf7be8cf962613c31ba400bc29a1e817190e64af8", size = 2660634, upload-time = "2026-05-03T12:35:35.624Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/eb/2b/2ba035fbfdf9c5fb8405e00db7c4e93c9dc0ec4c27aee91a4c6d60f8a285/socviz_py-0.0.6-py3-none-any.whl", hash = "sha256:954d2ac8ab88575c502ea48d4f1c43631b194827d21a189a012cd5eac9f5d24a", size = 2663993, upload-time = "2026-05-03T12:35:18.545Z" },
 ]
-provides-extras = ["plots", "pandas", "dev"]
 
 [[package]]
 name = "soupsieve"

@@ -5,12 +5,12 @@ requires-python = ">=3.12"
 dependencies = [
     "plotnine",
     "plotnine-polars",
-    "socviz-py>=0.0.5",
+    "socviz-py>=0.0.6",
     "polars",
     "jupyter",
 ]
 
 [tool.uv.sources]
-# plotnine = { git = "https://github.com/iangow/plotnine", branch = "coord-polar" }
-plotnine = { path = "/Users/iangow/git/plotnine", editable = true }
-socviz-py = { path = "/Users/iangow/git/socviz_py", editable = true }
+plotnine = { git = "https://github.com/iangow/plotnine", branch = "coord-polar" }
+# plotnine = { path = "/Users/iangow/git/plotnine", editable = true }
+# socviz-py = { path = "/Users/iangow/git/socviz_py", editable = true }

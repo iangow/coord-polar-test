@@ -1,13 +1,16 @@
-# Polar Coordinates with plotnine
+# Introduction {#sec-intro}
 
-This book collects examples of `coord_polar()` for
-[plotnine](https://plotnine.org), the Python grammar of graphics library.
+This book provides a gallery of plots using either `coord_polar()` or `coord_radial()` with a custom version of [plotnine](https://plotnine.org), a Python library implementing the grammar of graphics [@wilkinson:2006] using an API based on that of the R package[`ggplot2`](https://ggplot2.tidyverse.org).
 
-The examples serve as targets for development and as a reference for users.
-They are drawn from two sources:
+::: {.callout-caution}
+All of the examples on this page require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+:::
 
-- The [ggplot2 book](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar),
-  which documents `coord_polar()` in R's ggplot2.
+I have chosen examples from a number of sources that serve both as targets for development of `coord_polar()` and `coord_radial()` and as illustrations of how those functions can be used.
+
+- In @sec-ggplot, I use examples from the [ggplot2 book](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar), which documents `coord_polar()` in R's ggplot2.
 - The [socviz](https://socviz.co) package, which provides real-world datasets
   used in data-visualisation teaching.
 

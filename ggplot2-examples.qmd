@@ -1,12 +1,14 @@
-# ggplot2 book examples
+# Examples from the `ggplot2` documentation {#sec-ggplot}
 
 The following examples are adapted from the
 [ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).
 
 ::: {.callout-caution}
-The examples in this chapter require the `coord-polar` branch of
+All of the examples on this page require the `coord-polar` branch of
 [iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-Standard releases of plotnine do not yet include these changes.
+The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+
+The source code for this repository can be found [here](https://github.com/iangow/coord-polar-test) and includes a `pyproject.toml` file that can be used with `uv` to install everything needed to run all the examples here.
 :::
 
 ```{python}

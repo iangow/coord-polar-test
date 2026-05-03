@@ -23,9 +23,9 @@ The dramatic collapse of the blue (disease) bars between the two panels
 reflects the sanitary improvements introduced in March 1855.
 
 ::: {.callout-caution}
-The examples in this chapter require the `coord-polar` branch of
+All of the examples on this page require the `coord-polar` branch of
 [iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-Standard releases of plotnine do not yet include these changes.
+The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
 :::
 
 ```{python}
