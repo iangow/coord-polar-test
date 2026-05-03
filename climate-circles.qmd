@@ -1,0 +1,166 @@
+# Climate circles
+
+This chapter adapts Dominic Roye's
+[climate circles](https://dominicroye.github.io/blog/climate-circles/) example
+to `plotnine_polars`. The data are daily station temperatures for nine US
+cities, averaged by day of year over 1991-2020. Each line shows the average
+daily temperature range, while colour marks the daily mean temperature.
+
+::: {.callout-caution}
+The examples in this chapter require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+Standard releases of plotnine do not yet include these changes.
+:::
+
+```{python}
+from datetime import date
+
+import polars as pl
+import plotnine_polars as p9
+from plotnine_polars import aes
+```
+
+```{python}
+meteo_yday = pl.read_csv("data/meteo_yday.csv", try_parse_dates=True)
+
+col_temp = [
+    "#cbebf6", "#a7bfd9", "#8c99bc", "#974ea8", "#830f74",
+    "#0b144f", "#0e2680", "#223b97", "#1c499a", "#2859a5",
+    "#1b6aa3", "#1d9bc4", "#1ca4bc", "#64c6c7", "#86cabb",
+    "#91e0a7", "#c7eebf", "#ebf8da", "#f6fdd1", "#fdeca7",
+    "#f8da77", "#fcb34d", "#fc8c44", "#f85127", "#f52f26",
+    "#d10b26", "#9c042a", "#760324", "#18000c",
+]
+
+month_breaks = [date(2000, m, 15).timetuple().tm_yday for m in range(1, 13)]
+month_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+month_grid = pl.DataFrame({
+    "x": [date(2000, m, 1).timetuple().tm_yday for m in range(1, 13)],
+    "y": [-10] * 12,
+    "xend": [date(2000, m, 1).timetuple().tm_yday for m in range(1, 13)],
+    "yend": [41] * 12,
+})
+
+temp_grid = pl.DataFrame({"y": [-10, 0, 10, 20, 30, 40]})
+temp_labels = pl.DataFrame({
+    "x": [366] * 6,
+    "y": [-10, 0, 10, 20, 30, 40],
+    "label": ["-10", "0", "10", "20", "30", "40"],
+})
+```
+
+## One City
+
+The non-polar version is a useful way to read the geometry. The x-axis is
+day of year, and each vertical line runs from the daily average minimum to
+the daily average maximum.
+
+```{python}
+#| label: fig-climate-circles-ny-cartesian
+#| fig-cap: "New York daily temperature ranges by day of year, 1991-2020 average."
+ny_city = meteo_yday.filter(pl.col("name") == "NEW YORK")
+
+(
+    ny_city
+    .ggplot(aes(x="yd", ymin="tmin", ymax="tmx", color="ta"))
+    .geom_linerange(size=0.5, alpha=0.7)
+    .scale_y_continuous(breaks=range(-30, 51, 10), limits=(-11, 42),
+                        expand=(0, 0))
+    .scale_color_gradientn(colors=col_temp, limits=(-12, 35),
+                           breaks=range(-10, 36, 5))
+    .scale_x_continuous(breaks=month_breaks, labels=month_labels)
+    .labs(
+        title="New York Climate Circle Inputs",
+        x="Day of year",
+        y="Temperature (degrees C)",
+        color="Daily average",
+    )
+    .add_theme(figure_size=(8, 3.5))
+)
+```
+
+Adding `coord_radial()` wraps the same daily ranges around the year. The
+month labels are theta-axis labels, while the temperature axis is drawn inside
+the circle.
+
+```{python}
+#| label: fig-climate-circles-ny
+#| fig-cap: "New York climate circle with coord_radial()."
+(
+    ny_city
+    .ggplot(aes(x="yd", ymin="tmin", ymax="tmx", color="ta"))
+    .geom_linerange(size=0.5, alpha=0.75)
+    .scale_y_continuous(breaks=range(-30, 51, 10), limits=(-11, 42),
+                        expand=(0, 0))
+    .scale_color_gradientn(colors=col_temp, limits=(-12, 35),
+                           breaks=range(-10, 36, 5))
+    .scale_x_continuous(breaks=month_breaks, labels=month_labels)
+    .coord_radial(r_axis_inside=True, expand=False,
+                  theta_labels=True, theta_label_pad=6)
+    .labs(
+        title="New York Climate Circle",
+        color="Daily average temperature",
+    )
+    .add_theme(
+        axis_title=p9.element_blank(),
+        axis_text_x=p9.element_text(size=7),
+        legend_position="bottom",
+        figure_size=(5.5, 5.5),
+    )
+)
+```
+
+## Nine Cities
+
+The faceted version adds reference rings and month spokes before drawing the
+daily ranges. This follows the structure of Roye's final chart, translated to
+`plotnine_polars` and the current `coord_radial()` argument names.
+
+```{python}
+#| label: fig-climate-circles-cities
+#| fig-cap: "Climate circles for nine US cities, 1991-2020 daily averages."
+#| column: page
+(
+    meteo_yday
+    .ggplot(aes(x="yd", ymin="tmin", ymax="tmx", color="ta"))
+    .geom_hline(data=temp_grid, mapping=aes(yintercept="y"),
+                color="white", size=0.35, alpha=0.65,
+                inherit_aes=False)
+    .geom_text(data=temp_labels, mapping=aes(x="x", y="y", label="label"),
+               color="white", size=5, ha="left", inherit_aes=False)
+    .geom_segment(data=month_grid,
+                  mapping=aes(x="x", y="y", xend="xend", yend="yend"),
+                  color="white", size=0.2, linetype="dashed",
+                  alpha=0.5, inherit_aes=False)
+    .geom_linerange(size=0.5, alpha=0.75)
+    .scale_y_continuous(breaks=range(-30, 51, 10), limits=(-15, 41.5),
+                        expand=(0, 0))
+    .scale_color_gradientn(colors=col_temp, limits=(-12, 35),
+                           breaks=range(-10, 36, 5))
+    .scale_x_continuous(breaks=month_breaks, labels=month_labels)
+    .facet_wrap("name", nrow=3)
+    .coord_radial(r_axis_inside=True, expand=False,
+                  theta_labels=True, theta_label_pad=4)
+    .labs(
+        title="Climate Circles",
+        color="Daily average temperature",
+    )
+    .add_theme(
+        plot_background=p9.element_rect(fill="black"),
+        panel_background=p9.element_rect(fill="black"),
+        panel_grid=p9.element_blank(),
+        axis_title=p9.element_blank(),
+        axis_text_x=p9.element_text(color="white", size=6),
+        axis_text_y=p9.element_blank(),
+        axis_ticks=p9.element_blank(),
+        legend_position="bottom",
+        legend_title=p9.element_text(color="white"),
+        legend_text=p9.element_text(color="white"),
+        plot_title=p9.element_text(color="white", ha="center", size=18),
+        strip_text=p9.element_text(color="white", weight="bold", size=9),
+        figure_size=(8, 9),
+    )
+)
+```
