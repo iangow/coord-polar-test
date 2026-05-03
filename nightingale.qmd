@@ -108,12 +108,11 @@ cause_colors = {
     )
     .coord_radial(
         theta="x",
-        start=3 * math.pi / 2,
+        # start=3 * math.pi / 2,
         expand=False,
         theta_labels=True,
-        theta_label_pad=12,
     )
-    .facet_wrap("~period", scales="free_y")
+    .facet_wrap("~period")
     .labs(
         title="Causes of Mortality in the British Army during the Crimean War",
         subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
@@ -142,13 +141,12 @@ Several design choices differ from the reference target:
   period on the left so the reader encountered the improvement first.
 - **Shared legend and title** — `facet_wrap()` naturally produces one legend
   and one overall title, avoiding duplicated ink.
-- **Start angle** — `start = 3π/2` (≡ −π/2) places the April slice at the
-  9 o'clock position so the June–July boundary falls at 12 o'clock, matching
-  the layout of the original.
+- **Start angle** — `start = 3π/2` places the April slice at the 9 o'clock
+  position so the June–July boundary falls at 12 o'clock, matching the layout
+  of the original.  plotnine measures `start` clockwise from 12 o'clock;
+  the equivalent ggplot2 call uses `start = -π/2` (ggplot2 measures
+  counter-clockwise, so a negative value rotates clockwise).
 - **Area encoding** — `scale_y_sqrt()` makes the radius proportional to
   √deaths, so the wedge *area* is proportional to deaths — exactly the
   encoding Nightingale used.  Without the square-root transform the radius
   itself encodes deaths, which exaggerates large values.
-- **Free radial scales** — `scales="free_y"` lets each panel fill its circle,
-  making the structure within each period easier to read.  A fixed scale would
-  make the 1855–56 bars appear almost invisible against the 1854–55 circle.
