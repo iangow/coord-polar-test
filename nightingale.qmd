@@ -84,6 +84,67 @@ ng_long = (
 ## The Rose Diagram
 
 ```{python}
+cause_colors = {
+    "Diseases":     "#91C4D8",
+    "Wounds":       "#E8A0A0",
+    "Other Causes": "#6B6B6B",
+}
+```
+
+### Basic Version
+
+The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argument, which reads the x-scale's breaks and labels and places them around the outer rim of the circle.
+
+```{python}
+#| label: fig-nightingale-basic
+#| fig-cap: >
+#|   Basic rose diagram using theta_labels to place month names on the outer rim.
+#| column: page
+(
+    ng_long
+    .ggplot(aes(x="month", y="deaths", fill="cause"))
+    .geom_col(position="identity", width=1, color="white", size=0.3)
+    .scale_x_discrete(limits=months_ordered)
+    .scale_y_sqrt()
+    .scale_fill_manual(
+        values=cause_colors,
+        breaks=["Diseases", "Wounds", "Other Causes"],
+        name="Cause of Death",
+    )
+    .coord_radial(
+        theta="x",
+        start=3 * math.pi / 2,
+        expand=False,
+        theta_labels=True,
+    )
+    .facet_wrap("~period")
+    .labs(
+        title="Causes of Mortality in the British Army during the Crimean War",
+        subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
+        caption=(
+            "Source: Nightingale (1858), Notes on Matters Affecting the Health, "
+            "Efficiency, and Hospital Administration of the British Army."
+        ),
+    )
+    .add_theme(
+        figure_size=(13, 7),
+        axis_title=p9.element_blank(),
+        axis_text_x=p9.element_text(size=7, color="#444444"),
+        axis_text_y=p9.element_blank(),
+        axis_ticks=p9.element_blank(),
+        panel_grid_major=p9.element_blank(),
+        panel_background=p9.element_blank(),
+        panel_border=p9.element_blank(),
+        legend_position="bottom",
+    )
+)
+```
+
+### Refined Version
+
+For labels that sit at the tip of each month's tallest bar — closer to the data, like the original diagram — we use `geom_text` with pre-computed positions and rotation angles.  Each label is placed `pad_r` units beyond the largest bar for that month (in square-root space), and rotated to point outward from the centre.  The y-axis upper limit is extended to accommodate these floating labels.
+
+```{python}
 def _radial_angle(idx, n=12, start_deg=270):
     """Matplotlib text angle (deg, CCW from East) for an outward spoke label."""
     display_cw = (start_deg + (idx + 0.5) / n * 360) % 360
@@ -120,12 +181,7 @@ label_df = (
 #|   Causes of mortality in the British Army during the Crimean War.
 #|   The left panel shows the period before Nightingale's sanitary reforms;
 #|   the right shows the dramatic improvement that followed.
-cause_colors = {
-    "Diseases":     "#91C4D8",
-    "Wounds":       "#E8A0A0",
-    "Other Causes": "#6B6B6B",
-}
-
+#| column: page
 (
     ng_long
     .ggplot(aes(x="month", y="deaths", fill="cause"))
