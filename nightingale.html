@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Examples from the ggplot2 documentation – Polar Coordinates with plotnine</title>
+<title>6&nbsp; Florence Nightingale’s Rose Diagram – Polar Coordinates with plotnine</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,8 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./coord-radial-examples.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./climate-circles.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -296,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ggplot2-examples.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./nightingale.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -332,7 +331,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ggplot2-examples.html" class="sidebar-item-text sidebar-link active">
+  <a href="./ggplot2-examples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></span></a>
   </div>
 </li>
@@ -356,7 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./nightingale.html" class="sidebar-item-text sidebar-link">
+  <a href="./nightingale.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></span></a>
   </div>
 </li>
@@ -370,18 +369,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#bar-pie-bullseye-mtcars" id="toc-bar-pie-bullseye-mtcars" class="nav-link active" data-scroll-target="#bar-pie-bullseye-mtcars"><span class="header-section-number">2.1</span> Bar → Pie → Bullseye (mtcars)</a></li>
-  <li><a href="#polar-path-spiral" id="toc-polar-path-spiral" class="nav-link" data-scroll-target="#polar-path-spiral"><span class="header-section-number">2.2</span> Polar path (spiral)</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link active" data-scroll-target="#data"><span class="header-section-number">6.1</span> Data</a></li>
+  <li><a href="#the-rose-diagram" id="toc-the-rose-diagram" class="nav-link" data-scroll-target="#the-rose-diagram"><span class="header-section-number">6.2</span> The Rose Diagram</a>
+  <ul class="collapse">
+  <li><a href="#basic-version" id="toc-basic-version" class="nav-link" data-scroll-target="#basic-version"><span class="header-section-number">6.2.1</span> Basic Version</a></li>
+  <li><a href="#refined-version" id="toc-refined-version" class="nav-link" data-scroll-target="#refined-version"><span class="header-section-number">6.2.2</span> Refined Version</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ggplot" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></h1>
 </div>
 
 
@@ -398,7 +401,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The following examples are adapted from the <a href="https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar">ggplot2 book’s coord chapter</a>.</p>
+<p>Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well as nursing. Her most celebrated chart—the <em>diagram of the causes of mortality in the army in the East</em> (1858)—used a polar-area plot, now often called a <strong>rose diagram</strong> or <strong>coxcomb chart</strong>, to argue that preventable disease rather than combat wounds was killing British soldiers in the Crimean War. By encoding the data as overlapping wedges rather than tables, she made the case visually compelling enough to prompt lasting sanitary reforms.</p>
+<p>The chart covers 24 months (April 1854 to March 1856) and divides them into two 12-month periods. Each angular slice corresponds to one calendar month. Three causes of death are drawn as overlapping wedge-shaped bars — largest behind smallest — so that each is independently visible. The radius of each wedge is proportional to the <strong>square root</strong> of the death count, so the wedge <strong>area</strong> is proportional to deaths, matching Nightingale’s original encoding:</p>
+<ul>
+<li><strong>Diseases</strong> — preventable (zymotic) diseases, chiefly cholera and typhus</li>
+<li><strong>Wounds</strong> — deaths from combat injuries</li>
+<li><strong>Other Causes</strong> — all remaining causes</li>
+</ul>
+<p>The dramatic collapse of the blue (disease) bars between the two panels reflects the sanitary improvements introduced in March 1855.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -410,131 +420,208 @@ Caution
 </div>
 <div class="callout-body-container callout-body">
 <p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
-<p>The source code for this repository can be found <a href="https://github.com/iangow/coord-polar-test">here</a> and includes a <code>pyproject.toml</code> file that can be used with <code>uv</code> to install everything needed to run all the examples here.</p>
 </div>
 </div>
-<div id="29a26c58" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    ggplot, aes,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    geom_bar, geom_path, geom_point,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    coord_polar,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    scale_x_discrete, scale_y_continuous,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    theme,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.data <span class="im">import</span> mtcars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8665ff79" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine_polars <span class="im">import</span> aes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="bar-pie-bullseye-mtcars" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="bar-pie-bullseye-mtcars"><span class="header-section-number">2.1</span> Bar → Pie → Bullseye (mtcars)</h2>
-<p>A stacked bar chart becomes a pie chart when <code>theta = "y"</code> maps height (count) to angle, and a bullseye chart when the default <code>theta = "x"</code> maps the discrete x position to angle instead.</p>
-<div id="b158abd3" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> (</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.from_pandas(mtcars)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        pl.lit(<span class="st">"1"</span>).alias(<span class="st">"x"</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"cyl"</span>).cast(pl.Utf8),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="data" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="data"><span class="header-section-number">6.1</span> Data</h2>
+<p>The data below are Florence Nightingale’s published death counts for the British army in the Crimea. Each row in the final long-format table records the number of deaths from one cause in one month of one year.</p>
+<div id="8a0a1f3a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nightingale <span class="op">=</span> sv.load_data(<span class="st">"nightingale"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-fig-mtcars-bar" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div id="fig-mtcars-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-mtcars-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-mtcars-bar-output-1.png" width="384" height="384" class="figure-img">
+<p>To create overlapping bars with <code>geom_col(position="identity")</code>, the data must be sorted so that the <strong>largest</strong> value for each month comes first — it is drawn behind, letting the smaller wedges appear on top. <code>month_label</code> is an <code>Enum</code> with categories in April-to-March order, so Polars sorts it correctly without a separate ordering column.</p>
+<div id="63538fa0" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>month_enum <span class="op">=</span> pl.Enum([</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>, <span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>ng_long <span class="op">=</span> (</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    nightingale</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    .unpivot(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        on<span class="op">=</span>[<span class="st">"diseases"</span>, <span class="st">"wounds"</span>, <span class="st">"other_causes"</span>],</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        index<span class="op">=</span>[<span class="st">"month"</span>, <span class="st">"period"</span>],</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        variable_name<span class="op">=</span><span class="st">"cause"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"deaths"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        month_label<span class="op">=</span>pl.col(<span class="st">"month"</span>).dt.strftime(<span class="st">"%b"</span>).cast(month_enum),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    .sort([<span class="st">"period"</span>, <span class="st">"month_label"</span>, <span class="st">"deaths"</span>], descending<span class="op">=</span>[<span class="va">False</span>, <span class="va">False</span>, <span class="va">True</span>])</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>months_ordered <span class="op">=</span> <span class="bu">list</span>(month_enum.categories)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mtcars-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Stacked bar chart
-</figcaption>
-</figure>
+</section>
+<section id="the-rose-diagram" class="level2 page-columns page-full" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="the-rose-diagram"><span class="header-section-number">6.2</span> The Rose Diagram</h2>
+<div id="2c3a5b84" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cause_colors <span class="op">=</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"diseases"</span>:     <span class="st">"#91C4D8"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wounds"</span>:       <span class="st">"#E8A0A0"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"other_causes"</span>: <span class="st">"#6B6B6B"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-</div>
-<div id="cell-fig-mtcars-pie" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar(theta<span class="op">=</span><span class="st">"y"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<div id="fig-mtcars-pie" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-mtcars-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-mtcars-pie-output-1.png" width="384" height="384" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mtcars-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.2: Pie chart: coord_polar(theta=‘y’)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-fig-mtcars-bullseye" class="cell" data-execution_count="5">
+<section id="basic-version" class="level3 page-columns page-full" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="basic-version"><span class="header-section-number">6.2.1</span> Basic Version</h3>
+<p>The simplest approach uses <code>coord_radial</code>’s built-in <code>theta_labels=True</code> argument, which reads the x-scale’s breaks and labels and places them around the outer rim of the circle.</p>
+<div id="cell-fig-nightingale-basic" class="cell page-columns page-full" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<div id="fig-mtcars-bullseye" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-mtcars-bullseye-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-mtcars-bullseye-output-1.png" width="384" height="384" class="figure-img">
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ng_long</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(x<span class="op">=</span><span class="st">"month_label"</span>, y<span class="op">=</span><span class="st">"deaths"</span>, fill<span class="op">=</span><span class="st">"cause"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .geom_col(position<span class="op">=</span><span class="st">"identity"</span>, width<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    .scale_x_discrete(limits<span class="op">=</span>months_ordered)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    .scale_y_sqrt()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    .scale_fill_manual(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        values<span class="op">=</span>cause_colors,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        breaks<span class="op">=</span>[<span class="st">"diseases"</span>, <span class="st">"wounds"</span>, <span class="st">"other_causes"</span>],</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        labels<span class="op">=</span>[<span class="st">"Diseases"</span>, <span class="st">"Wounds"</span>, <span class="st">"Other Causes"</span>],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">"Cause of Death"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    .coord_radial(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        theta<span class="op">=</span><span class="st">"x"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        start<span class="op">=</span><span class="dv">3</span> <span class="op">*</span> math.pi <span class="op">/</span> <span class="dv">2</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        expand<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        theta_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    .facet_wrap(<span class="st">"~period"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Causes of Mortality in the British Army during the Crimean War"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Radius proportional to sqrt(deaths), so wedge area proportional to deaths"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        caption<span class="op">=</span>(</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Source: Nightingale (1858), Notes on Matters Affecting the Health, "</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Efficiency, and Hospital Administration of the British Army."</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">7</span>),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span><span class="st">"#444444"</span>),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        axis_text_y<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        axis_ticks<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        panel_grid_major<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        panel_background<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        panel_border<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display page-columns page-full" data-execution_count="5">
+<div id="fig-nightingale-basic" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-nightingale-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="nightingale_files/figure-html/fig-nightingale-basic-output-1.png" width="1248" height="672" class="figure-img column-page">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mtcars-bullseye-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.3: Bullseye chart: coord_polar()
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nightingale-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Basic rose diagram using theta_labels to place month names on the outer rim.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="polar-path-spiral" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="polar-path-spiral"><span class="header-section-number">2.2</span> Polar path (spiral)</h2>
-<p>In ggplot2 a straight line in Cartesian space becomes a spiral in polar coordinates. <code>theta = "x"</code> maps the x-column (here: angle in radians) to the angular axis; y maps to radius.</p>
-<div id="cell-fig-polar-spiral" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>spiral <span class="op">=</span> pl.DataFrame({</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>:     np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"theta"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">3</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> np.pi, n),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    ggplot(spiral, aes(x<span class="op">=</span><span class="st">"theta"</span>, y<span class="op">=</span><span class="st">"r"</span>))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_path()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(size<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(figure_size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<div id="fig-polar-spiral" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-polar-spiral-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-polar-spiral-output-1.png" width="480" height="480" class="figure-img">
+<section id="refined-version" class="level3 page-columns page-full" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="refined-version"><span class="header-section-number">6.2.2</span> Refined Version</h3>
+<p>For labels that sit at the tip of each month’s tallest bar — closer to the data, like the original diagram — we use <code>geom_text</code> with pre-computed positions and rotation angles. Each label is placed <code>pad_r</code> units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle. The y-axis upper limit is extended to accommodate these floating labels.</p>
+<div id="8ac9ccc3" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _radial_angle(idx, n<span class="op">=</span><span class="dv">12</span>, start_deg<span class="op">=</span><span class="dv">270</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Text rotation angle (degrees) for the label at arc slice idx."""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>(start_deg <span class="op">+</span> (idx <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">/</span> n <span class="op">*</span> <span class="dv">360</span>) <span class="op">%</span> <span class="dv">360</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>month_angles_df <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"month_label"</span>: pl.Series(months_ordered, dtype<span class="op">=</span>month_enum),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"angle"</span>: [_radial_angle(i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">12</span>)],</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>pad_r <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>max_deaths_all <span class="op">=</span> ng_long[<span class="st">"deaths"</span>].<span class="bu">max</span>()</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>y_upper <span class="op">=</span> (math.sqrt(max_deaths_all) <span class="op">+</span> pad_r) <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Label position: push pad_r units beyond bar tip in sqrt-radius space</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>label_df <span class="op">=</span> (</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    ng_long</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    .group_by([<span class="st">"month_label"</span>, <span class="st">"period"</span>])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    .agg(pl.col(<span class="st">"deaths"</span>).<span class="bu">max</span>().alias(<span class="st">"max_deaths"</span>))</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    .join(month_angles_df, on<span class="op">=</span><span class="st">"month_label"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        label_y<span class="op">=</span>(pl.col(<span class="st">"max_deaths"</span>).sqrt() <span class="op">+</span> pad_r).<span class="bu">pow</span>(<span class="dv">2</span>),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span>pl.col(<span class="st">"month_label"</span>),</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polar-spiral-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: A Cartesian line becomes a spiral under coord_polar()
+<div id="cell-fig-nightingale" class="cell page-columns page-full" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    ng_long</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(x<span class="op">=</span><span class="st">"month_label"</span>, y<span class="op">=</span><span class="st">"deaths"</span>, fill<span class="op">=</span><span class="st">"cause"</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    .geom_col(position<span class="op">=</span><span class="st">"identity"</span>, width<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    .geom_text(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        data<span class="op">=</span>label_df,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        mapping<span class="op">=</span>aes(x<span class="op">=</span><span class="st">"month_label"</span>, y<span class="op">=</span><span class="st">"label_y"</span>, label<span class="op">=</span><span class="st">"label"</span>, angle<span class="op">=</span><span class="st">"angle"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span><span class="st">"#444444"</span>, ha<span class="op">=</span><span class="st">"center"</span>, va<span class="op">=</span><span class="st">"center"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    .scale_x_discrete(limits<span class="op">=</span>months_ordered)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    .scale_y_sqrt(limits<span class="op">=</span>(<span class="dv">0</span>, y_upper))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    .scale_fill_manual(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        values<span class="op">=</span>cause_colors,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        breaks<span class="op">=</span>[<span class="st">"diseases"</span>, <span class="st">"wounds"</span>, <span class="st">"other_causes"</span>],</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        labels<span class="op">=</span>[<span class="st">"Diseases"</span>, <span class="st">"Wounds"</span>, <span class="st">"Other Causes"</span>],</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">"Cause of Death"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    .coord_radial(</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        theta<span class="op">=</span><span class="st">"x"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        start<span class="op">=</span><span class="dv">3</span> <span class="op">*</span> math.pi <span class="op">/</span> <span class="dv">2</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        expand<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    .facet_wrap(<span class="st">"~period"</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Causes of Mortality in the British Army during the Crimean War"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Radius proportional to sqrt(deaths), so wedge area proportional to deaths"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        caption<span class="op">=</span>(</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Source: Nightingale (1858), Notes on Matters Affecting the Health, "</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Efficiency, and Hospital Administration of the British Army."</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">7</span>),</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        axis_text_y<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        axis_ticks<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        panel_grid_major<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        panel_background<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        panel_border<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display page-columns page-full" data-execution_count="7">
+<div id="fig-nightingale" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-nightingale-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="nightingale_files/figure-html/fig-nightingale-output-1.png" width="1248" height="672" class="figure-img column-page">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nightingale-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Causes of mortality in the British Army during the Crimean War. The left panel shows the period before Nightingale’s sanitary reforms; the right shows the dramatic improvement that followed.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p>Several design choices differ from the reference target:</p>
+<ul>
+<li><strong>Chronological order</strong> — the 1854–55 panel appears on the left, so time reads left to right. The original Nightingale chart placed the post-reform period on the left so the reader encountered the improvement first.</li>
+<li><strong>Shared legend and title</strong> — <code>facet_wrap()</code> naturally produces one legend and one overall title, avoiding duplicated ink.</li>
+<li><strong>Start angle</strong> — <code>start = 3π/2</code> places the April slice at the 9 o’clock position so the June–July boundary falls at 12 o’clock, matching the layout of the original. plotnine measures <code>start</code> clockwise from 12 o’clock; the equivalent ggplot2 call uses <code>start = -π/2</code> (ggplot2 measures counter-clockwise, so a negative value rotates clockwise).</li>
+<li><strong>Area encoding</strong> — <code>scale_y_sqrt()</code> makes the radius proportional to √deaths, so the wedge <em>area</em> is proportional to deaths — exactly the encoding Nightingale used. Without the square-root transform the radius itself encodes deaths, which exaggerates large values.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -953,14 +1040,11 @@ Figure&nbsp;2.4: A Cartesian line becomes a spiral under coord_polar()
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./climate-circles.html" class="pagination-link" aria-label="Climate circles">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Climate circles</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./coord-radial-examples.html" class="pagination-link" aria-label="ggplot2 `coord_radial()` examples">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

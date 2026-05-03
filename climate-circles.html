@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Examples from the ggplot2 documentation – Polar Coordinates with plotnine</title>
+<title>5&nbsp; Climate circles – Polar Coordinates with plotnine</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,8 +68,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./coord-radial-examples.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./nightingale.html" rel="next">
+<link href="./socviz-examples.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ggplot2-examples.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./climate-circles.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Climate circles</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -332,7 +332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ggplot2-examples.html" class="sidebar-item-text sidebar-link active">
+  <a href="./ggplot2-examples.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></span></a>
   </div>
 </li>
@@ -350,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./climate-circles.html" class="sidebar-item-text sidebar-link">
+  <a href="./climate-circles.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Climate circles</span></span></a>
   </div>
 </li>
@@ -370,18 +370,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#bar-pie-bullseye-mtcars" id="toc-bar-pie-bullseye-mtcars" class="nav-link active" data-scroll-target="#bar-pie-bullseye-mtcars"><span class="header-section-number">2.1</span> Bar → Pie → Bullseye (mtcars)</a></li>
-  <li><a href="#polar-path-spiral" id="toc-polar-path-spiral" class="nav-link" data-scroll-target="#polar-path-spiral"><span class="header-section-number">2.2</span> Polar path (spiral)</a></li>
+  <li><a href="#one-city" id="toc-one-city" class="nav-link active" data-scroll-target="#one-city"><span class="header-section-number">5.1</span> One City</a></li>
+  <li><a href="#nine-cities" id="toc-nine-cities" class="nav-link" data-scroll-target="#nine-cities"><span class="header-section-number">5.2</span> Nine Cities</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ggplot" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Climate circles</span></h1>
 </div>
 
 
@@ -398,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The following examples are adapted from the <a href="https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar">ggplot2 book’s coord chapter</a>.</p>
+<p>This chapter adapts Dominic Roye’s <a href="https://dominicroye.github.io/blog/climate-circles/">climate circles</a> example to <code>plotnine_polars</code>. The data are daily station temperatures for nine US cities, averaged by day of year over 1991-2020. Each line shows the average daily temperature range, while colour marks the daily mean temperature.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -410,124 +410,173 @@ Caution
 </div>
 <div class="callout-body-container callout-body">
 <p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
-<p>The source code for this repository can be found <a href="https://github.com/iangow/coord-polar-test">here</a> and includes a <code>pyproject.toml</code> file that can be used with <code>uv</code> to install everything needed to run all the examples here.</p>
 </div>
 </div>
-<div id="29a26c58" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    ggplot, aes,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    geom_bar, geom_path, geom_point,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    coord_polar,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    scale_x_discrete, scale_y_continuous,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    theme,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.data <span class="im">import</span> mtcars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6b0d68a7" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine_polars <span class="im">import</span> aes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="bar-pie-bullseye-mtcars" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="bar-pie-bullseye-mtcars"><span class="header-section-number">2.1</span> Bar → Pie → Bullseye (mtcars)</h2>
-<p>A stacked bar chart becomes a pie chart when <code>theta = "y"</code> maps height (count) to angle, and a bullseye chart when the default <code>theta = "x"</code> maps the discrete x position to angle instead.</p>
-<div id="b158abd3" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> (</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.from_pandas(mtcars)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        pl.lit(<span class="st">"1"</span>).alias(<span class="st">"x"</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        pl.col(<span class="st">"cyl"</span>).cast(pl.Utf8),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="04114f05" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>meteo_yday <span class="op">=</span> sv.load_data(<span class="st">"meteo_yday"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>col_temp <span class="op">=</span> [</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#cbebf6"</span>, <span class="st">"#a7bfd9"</span>, <span class="st">"#8c99bc"</span>, <span class="st">"#974ea8"</span>, <span class="st">"#830f74"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#0b144f"</span>, <span class="st">"#0e2680"</span>, <span class="st">"#223b97"</span>, <span class="st">"#1c499a"</span>, <span class="st">"#2859a5"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#1b6aa3"</span>, <span class="st">"#1d9bc4"</span>, <span class="st">"#1ca4bc"</span>, <span class="st">"#64c6c7"</span>, <span class="st">"#86cabb"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#91e0a7"</span>, <span class="st">"#c7eebf"</span>, <span class="st">"#ebf8da"</span>, <span class="st">"#f6fdd1"</span>, <span class="st">"#fdeca7"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#f8da77"</span>, <span class="st">"#fcb34d"</span>, <span class="st">"#fc8c44"</span>, <span class="st">"#f85127"</span>, <span class="st">"#f52f26"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#d10b26"</span>, <span class="st">"#9c042a"</span>, <span class="st">"#760324"</span>, <span class="st">"#18000c"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>month_breaks <span class="op">=</span> [date(<span class="dv">2000</span>, m, <span class="dv">15</span>).timetuple().tm_yday <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>month_labels <span class="op">=</span> [<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>]</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>month_grid <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: [date(<span class="dv">2000</span>, m, <span class="dv">1</span>).timetuple().tm_yday <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)],</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"y"</span>: [<span class="op">-</span><span class="dv">10</span>] <span class="op">*</span> <span class="dv">12</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"xend"</span>: [date(<span class="dv">2000</span>, m, <span class="dv">1</span>).timetuple().tm_yday <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)],</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"yend"</span>: [<span class="dv">41</span>] <span class="op">*</span> <span class="dv">12</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>temp_grid <span class="op">=</span> pl.DataFrame({<span class="st">"y"</span>: [<span class="op">-</span><span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>]})</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>temp_labels <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"x"</span>: [<span class="dv">366</span>] <span class="op">*</span> <span class="dv">6</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"y"</span>: [<span class="op">-</span><span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>],</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"label"</span>: [<span class="st">"-10"</span>, <span class="st">"0"</span>, <span class="st">"10"</span>, <span class="st">"20"</span>, <span class="st">"30"</span>, <span class="st">"40"</span>],</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-fig-mtcars-bar" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="one-city" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="one-city"><span class="header-section-number">5.1</span> One City</h2>
+<p>The non-polar version is a useful way to read the geometry. The x-axis is day of year, and each vertical line runs from the daily average minimum to the daily average maximum.</p>
+<div id="cell-fig-climate-circles-ny-cartesian" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ny_city <span class="op">=</span> meteo_yday.<span class="bu">filter</span>(pl.col(<span class="st">"name"</span>) <span class="op">==</span> <span class="st">"NEW YORK"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    ny_city</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(x<span class="op">=</span><span class="st">"yd"</span>, ymin<span class="op">=</span><span class="st">"tmin"</span>, ymax<span class="op">=</span><span class="st">"tmx"</span>, color<span class="op">=</span><span class="st">"ta"</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    .geom_linerange(size<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(breaks<span class="op">=</span><span class="bu">range</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">51</span>, <span class="dv">10</span>), limits<span class="op">=</span>(<span class="op">-</span><span class="dv">11</span>, <span class="dv">42</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                        expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    .scale_color_gradientn(colors<span class="op">=</span>col_temp, limits<span class="op">=</span>(<span class="op">-</span><span class="dv">12</span>, <span class="dv">35</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                           breaks<span class="op">=</span><span class="bu">range</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">36</span>, <span class="dv">5</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    .scale_x_continuous(breaks<span class="op">=</span>month_breaks, labels<span class="op">=</span>month_labels)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"New York Climate Circle Inputs"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="st">"Day of year"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="st">"Temperature (degrees C)"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"Daily average"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    .add_theme(figure_size<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">3.5</span>))</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<div id="fig-mtcars-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-climate-circles-ny-cartesian" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-mtcars-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-mtcars-bar-output-1.png" width="384" height="384" class="figure-img">
+<div aria-describedby="fig-climate-circles-ny-cartesian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="climate-circles_files/figure-html/fig-climate-circles-ny-cartesian-output-1.png" width="768" height="336" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mtcars-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Stacked bar chart
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-climate-circles-ny-cartesian-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: New York daily temperature ranges by day of year, 1991-2020 average.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-fig-mtcars-pie" class="cell" data-execution_count="4">
+<p>Adding <code>coord_radial()</code> wraps the same daily ranges around the year. The month labels are theta-axis labels, while the temperature axis is drawn inside the circle.</p>
+<div id="cell-fig-climate-circles-ny" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar(theta<span class="op">=</span><span class="st">"y"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    ny_city</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(x<span class="op">=</span><span class="st">"yd"</span>, ymin<span class="op">=</span><span class="st">"tmin"</span>, ymax<span class="op">=</span><span class="st">"tmx"</span>, color<span class="op">=</span><span class="st">"ta"</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    .geom_linerange(size<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(breaks<span class="op">=</span><span class="bu">range</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">51</span>, <span class="dv">10</span>), limits<span class="op">=</span>(<span class="op">-</span><span class="dv">11</span>, <span class="dv">42</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                        expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    .scale_color_gradientn(colors<span class="op">=</span>col_temp, limits<span class="op">=</span>(<span class="op">-</span><span class="dv">12</span>, <span class="dv">35</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                           breaks<span class="op">=</span><span class="bu">range</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">36</span>, <span class="dv">5</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    .scale_x_continuous(breaks<span class="op">=</span>month_breaks, labels<span class="op">=</span>month_labels)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    .coord_radial(r_axis_inside<span class="op">=</span><span class="va">True</span>, expand<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                  theta_labels<span class="op">=</span><span class="va">True</span>, theta_label_pad<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"New York Climate Circle"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"Daily average temperature"</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="fl">5.5</span>, <span class="fl">5.5</span>),</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<div id="fig-mtcars-pie" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-climate-circles-ny" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-mtcars-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-mtcars-pie-output-1.png" width="384" height="384" class="figure-img">
+<div aria-describedby="fig-climate-circles-ny-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="climate-circles_files/figure-html/fig-climate-circles-ny-output-1.png" width="528" height="528" class="figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mtcars-pie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.2: Pie chart: coord_polar(theta=‘y’)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-fig-mtcars-bullseye" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<div id="fig-mtcars-bullseye" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-mtcars-bullseye-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-mtcars-bullseye-output-1.png" width="384" height="384" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mtcars-bullseye-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.3: Bullseye chart: coord_polar()
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-climate-circles-ny-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: New York climate circle with coord_radial().
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="polar-path-spiral" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="polar-path-spiral"><span class="header-section-number">2.2</span> Polar path (spiral)</h2>
-<p>In ggplot2 a straight line in Cartesian space becomes a spiral in polar coordinates. <code>theta = "x"</code> maps the x-column (here: angle in radians) to the angular axis; y maps to radius.</p>
-<div id="cell-fig-polar-spiral" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>spiral <span class="op">=</span> pl.DataFrame({</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>:     np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"theta"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">3</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> np.pi, n),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    ggplot(spiral, aes(x<span class="op">=</span><span class="st">"theta"</span>, y<span class="op">=</span><span class="st">"r"</span>))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_path()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(size<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(figure_size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<div id="fig-polar-spiral" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-polar-spiral-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ggplot2-examples_files/figure-html/fig-polar-spiral-output-1.png" width="480" height="480" class="figure-img">
+<section id="nine-cities" class="level2 page-columns page-full" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="nine-cities"><span class="header-section-number">5.2</span> Nine Cities</h2>
+<p>The faceted version adds reference rings and month spokes before drawing the daily ranges. This follows the structure of Roye’s final chart, translated to <code>plotnine_polars</code> and the current <code>coord_radial()</code> argument names.</p>
+<div id="cell-fig-climate-circles-cities" class="cell page-columns page-full" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    meteo_yday</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(x<span class="op">=</span><span class="st">"yd"</span>, ymin<span class="op">=</span><span class="st">"tmin"</span>, ymax<span class="op">=</span><span class="st">"tmx"</span>, color<span class="op">=</span><span class="st">"ta"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    .geom_hline(data<span class="op">=</span>temp_grid, mapping<span class="op">=</span>aes(yintercept<span class="op">=</span><span class="st">"y"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="fl">0.35</span>, alpha<span class="op">=</span><span class="fl">0.65</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    .geom_text(data<span class="op">=</span>temp_labels, mapping<span class="op">=</span>aes(x<span class="op">=</span><span class="st">"x"</span>, y<span class="op">=</span><span class="st">"y"</span>, label<span class="op">=</span><span class="st">"label"</span>),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="dv">5</span>, ha<span class="op">=</span><span class="st">"left"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    .geom_segment(data<span class="op">=</span>month_grid,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                  mapping<span class="op">=</span>aes(x<span class="op">=</span><span class="st">"x"</span>, y<span class="op">=</span><span class="st">"y"</span>, xend<span class="op">=</span><span class="st">"xend"</span>, yend<span class="op">=</span><span class="st">"yend"</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                  color<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="fl">0.2</span>, linetype<span class="op">=</span><span class="st">"dashed"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                  alpha<span class="op">=</span><span class="fl">0.5</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    .geom_linerange(size<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(breaks<span class="op">=</span><span class="bu">range</span>(<span class="op">-</span><span class="dv">30</span>, <span class="dv">51</span>, <span class="dv">10</span>), limits<span class="op">=</span>(<span class="op">-</span><span class="dv">15</span>, <span class="fl">41.5</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                        expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    .scale_color_gradientn(colors<span class="op">=</span>col_temp, limits<span class="op">=</span>(<span class="op">-</span><span class="dv">12</span>, <span class="dv">35</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                           breaks<span class="op">=</span><span class="bu">range</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">36</span>, <span class="dv">5</span>))</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    .scale_x_continuous(breaks<span class="op">=</span>month_breaks, labels<span class="op">=</span>month_labels)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    .facet_wrap(<span class="st">"name"</span>, nrow<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    .coord_radial(r_axis_inside<span class="op">=</span><span class="va">True</span>, expand<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                  theta_labels<span class="op">=</span><span class="va">True</span>, theta_label_pad<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Climate Circles"</span>,</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span><span class="st">"Daily average temperature"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        plot_background<span class="op">=</span>p9.element_rect(fill<span class="op">=</span><span class="st">"black"</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        panel_background<span class="op">=</span>p9.element_rect(fill<span class="op">=</span><span class="st">"black"</span>),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        panel_grid<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(color<span class="op">=</span><span class="st">"white"</span>, size<span class="op">=</span><span class="dv">6</span>),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        axis_text_y<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        axis_ticks<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        legend_title<span class="op">=</span>p9.element_text(color<span class="op">=</span><span class="st">"white"</span>),</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        legend_text<span class="op">=</span>p9.element_text(color<span class="op">=</span><span class="st">"white"</span>),</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        plot_title<span class="op">=</span>p9.element_text(color<span class="op">=</span><span class="st">"white"</span>, ha<span class="op">=</span><span class="st">"center"</span>, size<span class="op">=</span><span class="dv">18</span>),</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        strip_text<span class="op">=</span>p9.element_text(color<span class="op">=</span><span class="st">"white"</span>, weight<span class="op">=</span><span class="st">"bold"</span>, size<span class="op">=</span><span class="dv">9</span>),</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">9</span>),</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display page-columns page-full" data-execution_count="5">
+<div id="fig-climate-circles-cities" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-climate-circles-cities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="climate-circles_files/figure-html/fig-climate-circles-cities-output-1.png" width="768" height="864" class="figure-img column-page">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polar-spiral-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: A Cartesian line becomes a spiral under coord_polar()
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-climate-circles-cities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.3: Climate circles for nine US cities, 1991-2020 daily averages.
 </figcaption>
 </figure>
 </div>
@@ -953,13 +1002,13 @@ Figure&nbsp;2.4: A Cartesian line becomes a spiral under coord_polar()
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
+      <a href="./socviz-examples.html" class="pagination-link" aria-label="socviz examples">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./coord-radial-examples.html" class="pagination-link" aria-label="ggplot2 `coord_radial()` examples">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./nightingale.html" class="pagination-link" aria-label="Florence Nightingale's Rose Diagram">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
