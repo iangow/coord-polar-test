@@ -1,4 +1,4 @@
-# Florence Nightingale's Rose Diagram
+# Florence Nightingale's Rose Diagram {#sec-night}
 
 Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well
 as nursing. 

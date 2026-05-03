@@ -1,6 +1,6 @@
 # ggplot2 `coord_radial()` examples
 
-Version 3.5.0 of `ggplot2` introducted `coord_radial()`, a modernized polar coordinate system adds three key capabilities over `coord_polar()`:
+Version 3.5.0s of `ggplot2` introducted `coord_radial()`, a modernized polar coordinate system adds three key capabilities over `coord_polar()`:
 
 - **Partial arcs** via an `end` argument (any arc from a sliver to a full circle).
 - **Inner radius** (`inner_radius`) to create donut and gauge charts.
@@ -30,7 +30,10 @@ First, it reexports all the functions from `plotnine` as methods that can be use
 Second, it creates a custom `ggplot` namespace for Polars `DataFrame` objects so that plots can be created using a `.ggplot.plot()` method or using the simple `.ggplot()` shortcut.^[Basically, the `__call__` method of the `ggplot` namespace is mapped to `.plot()`.]
 
 In this way, `plotnine_polars` allows me to use method chains to access most of the functionality of `plotnine` without having to do things like running `from plotnine import *` or creating intermediate variables.^[To be fair, the `>>` operator in `plotnine` already addresses the second item.]
+Instead, the only thing I explicitly import from `plotnine` is `aes()`.
 :::
+
+
 
 ```{python}
 mtcars_pl = (
