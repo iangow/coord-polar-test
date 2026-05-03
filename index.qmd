@@ -12,3 +12,9 @@ They are drawn from two sources:
   used in data-visualisation teaching.
 
 The source is at <https://github.com/iangow/coord-polar-test>.
+
+::: {.callout-caution}
+All examples require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+Standard releases of plotnine do not yet include these changes.
+:::

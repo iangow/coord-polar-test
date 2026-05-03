@@ -11,6 +11,12 @@ ggplot2 3.5.0. Compared with `coord_polar()` it adds three key capabilities:
 The examples below are adapted from the
 [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/coord_radial.html).
 
+::: {.callout-caution}
+The examples in this chapter require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+Standard releases of plotnine do not yet include these changes.
+:::
+
 ```{python}
 import numpy as np
 import polars as pl

@@ -3,6 +3,12 @@
 The following examples are adapted from the
 [ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).
 
+::: {.callout-caution}
+The examples in this chapter require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+Standard releases of plotnine do not yet include these changes.
+:::
+
 ```{python}
 import numpy as np
 import polars as pl

@@ -22,6 +22,12 @@ wedge is proportional to the **square root** of the death count, so the wedge
 The dramatic collapse of the blue (disease) bars between the two panels
 reflects the sanitary improvements introduced in March 1855.
 
+::: {.callout-caution}
+The examples in this chapter require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+Standard releases of plotnine do not yet include these changes.
+:::
+
 ```{python}
 import math
 

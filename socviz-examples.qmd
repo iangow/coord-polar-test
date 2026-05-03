@@ -1,5 +1,11 @@
 # socviz examples
 
+::: {.callout-caution}
+The examples in this chapter require the `coord-polar` branch of
+[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
+Standard releases of plotnine do not yet include these changes.
+:::
+
 ```{python}
 from datetime import date
 
