@@ -37,23 +37,22 @@ British army in the Crimea.  Each row in the final long-format table records
 the number of deaths from one cause in one month of one year.
 
 ```{python}
-months = [
-    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-    "Oct", "Nov", "Dec", "Jan", "Feb", "Mar",
-]
-
 nightingale = pl.concat([
     pl.DataFrame({
-        "month": months,
-        "year": [1854] * 9 + [1855] * 3,
+        "month": [
+            "1854-Apr", "1854-May", "1854-Jun", "1854-Jul", "1854-Aug", "1854-Sep",
+            "1854-Oct", "1854-Nov", "1854-Dec", "1855-Jan", "1855-Feb", "1855-Mar",
+        ],
         "period": "April 1854 – March 1855",
         "Diseases":     [1, 12, 11, 359, 828, 788, 503, 844, 1725, 2761, 2120, 1205],
         "Wounds":       [0,  0,  0,   0,   1,  81, 132, 287,  114,   83,   42,   32],
         "Other Causes": [5,  9,  6,  23,  30,  70, 128, 106,  131,  324,  361,  172],
     }),
     pl.DataFrame({
-        "month": months,
-        "year": [1855] * 9 + [1856] * 3,
+        "month": [
+            "1855-Apr", "1855-May", "1855-Jun", "1855-Jul", "1855-Aug", "1855-Sep",
+            "1855-Oct", "1855-Nov", "1855-Dec", "1856-Jan", "1856-Feb", "1856-Mar",
+        ],
         "period": "April 1855 – March 1856",
         "Diseases":     [477, 508, 802, 382, 483, 189, 128, 178, 91, 42, 24, 15],
         "Wounds":       [ 48,  49, 209, 134, 164, 276,  53,  33, 18,  2,  0,  0],
@@ -64,33 +63,32 @@ nightingale = pl.concat([
 
 To create overlapping bars with `geom_col(position="identity")`, the data must
 be sorted so that the **largest** value for each month comes first — it is drawn
-behind, letting the smaller wedges appear on top.  `month_num` orders months
-from April (1) to March (12) by parsing the abbreviation to its calendar month
-number and applying modulo arithmetic.
+behind, letting the smaller wedges appear on top.  `month` is parsed to a Polars `Date`; `month_num` orders months from April (1)
+to March (12) via `.dt.month()` and modulo arithmetic; `month_label` gives the
+short abbreviation for use as the plot aesthetic.
 
 ```{python}
 ng_long = (
     nightingale
     .unpivot(
         on=["Diseases", "Wounds", "Other Causes"],
-        index=["month", "year", "period"],
+        index=["month", "period"],
         variable_name="cause",
         value_name="deaths",
     )
     .with_columns(
-        month_num=(
-            pl.concat_str([pl.lit("2000-"), pl.col("month")])
-            .str.to_date("%Y-%b")
-            .dt.month()
-            - 4
-        ).mod(12) + 1,
+        month=pl.col("month").str.to_date("%Y-%b"),
+    )
+    .with_columns(
+        month_num=(pl.col("month").dt.month() - 4).mod(12) + 1,
+        month_label=pl.col("month").dt.strftime("%b"),
     )
     .sort(["period", "month_num", "deaths"], descending=[False, False, True])
 )
 
 months_ordered = (
-    ng_long.select(["month", "month_num"]).unique()
-    .sort("month_num")["month"].to_list()
+    ng_long.select(["month_label", "month_num"]).unique()
+    .sort("month_num")["month_label"].to_list()
 )
 ```
 
@@ -115,7 +113,7 @@ The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argumen
 #| column: page
 (
     ng_long
-    .ggplot(aes(x="month", y="deaths", fill="cause"))
+    .ggplot(aes(x="month_label", y="deaths", fill="cause"))
     .geom_col(position="identity", width=1, color="white", size=0.3)
     .scale_x_discrete(limits=months_ordered)
     .scale_y_sqrt()
@@ -165,7 +163,7 @@ def _radial_angle(idx, n=12, start_deg=270):
     return -(start_deg + (idx + 0.5) / n * 360) % 360
 
 month_angles_df = pl.DataFrame({
-    "month": months_ordered,
+    "month_label": months_ordered,
     "angle": [_radial_angle(i) for i in range(12)],
 })
 
@@ -176,12 +174,12 @@ y_upper = (math.sqrt(max_deaths_all) + pad_r) ** 2
 # Label position: push pad_r units beyond bar tip in sqrt-radius space
 label_df = (
     ng_long
-    .group_by(["month", "period"])
+    .group_by(["month_label", "period"])
     .agg(pl.col("deaths").max().alias("max_deaths"))
-    .join(month_angles_df, on="month")
+    .join(month_angles_df, on="month_label")
     .with_columns(
         label_y=(pl.col("max_deaths").sqrt() + pad_r).pow(2),
-        label=pl.col("month"),
+        label=pl.col("month_label"),
     )
 )
 ```
@@ -195,11 +193,11 @@ label_df = (
 #| column: page
 (
     ng_long
-    .ggplot(aes(x="month", y="deaths", fill="cause"))
+    .ggplot(aes(x="month_label", y="deaths", fill="cause"))
     .geom_col(position="identity", width=1, color="white", size=0.3)
     .geom_text(
         data=label_df,
-        mapping=aes(x="month", y="label_y", label="label", angle="angle"),
+        mapping=aes(x="month_label", y="label_y", label="label", angle="angle"),
         size=7, color="#444444", ha="center", va="center", inherit_aes=False,
     )
     .scale_x_discrete(limits=months_ordered)
