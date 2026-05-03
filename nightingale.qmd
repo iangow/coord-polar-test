@@ -58,7 +58,7 @@ nightingale = pl.concat([
         "Wounds":       [ 48,  49, 209, 134, 164, 276,  53,  33, 18,  2,  0,  0],
         "Other Causes": [ 57,  37,  31,  33,  25,  20,  18,  32, 28, 48, 19, 35],
     }),
-])
+]).with_columns(month=pl.col("month").str.to_date("%Y-%b"))
 ```
 
 To create overlapping bars with `geom_col(position="identity")`, the data must
@@ -75,9 +75,6 @@ ng_long = (
         index=["month", "period"],
         variable_name="cause",
         value_name="deaths",
-    )
-    .with_columns(
-        month=pl.col("month").str.to_date("%Y-%b"),
     )
     .with_columns(
         month_num=(pl.col("month").dt.month() - 4).mod(12) + 1,
