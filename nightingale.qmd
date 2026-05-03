@@ -1,0 +1,147 @@
+# Florence Nightingale's Rose Diagram
+
+Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well
+as nursing. Her most celebrated chart — the *diagram of the causes of mortality
+in the army in the East* (1858) — used a polar-area plot, now often called a
+**rose diagram** or **coxcomb chart**, to argue that preventable disease rather
+than combat wounds was killing British soldiers in the Crimean War. By encoding
+the data as overlapping wedges rather than tables, she made the case visually
+compelling enough to prompt lasting sanitary reforms.
+
+The chart covers 24 months (April 1854 to March 1856) and divides them into
+two 12-month periods. Each angular slice corresponds to one calendar month.
+Three causes of death are drawn as overlapping wedge-shaped bars — largest
+behind smallest — so that each is independently visible:
+
+- **Diseases** — preventable (zymotic) diseases, chiefly cholera and typhus
+- **Wounds** — deaths from combat injuries
+- **Other Causes** — all remaining causes
+
+The dramatic collapse of the blue (disease) bars between the two panels
+reflects the sanitary improvements introduced in March 1855.
+
+```{python}
+import math
+
+import polars as pl
+import plotnine_polars as p9
+from plotnine_polars import aes
+```
+
+## Data
+
+The data below are Florence Nightingale's published death counts for the
+British army in the Crimea.  Each row in the final long-format table records
+the number of deaths from one cause in one month of one period.
+
+```{python}
+months_ordered = [
+    "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    "Oct", "Nov", "Dec", "Jan", "Feb", "Mar",
+]
+month_to_num = {m: i + 1 for i, m in enumerate(months_ordered)}
+
+nightingale = pl.concat([
+    pl.DataFrame({
+        "month": months_ordered,
+        "period": "April 1854 – March 1855",
+        "Diseases":     [1, 12, 11, 359, 828, 788, 503, 844, 1725, 2761, 2120, 1205],
+        "Wounds":       [0,  0,  0,   0,   1,  81, 132, 287,  114,   83,   42,   32],
+        "Other Causes": [5,  9,  6,  23,  30,  70, 128, 106,  131,  324,  361,  172],
+    }),
+    pl.DataFrame({
+        "month": months_ordered,
+        "period": "April 1855 – March 1856",
+        "Diseases":     [477, 508, 802, 382, 483, 189, 128, 178, 91, 42, 24, 15],
+        "Wounds":       [ 48,  49, 209, 134, 164, 276,  53,  33, 18,  2,  0,  0],
+        "Other Causes": [ 57,  37,  31,  33,  25,  20,  18,  32, 28, 48, 19, 35],
+    }),
+])
+```
+
+To create overlapping bars with `geom_col(position="identity")`, the data must
+be sorted so that the **largest** value for each month comes first — it is drawn
+behind, letting the smaller wedges appear on top.
+
+```{python}
+ng_long = (
+    nightingale
+    .unpivot(
+        on=["Diseases", "Wounds", "Other Causes"],
+        index=["month", "period"],
+        variable_name="cause",
+        value_name="deaths",
+    )
+    .with_columns(
+        month_num=pl.col("month").replace(month_to_num).cast(pl.Int32),
+    )
+    .sort(["period", "month_num", "deaths"], descending=[False, False, True])
+)
+```
+
+## The Rose Diagram
+
+```{python}
+#| label: fig-nightingale
+#| fig-cap: >
+#|   Causes of mortality in the British Army during the Crimean War.
+#|   The left panel shows the period before Nightingale's sanitary reforms;
+#|   the right shows the dramatic improvement that followed.
+cause_colors = {
+    "Diseases":     "#91C4D8",
+    "Wounds":       "#E8A0A0",
+    "Other Causes": "#6B6B6B",
+}
+
+(
+    ng_long
+    .ggplot(aes(x="month", y="deaths", fill="cause"))
+    .geom_col(position="identity", width=1, color="white", size=0.3)
+    .scale_x_discrete(limits=months_ordered)
+    .scale_fill_manual(
+        values=cause_colors,
+        breaks=["Diseases", "Wounds", "Other Causes"],
+        name="Cause of Death",
+    )
+    .coord_radial(
+        theta="x",
+        start=3 * math.pi / 2,
+        expand=False,
+        theta_labels=True,
+        theta_label_pad=12,
+    )
+    .facet_wrap("~period", scales="free_y")
+    .labs(
+        title="Causes of Mortality in the British Army during the Crimean War",
+        subtitle="Each panel uses its own radial scale",
+        caption=(
+            "Source: Nightingale (1858), Notes on Matters Affecting the Health, "
+            "Efficiency, and Hospital Administration of the British Army."
+        ),
+    )
+    .add_theme(
+        figure_size=(13, 7),
+        axis_title=p9.element_blank(),
+        axis_text_x=p9.element_text(size=7, color="#444444"),
+        axis_text_y=p9.element_blank(),
+        axis_ticks=p9.element_blank(),
+        panel_grid_major=p9.element_blank(),
+        panel_background=p9.element_blank(),
+        legend_position="bottom",
+    )
+)
+```
+
+Several design choices differ from the reference target:
+
+- **Chronological order** — the 1854–55 panel appears on the left, so time
+  reads left to right.  The original Nightingale chart placed the post-reform
+  period on the left so the reader encountered the improvement first.
+- **Shared legend and title** — `facet_wrap()` naturally produces one legend
+  and one overall title, avoiding duplicated ink.
+- **Start angle** — `start = 3π/2` (≡ −π/2) places the April slice at the
+  9 o'clock position so the June–July boundary falls at 12 o'clock, matching
+  the layout of the original.
+- **Free radial scales** — `scales="free_y"` lets each panel fill its circle,
+  making the structure within each period easier to read.  A fixed scale would
+  make the 1855–56 bars appear almost invisible against the 1854–55 circle.

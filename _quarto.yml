@@ -9,6 +9,7 @@ book:
     - ggplot2-examples.qmd
     - coord-radial-examples.qmd
     - socviz-examples.qmd
+    - nightingale.qmd
 
 format:
   html:
