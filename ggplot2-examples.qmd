@@ -6,9 +6,14 @@ The following examples are adapted from the
 ```{python}
 import numpy as np
 import polars as pl
-import plotnine_polars as p9
+from plotnine import (
+    ggplot, aes,
+    geom_bar, geom_path, geom_point,
+    coord_polar,
+    scale_x_discrete, scale_y_continuous,
+    theme,
+)
 from plotnine.data import mtcars
-from plotnine_polars import aes
 ```
 
 ## Bar → Pie → Bullseye (mtcars)
@@ -31,12 +36,11 @@ mtcars_pl = (
 #| label: fig-mtcars-bar
 #| fig-cap: "Stacked bar chart"
 (
-    mtcars_pl
-    .ggplot(aes(x="x", fill="cyl"))
-    .geom_bar(width=1)
-    .scale_x_discrete(expand=(0, 0))
-    .scale_y_continuous(expand=(0, 0))
-    .add_theme(legend_position="none", figure_size=(4, 4))
+    ggplot(mtcars_pl, aes(x="x", fill="cyl"))
+    + geom_bar(width=1)
+    + scale_x_discrete(expand=(0, 0))
+    + scale_y_continuous(expand=(0, 0))
+    + theme(legend_position="none", figure_size=(4, 4))
 )
 ```
 
@@ -44,13 +48,12 @@ mtcars_pl = (
 #| label: fig-mtcars-pie
 #| fig-cap: "Pie chart: coord_polar(theta='y')"
 (
-    mtcars_pl
-    .ggplot(aes(x="x", fill="cyl"))
-    .geom_bar(width=1)
-    .coord_polar(theta="y")
-    .scale_x_discrete(expand=(0, 0))
-    .scale_y_continuous(expand=(0, 0))
-    .add_theme(legend_position="none", figure_size=(4, 4))
+    ggplot(mtcars_pl, aes(x="x", fill="cyl"))
+    + geom_bar(width=1)
+    + coord_polar(theta="y")
+    + scale_x_discrete(expand=(0, 0))
+    + scale_y_continuous(expand=(0, 0))
+    + theme(legend_position="none", figure_size=(4, 4))
 )
 ```
 
@@ -58,13 +61,12 @@ mtcars_pl = (
 #| label: fig-mtcars-bullseye
 #| fig-cap: "Bullseye chart: coord_polar()"
 (
-    mtcars_pl
-    .ggplot(aes(x="x", fill="cyl"))
-    .geom_bar(width=1)
-    .coord_polar()
-    .scale_x_discrete(expand=(0, 0))
-    .scale_y_continuous(expand=(0, 0))
-    .add_theme(legend_position="none", figure_size=(4, 4))
+    ggplot(mtcars_pl, aes(x="x", fill="cyl"))
+    + geom_bar(width=1)
+    + coord_polar()
+    + scale_x_discrete(expand=(0, 0))
+    + scale_y_continuous(expand=(0, 0))
+    + theme(legend_position="none", figure_size=(4, 4))
 )
 ```
 
@@ -84,11 +86,10 @@ spiral = pl.DataFrame({
 })
 
 (
-    spiral
-    .ggplot(aes(x="theta", y="r"))
-    .geom_path()
-    .geom_point(size=2, color="red")
-    .coord_polar()
-    .add_theme(figure_size=(5, 5))
+    ggplot(spiral, aes(x="theta", y="r"))
+    + geom_path()
+    + geom_point(size=2, color="red")
+    + coord_polar()
+    + theme(figure_size=(5, 5))
 )
 ```
