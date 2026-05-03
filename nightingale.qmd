@@ -82,6 +82,10 @@ ng_long = (
             .dt.month()
             - 4
         ).mod(12) + 1,
+        period=pl.concat_str([
+            pl.lit("April "), pl.col("year").cast(pl.Utf8),
+            pl.lit(" – March "), (pl.col("year") + 1).cast(pl.Utf8),
+        ]),
     )
     .sort(["year", "month_num", "deaths"], descending=[False, False, True])
 )
@@ -128,7 +132,7 @@ The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argumen
         expand=False,
         theta_labels=True,
     )
-    .facet_wrap("~year")
+    .facet_wrap("~period")
     .labs(
         title="Causes of Mortality in the British Army during the Crimean War",
         subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
@@ -174,7 +178,7 @@ y_upper = (math.sqrt(max_deaths_all) + pad_r) ** 2
 # Label position: push pad_r units beyond bar tip in sqrt-radius space
 label_df = (
     ng_long
-    .group_by(["month", "year"])
+    .group_by(["month", "period"])
     .agg(pl.col("deaths").max().alias("max_deaths"))
     .join(month_angles_df, on="month")
     .with_columns(
@@ -212,7 +216,7 @@ label_df = (
         start=3 * math.pi / 2,
         expand=False,
     )
-    .facet_wrap("~year")
+    .facet_wrap("~period")
     .labs(
         title="Causes of Mortality in the British Army during the Crimean War",
         subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
