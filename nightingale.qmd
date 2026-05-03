@@ -142,16 +142,14 @@ The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argumen
 
 ### Refined Version
 
-For labels that sit at the tip of each month's tallest bar — closer to the data, like the original diagram — we use `geom_text` with pre-computed positions and rotation angles.  Each label is placed `pad_r` units beyond the largest bar for that month (in square-root space), and rotated to point outward from the centre.  The y-axis upper limit is extended to accommodate these floating labels.
+For labels that sit at the tip of each month's tallest bar — closer to the data, like the original diagram — we use `geom_text` with pre-computed positions and rotation angles.
+Each label is placed `pad_r` units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle.
+The y-axis upper limit is extended to accommodate these floating labels.
 
 ```{python}
 def _radial_angle(idx, n=12, start_deg=270):
-    """Matplotlib text angle (deg, CCW from East) for an outward spoke label."""
-    display_cw = (start_deg + (idx + 0.5) / n * 360) % 360
-    outward = (90 - display_cw) % 360
-    if 90 < outward < 270:          # text would be upside-down; flip 180°
-        outward = (outward + 180) % 360
-    return outward
+    """Text rotation angle (degrees) for the label at arc slice idx."""
+    return -(start_deg + (idx + 0.5) / n * 360) % 360
 
 month_angles_df = pl.DataFrame({
     "month": months_ordered,
