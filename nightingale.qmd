@@ -87,7 +87,12 @@ ng_long = (
             pl.lit(" – March "), (pl.col("year") + 1).cast(pl.Utf8),
         ]),
     )
-    .sort(["year", "month_num", "deaths"], descending=[False, False, True])
+    .with_columns(
+        year=pl.when(pl.col("month_num") <= 9)
+            .then(pl.col("year"))
+            .otherwise(pl.col("year") + 1),
+    )
+    .sort(["period", "month_num", "deaths"], descending=[False, False, True])
 )
 
 months_ordered = (
