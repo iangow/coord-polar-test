@@ -1,12 +1,12 @@
 # Florence Nightingale's Rose Diagram
 
 Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well
-as nursing. Her most celebrated chart — the *diagram of the causes of mortality
-in the army in the East* (1858) — used a polar-area plot, now often called a
+as nursing. 
+Her most celebrated chart---the *diagram of the causes of mortality
+in the army in the East* (1858)---used a polar-area plot, now often called a
 **rose diagram** or **coxcomb chart**, to argue that preventable disease rather
-than combat wounds was killing British soldiers in the Crimean War. By encoding
-the data as overlapping wedges rather than tables, she made the case visually
-compelling enough to prompt lasting sanitary reforms.
+than combat wounds was killing British soldiers in the Crimean War.
+By encoding the data as overlapping wedges rather than tables, she made the case visually compelling enough to prompt lasting sanitary reforms.
 
 The chart covers 24 months (April 1854 to March 1856) and divides them into
 two 12-month periods. Each angular slice corresponds to one calendar month.
@@ -34,26 +34,25 @@ from plotnine_polars import aes
 
 The data below are Florence Nightingale's published death counts for the
 British army in the Crimea.  Each row in the final long-format table records
-the number of deaths from one cause in one month of one period.
+the number of deaths from one cause in one month of one year.
 
 ```{python}
-months_ordered = [
+months = [
     "Apr", "May", "Jun", "Jul", "Aug", "Sep",
     "Oct", "Nov", "Dec", "Jan", "Feb", "Mar",
 ]
-month_to_num = {m: i + 1 for i, m in enumerate(months_ordered)}
 
 nightingale = pl.concat([
     pl.DataFrame({
-        "month": months_ordered,
-        "period": "April 1854 – March 1855",
+        "month": months,
+        "year": 1854,
         "Diseases":     [1, 12, 11, 359, 828, 788, 503, 844, 1725, 2761, 2120, 1205],
         "Wounds":       [0,  0,  0,   0,   1,  81, 132, 287,  114,   83,   42,   32],
         "Other Causes": [5,  9,  6,  23,  30,  70, 128, 106,  131,  324,  361,  172],
     }),
     pl.DataFrame({
-        "month": months_ordered,
-        "period": "April 1855 – March 1856",
+        "month": months,
+        "year": 1855,
         "Diseases":     [477, 508, 802, 382, 483, 189, 128, 178, 91, 42, 24, 15],
         "Wounds":       [ 48,  49, 209, 134, 164, 276,  53,  33, 18,  2,  0,  0],
         "Other Causes": [ 57,  37,  31,  33,  25,  20,  18,  32, 28, 48, 19, 35],
@@ -63,21 +62,33 @@ nightingale = pl.concat([
 
 To create overlapping bars with `geom_col(position="identity")`, the data must
 be sorted so that the **largest** value for each month comes first — it is drawn
-behind, letting the smaller wedges appear on top.
+behind, letting the smaller wedges appear on top.  `month_num` orders months
+from April (1) to March (12) by parsing the abbreviation to its calendar month
+number and applying modulo arithmetic.
 
 ```{python}
 ng_long = (
     nightingale
     .unpivot(
         on=["Diseases", "Wounds", "Other Causes"],
-        index=["month", "period"],
+        index=["month", "year"],
         variable_name="cause",
         value_name="deaths",
     )
     .with_columns(
-        month_num=pl.col("month").replace(month_to_num).cast(pl.Int32),
+        month_num=(
+            pl.concat_str([pl.lit("2000-"), pl.col("month")])
+            .str.to_date("%Y-%b")
+            .dt.month()
+            - 4
+        ).mod(12) + 1,
     )
-    .sort(["period", "month_num", "deaths"], descending=[False, False, True])
+    .sort(["year", "month_num", "deaths"], descending=[False, False, True])
+)
+
+months_ordered = (
+    ng_long.select(["month", "month_num"]).unique()
+    .sort("month_num")["month"].to_list()
 )
 ```
 
@@ -117,7 +128,7 @@ The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argumen
         expand=False,
         theta_labels=True,
     )
-    .facet_wrap("~period")
+    .facet_wrap("~year")
     .labs(
         title="Causes of Mortality in the British Army during the Crimean War",
         subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
@@ -163,7 +174,7 @@ y_upper = (math.sqrt(max_deaths_all) + pad_r) ** 2
 # Label position: push pad_r units beyond bar tip in sqrt-radius space
 label_df = (
     ng_long
-    .group_by(["month", "period"])
+    .group_by(["month", "year"])
     .agg(pl.col("deaths").max().alias("max_deaths"))
     .join(month_angles_df, on="month")
     .with_columns(
@@ -201,7 +212,7 @@ label_df = (
         start=3 * math.pi / 2,
         expand=False,
     )
-    .facet_wrap("~period")
+    .facet_wrap("~year")
     .labs(
         title="Causes of Mortality in the British Army during the Crimean War",
         subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
