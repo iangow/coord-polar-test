@@ -54,7 +54,6 @@ tick labels inside the ring.
 ```{python}
 #| label: fig-coord-polar-fars
 #| fig-cap: "Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes. Daily average, 2009–2023."
-
 plot_data = (
     fars_agg
     .with_columns(
@@ -65,12 +64,10 @@ plot_data = (
     )
 )
 
-month_starts = pl.DataFrame({
-    "doy":   [date(2000, m, 15).timetuple().tm_yday for m in range(1, 13)],
-    "label": ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    "n":     [4.0] * 12,
-})
+m_breaks = [date(2000, m, 15).timetuple().tm_yday for m in range(1, 13)]
+m_labels = ["January", "February", "March", "April",
+            "May", "June", "July", "August", "September",
+            "October", "November", "December"]
 
 (
     plot_data
@@ -78,24 +75,24 @@ month_starts = pl.DataFrame({
     .geom_point(shape="o", size=2.5, stroke=0.4)
     .scale_fill_manual(values={"Halloween": "#E06000", "Other": "white"})
     .scale_color_manual(values={"Halloween": "#333333", "Other": "#222222"})
-    .geom_text(data=month_starts, mapping=aes(x="doy", y="n", label="label"),
-               color="#444444", size=7, inherit_aes=False)
     .geom_text(data=plot_data.filter(pl.col("day_type") == "Halloween"),
                mapping=aes(x="doy", y="n", label="day_type"),
-               color="#E06000", size=7, nudge_x=2, nudge_y=-1, 
+               color="#E06000", size=7, nudge_x=2, nudge_y=-1,
                ha="right", inherit_aes=False)
-    .coord_radial(inner_radius=0.25, r_axis_inside=True, expand=False)
+    .scale_x_continuous(breaks=m_breaks, labels=m_labels)
+    .coord_radial(inner_radius=0.25, r_axis_inside=True, expand=False,
+                  theta_labels=True, theta_label_pad=9)
     .scale_y_continuous(limits=(0, 4.25))
     .labs(
         title="Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes",
-        subtitle="Daily average, 2009–2023",
+        subtitle="Daily average, 2009–2023\n\n",
     )
     .add_theme(
         axis_title=p9.element_blank(),
-        axis_text_x=p9.element_blank(),
+        axis_text_x=p9.element_text(size=7, color="#444444"),
         axis_ticks_major_x=p9.element_blank(),
         legend_position="none",
-        figure_size=(6, 6),
+        figure_size=(5.5, 5.5),
     )
 )
 ```
