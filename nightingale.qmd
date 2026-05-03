@@ -108,7 +108,7 @@ cause_colors = {
     )
     .coord_radial(
         theta="x",
-        # start=3 * math.pi / 2,
+        start=3 * math.pi / 2,
         expand=False,
         theta_labels=True,
     )
@@ -129,6 +129,7 @@ cause_colors = {
         axis_ticks=p9.element_blank(),
         panel_grid_major=p9.element_blank(),
         panel_background=p9.element_blank(),
+        panel_border=p9.element_blank(),
         legend_position="bottom",
     )
 )
