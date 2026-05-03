@@ -11,7 +11,9 @@ compelling enough to prompt lasting sanitary reforms.
 The chart covers 24 months (April 1854 to March 1856) and divides them into
 two 12-month periods. Each angular slice corresponds to one calendar month.
 Three causes of death are drawn as overlapping wedge-shaped bars — largest
-behind smallest — so that each is independently visible:
+behind smallest — so that each is independently visible.  The radius of each
+wedge is proportional to the **square root** of the death count, so the wedge
+**area** is proportional to deaths, matching Nightingale's original encoding:
 
 - **Diseases** — preventable (zymotic) diseases, chiefly cholera and typhus
 - **Wounds** — deaths from combat injuries
@@ -98,6 +100,7 @@ cause_colors = {
     .ggplot(aes(x="month", y="deaths", fill="cause"))
     .geom_col(position="identity", width=1, color="white", size=0.3)
     .scale_x_discrete(limits=months_ordered)
+    .scale_y_sqrt()
     .scale_fill_manual(
         values=cause_colors,
         breaks=["Diseases", "Wounds", "Other Causes"],
@@ -113,7 +116,7 @@ cause_colors = {
     .facet_wrap("~period", scales="free_y")
     .labs(
         title="Causes of Mortality in the British Army during the Crimean War",
-        subtitle="Each panel uses its own radial scale",
+        subtitle="Radius proportional to sqrt(deaths), so wedge area proportional to deaths",
         caption=(
             "Source: Nightingale (1858), Notes on Matters Affecting the Health, "
             "Efficiency, and Hospital Administration of the British Army."
@@ -142,6 +145,10 @@ Several design choices differ from the reference target:
 - **Start angle** — `start = 3π/2` (≡ −π/2) places the April slice at the
   9 o'clock position so the June–July boundary falls at 12 o'clock, matching
   the layout of the original.
+- **Area encoding** — `scale_y_sqrt()` makes the radius proportional to
+  √deaths, so the wedge *area* is proportional to deaths — exactly the
+  encoding Nightingale used.  Without the square-root transform the radius
+  itself encodes deaths, which exaggerates large values.
 - **Free radial scales** — `scales="free_y"` lets each panel fill its circle,
   making the structure within each period easier to read.  A fixed scale would
   make the 1855–56 bars appear almost invisible against the 1854–55 circle.
