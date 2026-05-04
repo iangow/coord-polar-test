@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Polar Coordinates with plotnine",
     "section": "",
-    "text": "1 Introduction\nThis book provides a gallery of plots using either coord_polar() or coord_radial() with a custom version of plotnine, a Python library implementing the grammar of graphics (Wilkinson 2005) using an API based on that of the R packageggplot2.\n\n\n\n\n\n\nCaution\n\n\n\nAll of the examples on this page require the coord-polar branch of iangow/plotnine. The standard version of plotnine does not include the coord_polar() and coord_radial() functions used here.\n\n\nI have chosen examples from a number of sources that serve both as targets for development of coord_polar() and coord_radial() and as illustrations of how those functions can be used.\n\nIn Chapter 2, I use examples from the ggplot2 documentation for coord_polar().\nIn (ssec-coord-radial?), I use examples from the ggplot2 documentation for coord_radial().\nIn ?sec-socviz, I use an example from Chapter 8 of Healy (2026).\nIn ?sec-climate, I Dominic Royé’s climate circles.\nIn Chapter 6, I replicate Florence Nightingale’s famous plot.\n\nThe source code for this page can be found at https://github.com/iangow/coord-polar-test.\n\n\n\n\nHealy, Kieran. 2026. Data Visualization: A Practical Introduction. 2nd ed. Princeton University Press. https://socviz.co/.\n\n\nWilkinson, Leland. 2005. The Grammar of Graphics. 2nd ed. Statistics and Computing. Springer.",
+    "text": "1 Introduction\nThis book provides a gallery of plots using either coord_polar() or coord_radial() with a custom version of plotnine, a Python library implementing the grammar of graphics (Wilkinson 2005) using an API based on that of the R packageggplot2.\n\n\n\n\n\n\nCaution\n\n\n\nAll of the examples on this page require the coord-polar branch of iangow/plotnine. The standard version of plotnine does not include the coord_polar() and coord_radial() functions used here.\n\n\nI have chosen examples from a number of sources that serve both as targets for development of coord_polar() and coord_radial() and as illustrations of how those functions can be used.\n\nIn Chapter 2, I use examples from the ggplot2 documentation for coord_polar().\nIn Chapter 3, I use examples from the ggplot2 documentation for coord_radial().\nIn Chapter 4, I use an example from Chapter 8 of Healy (2026).\nIn Chapter 5, I Dominic Royé’s climate circles.\nIn Chapter 6, I replicate Florence Nightingale’s famous plot.\n\nThe source code for this page can be found at https://github.com/iangow/coord-polar-test.\n\n\n\n\nHealy, Kieran. 2026. Data Visualization: A Practical Introduction. 2nd ed. Princeton University Press. https://socviz.co/.\n\n\nWilkinson, Leland. 2005. The Grammar of Graphics. 2nd ed. Statistics and Computing. Springer.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -32,71 +32,71 @@
   {
     "objectID": "coord-radial-examples.html",
     "href": "coord-radial-examples.html",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "",
     "text": "3.1 Pie chart\nVersion 3.5.0s of ggplot2 introducted coord_radial(), a modernized polar coordinate system adds three key capabilities over coord_polar():\nThe examples below are adapted from the ggplot2 reference page.\nA stacked bar chart becomes a pie chart under coord_radial(theta=\"y\"). This is the coord_radial() equivalent of the coord_polar() pie chart.\n(\n    mtcars_pl\n    .ggplot(aes(x=\"x\", fill=\"cyl\"))\n    .geom_bar(width=1)\n    .coord_radial(theta=\"y\", expand=False)\n    .scale_x_discrete(expand=(0, 0))\n    .scale_y_continuous(expand=(0, 0))\n    .add_theme(figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 3.1: Pie chart with coord_radial(theta='y')",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
     "objectID": "coord-radial-examples.html#coxcomb-chart",
     "href": "coord-radial-examples.html#coxcomb-chart",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "3.2 Coxcomb chart",
     "text": "3.2 Coxcomb chart\nA coxcomb chart or rose chart maps each discrete category to an equal angular slice but lets the bar height encode the count Chapter 6 This is the default theta=\"x\" orientation.\n\ncxc = (\n    mtcars_pl\n    .ggplot(aes(x=\"cyl\"))\n    .geom_bar(width=1, color=\"black\")\n)\n\n(   cxc\n    .coord_radial(expand=False)\n    .add_theme(figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 3.2: Coxcomb chart: bar heights encode count, angles encode category\n\n\n\n\n\n\n(   cxc\n    .coord_radial(theta=\"y\", expand=False)\n    .add_theme(figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 3.3: Coxcomb chart: bar heights encode count, angles encode category",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
     "objectID": "coord-radial-examples.html#bullseye-chart",
     "href": "coord-radial-examples.html#bullseye-chart",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "3.3 Bullseye chart",
     "text": "3.3 Bullseye chart\nSwapping the aesthetics — stacking the cyl groups on a single x position with theta=\"x\" — produces concentric rings (a bullseye).\n\n(\n    mtcars_pl\n    .ggplot(aes(x=\"x\", fill=\"cyl\"))\n    .geom_bar(width=1)\n    .coord_radial(expand=False)\n    .scale_x_discrete(expand=(0, 0))\n    .scale_y_continuous(expand=(0, 0))\n    .add_theme(legend_position=\"none\", figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 3.4: Bullseye chart: coord_radial() with a stacked single-bar\n\n\n\n\n\n\ndf = pl.DataFrame({\n  \"variable\": [\"does not resemble\", \"resembles\"],\n  \"value\":[20, 80]\n})\n\n\nimport math\n\n(\n    df\n    .ggplot(aes(x=1, y=\"value\", fill=\"variable\"))\n    .geom_col(width = 1)\n    .scale_fill_manual(values=[\"red\", \"yellow\"])\n    .coord_radial(\"y\", start = math.pi / 3, expand=False)\n    .labs(title = \"Pac-Man\")\n)",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
     "objectID": "coord-radial-examples.html#donut-chart",
     "href": "coord-radial-examples.html#donut-chart",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "3.4 Donut chart",
     "text": "3.4 Donut chart\nSetting inner_radius pushes data away from the centre, leaving a hollow hole. The value is a fraction of the outer radius, so inner_radius=0.3 creates a 30 % hole.\n\n(\n    mtcars_pl\n    .ggplot(aes(x=\"x\", fill=\"cyl\"))\n    .geom_bar(width=1)\n    .coord_radial(theta=\"y\", expand=False, inner_radius=0.3)\n    .scale_x_discrete(expand=(0, 0))\n    .scale_y_continuous(expand=(0, 0))\n    .add_theme(legend_position=\"none\", figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 3.5: Donut chart: inner_radius=0.3 carves a hole in the pie",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
     "objectID": "coord-radial-examples.html#pac-man-chart",
     "href": "coord-radial-examples.html#pac-man-chart",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "3.5 Pac-Man chart",
     "text": "3.5 Pac-Man chart\nCombining theta=\"y\" with a non-zero start angle cuts a wedge out of the pie. A start of π/3 (60°) creates Hadley Wickham’s favourite illustration of why pie charts are hard to read.\n\npac_data = pl.DataFrame({\n    \"variable\": [\"does not resemble\", \"resembles\"],\n    \"value\": [20, 80],\n    \"x\": [\"\", \"\"],\n})\n\n(\n    pac_data\n    .ggplot(aes(x=\"x\", y=\"value\", fill=\"variable\"))\n    .geom_col(width=1)\n    .scale_fill_manual(values={\"does not resemble\": \"red\", \"resembles\": \"yellow\"})\n    .coord_radial(theta=\"y\", start=np.pi / 3, expand=False)\n    .labs(title=\"Pac Man\")\n    .add_theme(legend_position=\"none\", figure_size=(4, 4))\n)\n\n\n\n\n\n\n\nFigure 3.6: Pac-Man: coord_radial(theta=‘y’, start=π/3)",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
     "objectID": "coord-radial-examples.html#partial-polar-scatter",
     "href": "coord-radial-examples.html#partial-polar-scatter",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "3.6 Partial polar scatter",
     "text": "3.6 Partial polar scatter\nProviding both start and end limits the plot to an arc rather than a full circle. Combined with inner_radius, this is the basis for gauge and fan charts. Here mtcars displacement is mapped to angle and fuel economy to radius.\n\n(\n    pl.from_pandas(mtcars)\n    .ggplot(aes(x=\"disp\", y=\"mpg\"))\n    .geom_point()\n    .coord_radial(start=-0.4 * np.pi, end=0.4 * np.pi, inner_radius=0.3)\n    .add_theme(figure_size=(5, 5))\n)\n\n\n\n\n\n\n\nFigure 3.7: Partial polar scatter: start/end define the arc, inner_radius adds a hole\n\n\n\n\n\nthetalim and rlim zoom into a data-space window on each axis without removing points — equivalent to coord_cartesian(xlim=..., ylim=...) in Cartesian space.\n\n(\n    pl.from_pandas(mtcars)\n    .ggplot(aes(x=\"disp\", y=\"mpg\"))\n    .geom_point()\n    .coord_radial(\n        start=-0.4 * np.pi, end=0.4 * np.pi,\n        inner_radius=0.3,\n        thetalim=(200, 300),\n        rlim=(15, 30),\n    )\n    .add_theme(figure_size=(5, 5))\n)\n\n\n\n\n\n\n\nFigure 3.8: Partial polar scatter with thetalim and rlim zooming into a data window",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
     "objectID": "coord-radial-examples.html#footnotes",
     "href": "coord-radial-examples.html#footnotes",
-    "title": "3  ggplot2 coord_radial() examples",
+    "title": "3  Examples from coord_radial() documentation",
     "section": "",
     "text": "Basically, the __call__ method of the ggplot namespace is mapped to .plot().↩︎\nTo be fair, the &gt;&gt; operator in plotnine already addresses the second item.↩︎",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>ggplot2 `coord_radial()` examples</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Examples from `coord_radial()` documentation</span>"
     ]
   },
   {
