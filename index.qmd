@@ -11,7 +11,7 @@ The standard version of plotnine does not include the `coord_polar()` and `coord
 I have chosen examples from a number of sources that serve both as targets for development of `coord_polar()` and `coord_radial()` and as illustrations of how those functions can be used.
 
 - In @sec-ggplot, I use examples from the [ggplot2 documentation for `coord_polar()`](https://ggplot2.tidyverse.org/reference/coord_polar.html).
-- In @ssec-coord-radial, I use examples from the [ggplot2 documentation for `coord_radial()`](https://ggplot2.tidyverse.org/reference/coord_radial.html).
+- In @sec-coord-radial, I use examples from the [ggplot2 documentation for `coord_radial()`](https://ggplot2.tidyverse.org/reference/coord_radial.html).
 - In @sec-socviz, I use an example from Chapter 8 of @Healy2026.
 - In @sec-climate, I Dominic Royé's [climate circles](https://dominicroye.github.io/blog/climate-circles/).
 - In @sec-night, I replicate Florence Nightingale's famous plot.
