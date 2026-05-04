@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -76,9 +95,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-c0f9e757bd1bbe5faf3da83a888945c0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -345,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./socviz-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from <span class="citation" data-cites="Healy2026">Healy (</span></span></span></a><a href="#ref-Healy2026" role="doc-biblioref">2026</a>)
   </div>
 </li>
         <li class="sidebar-item">
@@ -402,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Version 3.5.0 of <code>ggplot2</code> introducted <code>coord_radial()</code>, a modernized polar coordinate system adds three key capabilities over <code>coord_polar()</code>:</p>
+<p>Version 3.5.0s of <code>ggplot2</code> introducted <code>coord_radial()</code>, a modernized polar coordinate system adds three key capabilities over <code>coord_polar()</code>:</p>
 <ul>
 <li><strong>Partial arcs</strong> via an <code>end</code> argument (any arc from a sliver to a full circle).</li>
 <li><strong>Inner radius</strong> (<code>inner_radius</code>) to create donut and gauge charts.</li>
@@ -422,7 +441,7 @@ Caution
 <p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
 </div>
 </div>
-<div id="456e727b" class="cell" data-execution_count="1">
+<div id="4ecf20ca" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
@@ -440,10 +459,10 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p>In this chapter, I use <code>plotnine_polars</code>, a package with that does two thing with less than 100 lines of code. First, it reexports all the functions from <code>plotnine</code> as methods that can be used with plot objects created by <code>plotnine</code>. Second, it creates a custom <code>ggplot</code> namespace for Polars <code>DataFrame</code> objects so that plots can be created using a <code>.ggplot.plot()</code> method or using the simple <code>.ggplot()</code> shortcut.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>In this way, <code>plotnine_polars</code> allows me to use method chains to access most of the functionality of <code>plotnine</code> without having to do things like running <code>from plotnine import *</code> or creating intermediate variables.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>In this way, <code>plotnine_polars</code> allows me to use method chains to access most of the functionality of <code>plotnine</code> without having to do things like running <code>from plotnine import *</code> or creating intermediate variables.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Instead, the only thing I explicitly import from <code>plotnine</code> is <code>aes()</code>.</p>
 </div>
 </div>
-<div id="0bcdf9f6" class="cell" data-execution_count="2">
+<div id="c139922d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> (</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.from_pandas(mtcars)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
@@ -481,7 +500,7 @@ Figure&nbsp;3.1: Pie chart with <code>coord_radial(theta='y')</code>
 </section>
 <section id="coxcomb-chart" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="coxcomb-chart"><span class="header-section-number">3.2</span> Coxcomb chart</h2>
-<p>A <strong>coxcomb chart</strong> or <strong>rose chart</strong> maps each discrete category to an equal angular slice but lets the bar <em>height</em> encode the count <span class="quarto-unresolved-ref">?sec-night</span> This is the default <code>theta="x"</code> orientation.</p>
+<p>A <strong>coxcomb chart</strong> or <strong>rose chart</strong> maps each discrete category to an equal angular slice but lets the bar <em>height</em> encode the count <a href="nightingale.html" class="quarto-xref"><span>Chapter 6</span></a> This is the default <code>theta="x"</code> orientation.</p>
 <div id="cell-fig-radial-coxcomb" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cxc <span class="op">=</span> (</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    mtcars_pl</span>
@@ -551,13 +570,13 @@ Figure&nbsp;3.4: Bullseye chart: coord_radial() with a stacked single-bar
 </div>
 </div>
 </div>
-<div id="8e3d0d52" class="cell" data-execution_count="7">
+<div id="ee5595bb" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pl.DataFrame({</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"variable"</span>: [<span class="st">"does not resemble"</span>, <span class="st">"resembles"</span>],</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"value"</span>:[<span class="dv">20</span>, <span class="dv">80</span>]</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9d0bd4ed" class="cell" data-execution_count="8">
+<div id="0068c3dd" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>(</span>
@@ -690,6 +709,11 @@ Figure&nbsp;3.8: Partial polar scatter with thetalim and rlim zooming into a dat
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Healy2026" class="csl-entry" role="listitem">
+Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd ed. Princeton University Press. <a href="https://socviz.co/">https://socviz.co/</a>.
+</div>
+</div>
 </section>
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
@@ -1120,9 +1144,9 @@ Figure&nbsp;3.8: Partial polar scatter with thetalim and rlim zooming into a dat
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./socviz-examples.html" class="pagination-link" aria-label="socviz examples">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
+      <a href="./socviz-examples.html" class="pagination-link" aria-label="Example from @Healy2026">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from <span class="citation" data-cites="Healy2026">Healy (</span></span></span></a><a href="#ref-Healy2026" role="doc-biblioref">2026</a>) <i class="bi bi-arrow-right-short"></i>
+      
   </div>
 </nav>
 </div> <!-- /content -->

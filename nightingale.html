@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.35">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -75,9 +94,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-c0f9e757bd1bbe5faf3da83a888945c0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -111,6 +130,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -344,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./socviz-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from <span class="citation" data-cites="Healy2026">Healy (</span></span></span></a><a href="#ref-Healy2026" role="doc-biblioref">2026</a>)
   </div>
 </li>
         <li class="sidebar-item">
@@ -384,7 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></h1>
+<h1 class="title"><span id="sec-night" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></span></h1>
 </div>
 
 
@@ -422,7 +470,7 @@ Caution
 <p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
 </div>
 </div>
-<div id="8665ff79" class="cell" data-execution_count="1">
+<div id="848b895c" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -430,14 +478,27 @@ Caution
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine_polars <span class="im">import</span> aes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this chapter, I use <code>plotnine_polars</code>, a package that allows me to use method chains to access most of the functionality of <code>plotnine</code>. I also use <code>socviz_pl</code>, a small package I created to give me the equivalent of Kieran Healy’s <code>socviz</code> R package. (In this chapter, <code>socviz_pl</code> is simply the convenient place I stuck the <code>nightingale</code> I use below.)</p>
+</div>
+</div>
 <section id="data" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="data"><span class="header-section-number">6.1</span> Data</h2>
 <p>The data below are Florence Nightingale’s published death counts for the British army in the Crimea. Each row in the final long-format table records the number of deaths from one cause in one month of one year.</p>
-<div id="8a0a1f3a" class="cell" data-execution_count="2">
+<div id="09f01f32" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nightingale <span class="op">=</span> sv.load_data(<span class="st">"nightingale"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>To create overlapping bars with <code>geom_col(position="identity")</code>, the data must be sorted so that the <strong>largest</strong> value for each month comes first — it is drawn behind, letting the smaller wedges appear on top. <code>month_label</code> is an <code>Enum</code> with categories in April-to-March order, so Polars sorts it correctly without a separate ordering column.</p>
-<div id="63538fa0" class="cell" data-execution_count="3">
+<p>To create overlapping bars with <code>geom_col(position="identity")</code>, the data must be sorted so that the <strong>largest</strong> value for each month comes first—it is drawn behind, letting the smaller wedges appear on top. Note that <code>month_label</code> is an <code>Enum</code> with categories in April-to-March order, so Polars sorts it correctly without a separate ordering column.</p>
+<div id="31d406ef" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>month_enum <span class="op">=</span> pl.Enum([</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>, <span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>,</span>
@@ -462,7 +523,7 @@ Caution
 </section>
 <section id="the-rose-diagram" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-rose-diagram"><span class="header-section-number">6.2</span> The Rose Diagram</h2>
-<div id="2c3a5b84" class="cell" data-execution_count="4">
+<div id="efcad753" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cause_colors <span class="op">=</span> {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"diseases"</span>:     <span class="st">"#91C4D8"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wounds"</span>:       <span class="st">"#E8A0A0"</span>,</span>
@@ -471,7 +532,7 @@ Caution
 </div>
 <section id="basic-version" class="level3 page-columns page-full" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="basic-version"><span class="header-section-number">6.2.1</span> Basic Version</h3>
-<p>The simplest approach uses <code>coord_radial</code>’s built-in <code>theta_labels=True</code> argument, which reads the x-scale’s breaks and labels and places them around the outer rim of the circle.</p>
+<p>The simplest approach uses <code>coord_radial</code>’s built-in <code>theta_labels=True</code> argument, which reads the <span class="math inline">\(x\)</span>-scale’s breaks and labels and places them around the outer rim of the circle.</p>
 <div id="cell-fig-nightingale-basic" class="cell page-columns page-full" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ng_long</span>
@@ -528,8 +589,8 @@ Figure&nbsp;6.1: Basic rose diagram using theta_labels to place month names on t
 </section>
 <section id="refined-version" class="level3 page-columns page-full" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="refined-version"><span class="header-section-number">6.2.2</span> Refined Version</h3>
-<p>For labels that sit at the tip of each month’s tallest bar — closer to the data, like the original diagram — we use <code>geom_text</code> with pre-computed positions and rotation angles. Each label is placed <code>pad_r</code> units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle. The y-axis upper limit is extended to accommodate these floating labels.</p>
-<div id="8ac9ccc3" class="cell" data-execution_count="6">
+<p>For labels that sit at the tip of each month’s tallest bar—closer to the data, like in the original diagram—I use <code>.geom_text()</code> with pre-computed positions and rotation angles. Each label is placed <code>pad_r</code> units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle. The <span class="math inline">\(y\)</span>-axis upper limit is extended to accommodate these floating labels.</p>
+<div id="90f3fcc7" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _radial_angle(idx, n<span class="op">=</span><span class="dv">12</span>, start_deg<span class="op">=</span><span class="dv">270</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Text rotation angle (degrees) for the label at arc slice idx."""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>(start_deg <span class="op">+</span> (idx <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">/</span> n <span class="op">*</span> <span class="dv">360</span>) <span class="op">%</span> <span class="dv">360</span></span>
@@ -612,15 +673,20 @@ Figure&nbsp;6.2: Causes of mortality in the British Army during the Crimean War.
 </div>
 </div>
 </div>
-<p>Several design choices differ from the reference target:</p>
+<p>I note a few design choices here:</p>
 <ul>
 <li><strong>Chronological order</strong> — the 1854–55 panel appears on the left, so time reads left to right. The original Nightingale chart placed the post-reform period on the left so the reader encountered the improvement first.</li>
-<li><strong>Shared legend and title</strong> — <code>facet_wrap()</code> naturally produces one legend and one overall title, avoiding duplicated ink.</li>
+<li><strong>Shared legend and title</strong> — <code>.facet_wrap()</code> naturally produces one legend and one overall title, avoiding duplicated ink.</li>
 <li><strong>Start angle</strong> — <code>start = 3π/2</code> places the April slice at the 9 o’clock position so the June–July boundary falls at 12 o’clock, matching the layout of the original. plotnine measures <code>start</code> clockwise from 12 o’clock; the equivalent ggplot2 call uses <code>start = -π/2</code> (ggplot2 measures counter-clockwise, so a negative value rotates clockwise).</li>
 <li><strong>Area encoding</strong> — <code>scale_y_sqrt()</code> makes the radius proportional to √deaths, so the wedge <em>area</em> is proportional to deaths — exactly the encoding Nightingale used. Without the square-root transform the radius itself encodes deaths, which exaggerates large values.</li>
 </ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Healy2026" class="csl-entry" role="listitem">
+Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd ed. Princeton University Press. <a href="https://socviz.co/">https://socviz.co/</a>.
+</div>
+</div>
 </section>
 </section>
 
