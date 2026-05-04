@@ -1,26 +1,21 @@
 # Florence Nightingale's Rose Diagram {#sec-night}
 
-Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well
-as nursing. 
-Her most celebrated chart---the *diagram of the causes of mortality
-in the army in the East* (1858)---used a polar-area plot, now often called a
-**rose diagram** or **coxcomb chart**, to argue that preventable disease rather
-than combat wounds was killing British soldiers in the Crimean War.
+Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well as nursing. 
+Her most celebrated chart---the *diagram of the causes of mortality in the army in the East* (1858)---used a polar-area plot, now often called a
+**rose diagram** or **coxcomb chart**, to argue that preventable disease rather than combat wounds was killing British soldiers in the Crimean War.
 By encoding the data as overlapping wedges rather than tables, she made the case visually compelling enough to prompt lasting sanitary reforms.
+In making the version here, I drew some inspiration from Ayomide Olatunde's version [here](https://github.com/mideolatunde/Nightingale-plot-recreation).^[Ayomide's version uses `lets-plot`, an alternative Python implementation of the grammar of graphics that already has `coord_polar()`.]
 
-The chart covers 24 months (April 1854 to March 1856) and divides them into
-two 12-month periods. Each angular slice corresponds to one calendar month.
-Three causes of death are drawn as overlapping wedge-shaped bars — largest
-behind smallest — so that each is independently visible.  The radius of each
-wedge is proportional to the **square root** of the death count, so the wedge
-**area** is proportional to deaths, matching Nightingale's original encoding:
+The chart covers 24 months (April 1854 to March 1856) and divides them into two 12-month periods.
+Each angular slice corresponds to one calendar month.
+Three causes of death are drawn as overlapping wedge-shaped bars---largest behind smallest---so that each is independently visible.
+The radius of each wedge is proportional to the **square root** of the death count, so the wedge **area** is proportional to deaths, matching Nightingale's original encoding:
 
 - **Diseases** — preventable (zymotic) diseases, chiefly cholera and typhus
 - **Wounds** — deaths from combat injuries
 - **Other Causes** — all remaining causes
 
-The dramatic collapse of the blue (disease) bars between the two panels
-reflects the sanitary improvements introduced in March 1855.
+The dramatic collapse of the blue (disease) bars between the two panels reflects the sanitary improvements introduced in March 1855.
 
 ::: {.callout-caution}
 All of the examples on this page require the `coord-polar` branch of
