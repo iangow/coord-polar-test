@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -59,9 +59,9 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-22b4aaf4c2978829df3684e8f2c068db.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-c0f9e757bd1bbe5faf3da83a888945c0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -322,13 +322,13 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./coord-radial-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Examples from <code>coord_radial()</code> documentation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./socviz-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -398,19 +398,26 @@ Caution
 </div>
 <p>I have chosen examples from a number of sources that serve both as targets for development of <code>coord_polar()</code> and <code>coord_radial()</code> and as illustrations of how those functions can be used.</p>
 <ul>
-<li>In <a href="ggplot2-examples.html" class="quarto-xref"><span>Chapter 2</span></a>, I use examples from the <a href="https://ggplot2.tidyverse.org/reference/coord_polar.html">ggplot2 documentation for <code>coord_polar()</code></a>.</li>
-<li>In <a href="coord-radial-examples.html" class="quarto-xref"><span>Chapter 3</span></a>, I use examples from the <a href="https://ggplot2.tidyverse.org/reference/coord_radial.html">ggplot2 documentation for <code>coord_radial()</code></a>.</li>
-<li>In <a href="socviz-examples.html" class="quarto-xref"><span>Chapter 4</span></a>, I use an example from Chapter 8 of <span class="citation" data-cites="Healy2026">Healy (<a href="#ref-Healy2026" role="doc-biblioref">2026</a>)</span>.</li>
-<li>In <a href="climate-circles.html" class="quarto-xref"><span>Chapter 5</span></a>, I recreate Dominic Royé’s <a href="https://dominicroye.github.io/blog/climate-circles/">climate circles</a>.</li>
-<li>In <a href="nightingale.html" class="quarto-xref"><span>Chapter 6</span></a>, I replicate Florence Nightingale’s famous plot.</li>
+<li>In <a href="ggplot2-examples.html" class="quarto-xref"><span>Chapter 2</span></a>, I use examples from the <a href="https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar">ggplot2 book</a>, which documents <code>coord_polar()</code> in R’s ggplot2.</li>
+<li>The <a href="https://socviz.co">socviz</a> package, which provides real-world datasets used in data-visualisation teaching.</li>
 </ul>
-<p>The source code for this page can be found at <a href="https://github.com/iangow/coord-polar-test" class="uri">https://github.com/iangow/coord-polar-test</a>.</p>
+<p>The source is at <a href="https://github.com/iangow/coord-polar-test" class="uri">https://github.com/iangow/coord-polar-test</a>.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All examples require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. Standard releases of plotnine do not yet include these changes.</p>
+</div>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Healy2026" class="csl-entry" role="listitem">
-Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd ed. Princeton University Press. <a href="https://socviz.co/">https://socviz.co/</a>.
-</div>
 <div id="ref-wilkinson:2006" class="csl-entry" role="listitem">
 Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>. 2nd ed. Statistics and Computing. Springer.
 </div>
