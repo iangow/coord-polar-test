@@ -1,4 +1,4 @@
-# ggplot2 `coord_radial()` examples
+# Examples from `coord_radial()` documentation {#sec-coord-radial} 
 
 Version 3.5.0s of `ggplot2` introducted `coord_radial()`, a modernized polar coordinate system adds three key capabilities over `coord_polar()`:
 

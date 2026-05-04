@@ -10,14 +10,10 @@ The standard version of plotnine does not include the `coord_polar()` and `coord
 
 I have chosen examples from a number of sources that serve both as targets for development of `coord_polar()` and `coord_radial()` and as illustrations of how those functions can be used.
 
-- In @sec-ggplot, I use examples from the [ggplot2 book](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar), which documents `coord_polar()` in R's ggplot2.
-- The [socviz](https://socviz.co) package, which provides real-world datasets
-  used in data-visualisation teaching.
+- In @sec-ggplot, I use examples from the [ggplot2 documentation for `coord_polar()`](https://ggplot2.tidyverse.org/reference/coord_polar.html).
+- In @ssec-coord-radial, I use examples from the [ggplot2 documentation for `coord_radial()`](https://ggplot2.tidyverse.org/reference/coord_radial.html).
+- In @sec-socviz, I use an example from Chapter 8 of @Healy2026.
+- In @sec-climate, I Dominic Royé's [climate circles](https://dominicroye.github.io/blog/climate-circles/).
+- In @sec-night, I replicate Florence Nightingale's famous plot.
 
-The source is at <https://github.com/iangow/coord-polar-test>.
-
-::: {.callout-caution}
-All examples require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-Standard releases of plotnine do not yet include these changes.
-:::
+The source code for this page can be found at <https://github.com/iangow/coord-polar-test>.

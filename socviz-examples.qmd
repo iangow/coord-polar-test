@@ -1,4 +1,4 @@
-# Example from @Healy2026
+# Example from Healy (2026) {#sec-socviz}
 
 Here I do a rough replication of a chart from [Chapter 8](https://socviz.co/08-polishing.html) of @Healy2026.
 
