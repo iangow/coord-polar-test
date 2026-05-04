@@ -37,21 +37,23 @@ import socviz_pl as sv
 from plotnine_polars import aes
 ```
 
+::: {.callout-note}
+In this chapter, I use `plotnine_polars`, a package that allows me to use method chains to access most of the functionality of `plotnine`.
+I also use `socviz_pl`, a small package I created to give me the equivalent of Kieran Healy's `socviz` R package.
+(In this chapter, `socviz_pl` is simply the convenient place I stuck the `nightingale` I use below.)
+:::
+
 ## Data
 
-The data below are Florence Nightingale's published death counts for the
-British army in the Crimea.  Each row in the final long-format table records
-the number of deaths from one cause in one month of one year.
+The data below are Florence Nightingale's published death counts for the British army in the Crimea.
+Each row in the final long-format table records the number of deaths from one cause in one month of one year.
 
 ```{python}
 nightingale = sv.load_data("nightingale")
 ```
 
-To create overlapping bars with `geom_col(position="identity")`, the data must
-be sorted so that the **largest** value for each month comes first — it is drawn
-behind, letting the smaller wedges appear on top.  `month_label` is an `Enum`
-with categories in April-to-March order, so Polars sorts it correctly without
-a separate ordering column.
+To create overlapping bars with `geom_col(position="identity")`, the data must be sorted so that the **largest** value for each month comes first---it is drawn behind, letting the smaller wedges appear on top. 
+Note that `month_label` is an `Enum` with categories in April-to-March order, so Polars sorts it correctly without a separate ordering column.
 
 ```{python}
 month_enum = pl.Enum([
@@ -88,7 +90,7 @@ cause_colors = {
 
 ### Basic Version
 
-The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argument, which reads the x-scale's breaks and labels and places them around the outer rim of the circle.
+The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argument, which reads the $x$-scale's breaks and labels and places them around the outer rim of the circle.
 
 ```{python}
 #| label: fig-nightingale-basic
@@ -138,9 +140,9 @@ The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argumen
 
 ### Refined Version
 
-For labels that sit at the tip of each month's tallest bar — closer to the data, like the original diagram — we use `geom_text` with pre-computed positions and rotation angles.
+For labels that sit at the tip of each month's tallest bar---closer to the data, like in the original diagram---I use `.geom_text()` with pre-computed positions and rotation angles.
 Each label is placed `pad_r` units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle.
-The y-axis upper limit is extended to accommodate these floating labels.
+The $y$-axis upper limit is extended to accommodate these floating labels.
 
 ```{python}
 def _radial_angle(idx, n=12, start_deg=270):
@@ -221,19 +223,20 @@ label_df = (
 )
 ```
 
-Several design choices differ from the reference target:
+I note a few design choices here:
 
 - **Chronological order** — the 1854–55 panel appears on the left, so time
-  reads left to right.  The original Nightingale chart placed the post-reform
-  period on the left so the reader encountered the improvement first.
-- **Shared legend and title** — `facet_wrap()` naturally produces one legend
+  reads left to right.
+  The original Nightingale chart placed the post-reform period on the left so the reader encountered the improvement first.
+- **Shared legend and title** — `.facet_wrap()` naturally produces one legend
   and one overall title, avoiding duplicated ink.
 - **Start angle** — `start = 3π/2` places the April slice at the 9 o'clock
   position so the June–July boundary falls at 12 o'clock, matching the layout
-  of the original.  plotnine measures `start` clockwise from 12 o'clock;
+  of the original.
+  plotnine measures `start` clockwise from 12 o'clock;
   the equivalent ggplot2 call uses `start = -π/2` (ggplot2 measures
   counter-clockwise, so a negative value rotates clockwise).
 - **Area encoding** — `scale_y_sqrt()` makes the radius proportional to
   √deaths, so the wedge *area* is proportional to deaths — exactly the
-  encoding Nightingale used.  Without the square-root transform the radius
-  itself encodes deaths, which exaggerates large values.
+  encoding Nightingale used.
+  Without the square-root transform the radius itself encodes deaths, which exaggerates large values.
