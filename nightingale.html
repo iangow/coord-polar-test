@@ -449,8 +449,8 @@ window.Quarto = {
 </header>
 
 
-<p>Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well as nursing. Her most celebrated chart—the <em>diagram of the causes of mortality in the army in the East</em> (1858)—used a polar-area plot, now often called a <strong>rose diagram</strong> or <strong>coxcomb chart</strong>, to argue that preventable disease rather than combat wounds was killing British soldiers in the Crimean War. By encoding the data as overlapping wedges rather than tables, she made the case visually compelling enough to prompt lasting sanitary reforms.</p>
-<p>The chart covers 24 months (April 1854 to March 1856) and divides them into two 12-month periods. Each angular slice corresponds to one calendar month. Three causes of death are drawn as overlapping wedge-shaped bars — largest behind smallest — so that each is independently visible. The radius of each wedge is proportional to the <strong>square root</strong> of the death count, so the wedge <strong>area</strong> is proportional to deaths, matching Nightingale’s original encoding:</p>
+<p>Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well as nursing. Her most celebrated chart—the <em>diagram of the causes of mortality in the army in the East</em> (1858)—used a polar-area plot, now often called a <strong>rose diagram</strong> or <strong>coxcomb chart</strong>, to argue that preventable disease rather than combat wounds was killing British soldiers in the Crimean War. By encoding the data as overlapping wedges rather than tables, she made the case visually compelling enough to prompt lasting sanitary reforms. In making the version here, I drew some inspiration from Ayomide Olatunde’s version <a href="https://github.com/mideolatunde/Nightingale-plot-recreation">here</a>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>The chart covers 24 months (April 1854 to March 1856) and divides them into two 12-month periods. Each angular slice corresponds to one calendar month. Three causes of death are drawn as overlapping wedge-shaped bars—largest behind smallest—so that each is independently visible. The radius of each wedge is proportional to the <strong>square root</strong> of the death count, so the wedge <strong>area</strong> is proportional to deaths, matching Nightingale’s original encoding:</p>
 <ul>
 <li><strong>Diseases</strong> — preventable (zymotic) diseases, chiefly cholera and typhus</li>
 <li><strong>Wounds</strong> — deaths from combat injuries</li>
@@ -470,7 +470,7 @@ Caution
 <p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
 </div>
 </div>
-<div id="848b895c" class="cell" data-execution_count="1">
+<div id="deafd133" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -494,11 +494,11 @@ Note
 <section id="data" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="data"><span class="header-section-number">6.1</span> Data</h2>
 <p>The data below are Florence Nightingale’s published death counts for the British army in the Crimea. Each row in the final long-format table records the number of deaths from one cause in one month of one year.</p>
-<div id="09f01f32" class="cell" data-execution_count="2">
+<div id="786dae91" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nightingale <span class="op">=</span> sv.load_data(<span class="st">"nightingale"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To create overlapping bars with <code>geom_col(position="identity")</code>, the data must be sorted so that the <strong>largest</strong> value for each month comes first—it is drawn behind, letting the smaller wedges appear on top. Note that <code>month_label</code> is an <code>Enum</code> with categories in April-to-March order, so Polars sorts it correctly without a separate ordering column.</p>
-<div id="31d406ef" class="cell" data-execution_count="3">
+<div id="07d28bbe" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>month_enum <span class="op">=</span> pl.Enum([</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>, <span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>,</span>
@@ -523,7 +523,7 @@ Note
 </section>
 <section id="the-rose-diagram" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-rose-diagram"><span class="header-section-number">6.2</span> The Rose Diagram</h2>
-<div id="efcad753" class="cell" data-execution_count="4">
+<div id="85c0b859" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cause_colors <span class="op">=</span> {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"diseases"</span>:     <span class="st">"#91C4D8"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wounds"</span>:       <span class="st">"#E8A0A0"</span>,</span>
@@ -590,7 +590,7 @@ Figure&nbsp;6.1: Basic rose diagram using theta_labels to place month names on t
 <section id="refined-version" class="level3 page-columns page-full" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="refined-version"><span class="header-section-number">6.2.2</span> Refined Version</h3>
 <p>For labels that sit at the tip of each month’s tallest bar—closer to the data, like in the original diagram—I use <code>.geom_text()</code> with pre-computed positions and rotation angles. Each label is placed <code>pad_r</code> units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle. The <span class="math inline">\(y\)</span>-axis upper limit is extended to accommodate these floating labels.</p>
-<div id="90f3fcc7" class="cell" data-execution_count="6">
+<div id="94fdb3ce" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _radial_angle(idx, n<span class="op">=</span><span class="dv">12</span>, start_deg<span class="op">=</span><span class="dv">270</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Text rotation angle (degrees) for the label at arc slice idx."""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>(start_deg <span class="op">+</span> (idx <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">/</span> n <span class="op">*</span> <span class="dv">360</span>) <span class="op">%</span> <span class="dv">360</span></span>
@@ -688,6 +688,12 @@ Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd 
 </div>
 </div>
 </section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Ayomide’s version uses <code>lets-plot</code>, an alternative Python implementation of the grammar of graphics that already has <code>coord_polar()</code>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
