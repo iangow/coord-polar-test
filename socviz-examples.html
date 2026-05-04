@@ -315,7 +315,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./socviz-examples.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from <span class="citation" data-cites="Healy2026">Healy (</span></span></a><a href="#ref-Healy2026" role="doc-biblioref">2026</a>)</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./socviz-examples.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -364,7 +364,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./socviz-examples.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from <span class="citation" data-cites="Healy2026">Healy (</span></span></span></a><a href="#ref-Healy2026" role="doc-biblioref">2026</a>)
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -399,7 +399,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from <span class="citation" data-cites="Healy2026">Healy (<a href="#ref-Healy2026" role="doc-biblioref">2026</a>)</span></span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></h1>
 </div>
 
 
@@ -430,7 +430,7 @@ Caution
 <p>The examples in this chapter require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. Standard releases of plotnine do not yet include these changes.</p>
 </div>
 </div>
-<div id="ee8cfa5b" class="cell" data-execution_count="1">
+<div id="2a55b407" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -453,7 +453,7 @@ Note
 <section id="fars-pedestrian-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="fars-pedestrian-data"><span class="header-section-number">4.1</span> FARS pedestrian data</h2>
 <p>The <code>farsinvolved</code> dataset records daily counts of child pedestrians (aged 0–17) involved in fatal motor vehicle crashes in the United States from 2009 to 2023. We aggregate by calendar month and day, averaging across years. Year 2000 is used as a placeholder date because 2000 was a leap year.</p>
-<div id="8ec31497" class="cell" data-execution_count="2">
+<div id="b0ee2043" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>farsinvolved <span class="op">=</span> sv.load_data(<span class="st">"farsinvolved"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>month_order <span class="op">=</span> [</span>
