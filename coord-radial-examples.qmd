@@ -1,6 +1,6 @@
 # Examples from `coord_radial()` documentation {#sec-coord-radial} 
 
-Version 3.5.0s of `ggplot2` introducted `coord_radial()`, a modernized polar coordinate system adds three key capabilities over `coord_polar()`:
+Version 3.5.0 of `ggplot2` introducted `coord_radial()`, a modernized polar coordinate system adds three key capabilities over `coord_polar()`:
 
 - **Partial arcs** via an `end` argument (any arc from a sliver to a full circle).
 - **Inner radius** (`inner_radius`) to create donut and gauge charts.
@@ -25,7 +25,7 @@ from plotnine_polars import aes
 ```
 
 ::: {.callout-note}
-In this chapter, I use `plotnine_polars`, a package with that does two thing with less than 100 lines of code.
+In this chapter, I use `plotnine_polars`, a package with that does two things with less than 100 lines of code.
 First, it reexports all the functions from `plotnine` as methods that can be used with plot objects created by `plotnine`.
 Second, it creates a custom `ggplot` namespace for Polars `DataFrame` objects so that plots can be created using a `.ggplot.plot()` method or using the simple `.ggplot()` shortcut.^[Basically, the `__call__` method of the `ggplot` namespace is mapped to `.plot()`.]
 
@@ -188,6 +188,7 @@ full circle.  Combined with `inner_radius`, this is the basis for gauge and
 fan charts.  Here `mtcars` displacement is mapped to angle and fuel economy
 to radius.
 
+
 ```{python}
 #| label: fig-radial-partial
 #| fig-cap: "Partial polar scatter: start/end define the arc, inner_radius adds a hole"
@@ -202,6 +203,11 @@ to radius.
 
 `thetalim` and `rlim` zoom into a data-space window on each axis without removing
 points — equivalent to `coord_cartesian(xlim=..., ylim=...)` in Cartesian space.
+
+::: {.callout-note}
+The original ggplot2 [plot](https://ggplot2.tidyverse.org/reference/coord_radial-8.png) for the following looks wrong, as there are points in the middle of nowhere.
+:::
+
 
 ```{python}
 #| label: fig-radial-partial-zoom

@@ -1,7 +1,6 @@
 # Examples from the `ggplot2` documentation {#sec-ggplot}
 
-The following examples are adapted from the
-[ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).
+The following examples are adapted from the [ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).
 
 ::: {.callout-caution}
 All of the examples on this page require the `coord-polar` branch of
@@ -14,6 +13,7 @@ The source code for this repository can be found [here](https://github.com/iango
 ```{python}
 import numpy as np
 import polars as pl
+
 from plotnine import (
     ggplot, aes,
     geom_bar, geom_path, geom_point,
@@ -21,6 +21,7 @@ from plotnine import (
     scale_x_discrete, scale_y_continuous,
     theme,
 )
+
 from plotnine.data import mtcars
 ```
 
@@ -40,42 +41,63 @@ mtcars_pl = (
 )
 ```
 
+The code below shows how we can turn a bar into a pie chart or a bullseye chart by changing the coordinate system.
+
 ```{python}
 #| label: fig-mtcars-bar
 #| fig-cap: "Stacked bar chart"
-(
+base = (
     ggplot(mtcars_pl, aes(x="x", fill="cyl"))
     + geom_bar(width=1)
     + scale_x_discrete(expand=(0, 0))
     + scale_y_continuous(expand=(0, 0))
     + theme(legend_position="none", figure_size=(4, 4))
 )
+
+base.show()
 ```
+
+In the original, the following plot has the $y$-axis labels from @fig-mtcars-bar as labels around the circle.
 
 ```{python}
 #| label: fig-mtcars-pie
 #| fig-cap: "Pie chart: coord_polar(theta='y')"
-(
-    ggplot(mtcars_pl, aes(x="x", fill="cyl"))
-    + geom_bar(width=1)
-    + coord_polar(theta="y")
-    + scale_x_discrete(expand=(0, 0))
-    + scale_y_continuous(expand=(0, 0))
-    + theme(legend_position="none", figure_size=(4, 4))
-)
+base + coord_polar(theta="y")
 ```
+
+Unlike the ggplot2 original, @fig-mtcars-pie is missing count labels around the circumference.
+The reason is that `coord_polar.setup_panel_params` explicitly suppresses the theta-axis
+breaks before handing the panel view to Matplotlib:
+
+```python
+new_x = replace(pv_exp.x, ..., breaks=[], labels=[])
+```
+
+When `theta = "y"` the $y$-scale breaks (e.g. $0, 5, 10, \dots$) are the values that should
+appear at their corresponding angles around the circle, but they are discarded here
+before rendering begins.
+
+Because the underlying axes object is already a Matplotlib `PolarAxes` — the facet
+creates it with `projection='polar'` whenever `coord_polar` is in use — the angular
+label machinery already exists.  
+`PolarAxes.set_thetagrids(angles_in_degrees, labels)` places labelled tick marks at arbitrary angles around the circumference, which is exactly what is needed.
+
+A targeted fix in `coord_polar.py` would:
+
+1. **Stash the theta-axis breaks** (in data units) inside `self.params` during
+   `setup_panel_params`, before zeroing them out.
+2. **In `draw()`**, convert those saved breaks to degrees via `_to_radians` (then
+   multiply by $180/\pi$) and call `polar_ax.set_thetagrids(degrees, labels)`.
+
+No geometry or data-transformation code would need to change; the fix is entirely
+within the axis-decoration layer.
+
+In the original, the following plot has the $y$-axis labels from @fig-mtcars-bar as labels along the vertical axis.
 
 ```{python}
 #| label: fig-mtcars-bullseye
 #| fig-cap: "Bullseye chart: coord_polar()"
-(
-    ggplot(mtcars_pl, aes(x="x", fill="cyl"))
-    + geom_bar(width=1)
-    + coord_polar()
-    + scale_x_discrete(expand=(0, 0))
-    + scale_y_continuous(expand=(0, 0))
-    + theme(legend_position="none", figure_size=(4, 4))
-)
+base + coord_polar()
 ```
 
 ## Polar path (spiral)
