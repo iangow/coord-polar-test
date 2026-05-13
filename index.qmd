@@ -1,6 +1,6 @@
 # Introduction {#sec-intro}
 
-This book provides a gallery of plots using either `coord_polar()` or `coord_radial()` with a custom version of [plotnine](https://plotnine.org), a Python library implementing the grammar of graphics [@wilkinson:2006] using an API based on that of the R package[`ggplot2`](https://ggplot2.tidyverse.org).
+This online book provides a gallery of plots using either `coord_polar()` or `coord_radial()` with a custom version of [plotnine](https://plotnine.org), a Python library implementing the grammar of graphics [@wilkinson:2006] using an API based on that of the R package[`ggplot2`](https://ggplot2.tidyverse.org).
 
 ::: {.callout-caution}
 All of the examples on this page require the `coord-polar` branch of
