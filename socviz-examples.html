@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; socviz examples – Polar Coordinates with plotnine</title>
+<title>4&nbsp; Example from Healy (2026) – Polar Coordinates with plotnine</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -58,7 +58,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -296,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./socviz-examples.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./socviz-examples.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -339,13 +358,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./coord-radial-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Examples from <code>coord_radial()</code> documentation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./socviz-examples.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -380,7 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></h1>
+<h1 class="title"><span id="sec-socviz" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></span></h1>
 </div>
 
 
@@ -397,6 +416,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>Here I do a rough replication of a chart from <a href="https://socviz.co/08-polishing.html">Chapter 8</a> of <span class="citation" data-cites="Healy2026">Healy (<a href="#ref-Healy2026" role="doc-biblioref">2026</a>)</span>.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -410,18 +430,30 @@ Caution
 <p>The examples in this chapter require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. Standard releases of plotnine do not yet include these changes.</p>
 </div>
 </div>
-<div id="2471e5f0" class="cell" data-execution_count="1">
+<div id="77673d55" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine_polars <span class="im">import</span> aes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this chapter, I use <code>plotnine_polars</code>, a package that allows me to use method chains to access most of the functionality of <code>plotnine</code>. I also use <code>socviz_pl</code>, a small package I created to give me the equivalent of Kieran Healy’s <code>socviz</code> R package.</p>
+</div>
 </div>
 <section id="fars-pedestrian-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="fars-pedestrian-data"><span class="header-section-number">4.1</span> FARS pedestrian data</h2>
 <p>The <code>farsinvolved</code> dataset records daily counts of child pedestrians (aged 0–17) involved in fatal motor vehicle crashes in the United States from 2009 to 2023. We aggregate by calendar month and day, averaging across years. Year 2000 is used as a placeholder date because 2000 was a leap year.</p>
-<div id="6e222a66" class="cell" data-execution_count="2">
+<div id="c4d68306" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>farsinvolved <span class="op">=</span> sv.load_data(<span class="st">"farsinvolved"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>month_order <span class="op">=</span> [</span>
@@ -465,12 +497,12 @@ Caution
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    plot_data</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, fill<span class="op">=</span><span class="st">"day_type"</span>, color<span class="op">=</span><span class="st">"day_type"</span>))</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    .ggplot(p9.aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, fill<span class="op">=</span><span class="st">"day_type"</span>, color<span class="op">=</span><span class="st">"day_type"</span>))</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    .geom_point(shape<span class="op">=</span><span class="st">"o"</span>, size<span class="op">=</span><span class="fl">2.5</span>, stroke<span class="op">=</span><span class="fl">0.4</span>)</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    .scale_fill_manual(values<span class="op">=</span>{<span class="st">"Halloween"</span>: <span class="st">"#E06000"</span>, <span class="st">"Other"</span>: <span class="st">"white"</span>})</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    .scale_color_manual(values<span class="op">=</span>{<span class="st">"Halloween"</span>: <span class="st">"#333333"</span>, <span class="st">"Other"</span>: <span class="st">"#222222"</span>})</span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    .geom_text(data<span class="op">=</span>plot_data.<span class="bu">filter</span>(pl.col(<span class="st">"day_type"</span>) <span class="op">==</span> <span class="st">"Halloween"</span>),</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>               mapping<span class="op">=</span>aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, label<span class="op">=</span><span class="st">"day_type"</span>),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>               mapping<span class="op">=</span>p9.aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, label<span class="op">=</span><span class="st">"day_type"</span>),</span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"#E06000"</span>, size<span class="op">=</span><span class="dv">7</span>, nudge_x<span class="op">=</span><span class="dv">2</span>, nudge_y<span class="op">=-</span><span class="dv">1</span>,</span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>               ha<span class="op">=</span><span class="st">"right"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    .scale_x_continuous(breaks<span class="op">=</span>m_breaks, labels<span class="op">=</span>m_labels)</span>
@@ -504,6 +536,11 @@ Figure&nbsp;4.1: Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes. Daily a
 </div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Healy2026" class="csl-entry" role="listitem">
+Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd ed. Princeton University Press. <a href="https://socviz.co/">https://socviz.co/</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -922,8 +959,8 @@ Figure&nbsp;4.1: Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes. Daily a
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./coord-radial-examples.html" class="pagination-link" aria-label="ggplot2 `coord_radial()` examples">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span>
+      <a href="./coord-radial-examples.html" class="pagination-link" aria-label="Examples from `coord_radial()` documentation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Examples from <code>coord_radial()</code> documentation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

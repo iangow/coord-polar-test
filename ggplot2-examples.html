@@ -112,6 +112,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -339,13 +368,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./coord-radial-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Examples from <code>coord_radial()</code> documentation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./socviz-examples.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">socviz examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example from Healy (2026)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -413,22 +442,24 @@ Caution
 <p>The source code for this repository can be found <a href="https://github.com/iangow/coord-polar-test">here</a> and includes a <code>pyproject.toml</code> file that can be used with <code>uv</code> to install everything needed to run all the examples here.</p>
 </div>
 </div>
-<div id="b2c80232" class="cell" data-execution_count="1">
+<div id="5a74967b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    ggplot, aes,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    geom_bar, geom_path, geom_point,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    coord_polar,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    scale_x_discrete, scale_y_continuous,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    theme,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.data <span class="im">import</span> mtcars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> (</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ggplot, aes,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    geom_bar, geom_path, geom_point,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    coord_polar,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    scale_x_discrete, scale_y_continuous,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    theme,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.data <span class="im">import</span> mtcars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="bar-pie-bullseye-mtcars" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="bar-pie-bullseye-mtcars"><span class="header-section-number">2.1</span> Bar → Pie → Bullseye (mtcars)</h2>
 <p>A stacked bar chart becomes a pie chart when <code>theta = "y"</code> maps height (count) to angle, and a bullseye chart when the default <code>theta = "x"</code> maps the discrete x position to angle instead.</p>
-<div id="7cee5f93" class="cell" data-execution_count="2">
+<div id="a6eab817" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> (</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.from_pandas(mtcars)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
@@ -437,15 +468,18 @@ Caution
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<p>The code below shows how we can turn a bar into a pie chart or a bullseye chart by changing the coordinate system.</p>
 <div id="cell-fig-mtcars-bar" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">=</span> (</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>base.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
 <div id="fig-mtcars-bar" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-mtcars-bar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -458,15 +492,9 @@ Figure&nbsp;2.1: Stacked bar chart
 </div>
 </div>
 </div>
+<p>In the original, the following plot has the <span class="math inline">\(y\)</span>-axis labels from <a href="#fig-mtcars-bar" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> as labels around the circle.</p>
 <div id="cell-fig-mtcars-pie" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar(theta<span class="op">=</span><span class="st">"y"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">+</span> coord_polar(theta<span class="op">=</span><span class="st">"y"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div id="fig-mtcars-pie" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -480,15 +508,20 @@ Figure&nbsp;2.2: Pie chart: coord_polar(theta=‘y’)
 </div>
 </div>
 </div>
+<p>Unlike the ggplot2 original, <a href="#fig-mtcars-pie" class="quarto-xref">Figure&nbsp;<span>2.2</span></a> is missing count labels around the circumference. The reason is that <code>coord_polar.setup_panel_params</code> explicitly suppresses the theta-axis breaks before handing the panel view to Matplotlib:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>new_x <span class="op">=</span> replace(pv_exp.x, ..., breaks<span class="op">=</span>[], labels<span class="op">=</span>[])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When <code>theta = "y"</code> the <span class="math inline">\(y\)</span>-scale breaks (e.g.&nbsp;<span class="math inline">\(0, 5, 10, \dots\)</span>) are the values that should appear at their corresponding angles around the circle, but they are discarded here before rendering begins.</p>
+<p>Because the underlying axes object is already a Matplotlib <code>PolarAxes</code> — the facet creates it with <code>projection='polar'</code> whenever <code>coord_polar</code> is in use — the angular label machinery already exists.<br>
+<code>PolarAxes.set_thetagrids(angles_in_degrees, labels)</code> places labelled tick marks at arbitrary angles around the circumference, which is exactly what is needed.</p>
+<p>A targeted fix in <code>coord_polar.py</code> would:</p>
+<ol type="1">
+<li><strong>Stash the theta-axis breaks</strong> (in data units) inside <code>self.params</code> during <code>setup_panel_params</code>, before zeroing them out.</li>
+<li><strong>In <code>draw()</code></strong>, convert those saved breaks to degrees via <code>_to_radians</code> (then multiply by <span class="math inline">\(180/\pi\)</span>) and call <code>polar_ax.set_thetagrids(degrees, labels)</code>.</li>
+</ol>
+<p>No geometry or data-transformation code would need to change; the fix is entirely within the axis-decoration layer.</p>
+<p>In the original, the following plot has the <span class="math inline">\(y\)</span>-axis labels from <a href="#fig-mtcars-bar" class="quarto-xref">Figure&nbsp;<span>2.1</span></a> as labels along the vertical axis.</p>
 <div id="cell-fig-mtcars-bullseye" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ggplot(mtcars_pl, aes(x<span class="op">=</span><span class="st">"x"</span>, fill<span class="op">=</span><span class="st">"cyl"</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_bar(width<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_x_discrete(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> scale_y_continuous(expand<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(legend_position<span class="op">=</span><span class="st">"none"</span>, figure_size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>base <span class="op">+</span> coord_polar()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div id="fig-mtcars-bullseye" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -507,19 +540,19 @@ Figure&nbsp;2.3: Bullseye chart: coord_polar()
 <h2 data-number="2.2" class="anchored" data-anchor-id="polar-path-spiral"><span class="header-section-number">2.2</span> Polar path (spiral)</h2>
 <p>In ggplot2 a straight line in Cartesian space becomes a spiral in polar coordinates. <code>theta = "x"</code> maps the x-column (here: angle in radians) to the angular axis; y maps to radius.</p>
 <div id="cell-fig-polar-spiral" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>spiral <span class="op">=</span> pl.DataFrame({</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>:     np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"theta"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">3</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> np.pi, n),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    ggplot(spiral, aes(x<span class="op">=</span><span class="st">"theta"</span>, y<span class="op">=</span><span class="st">"r"</span>))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_path()</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(size<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(figure_size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>spiral <span class="op">=</span> pl.DataFrame({</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"r"</span>:     np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, n),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"theta"</span>: np.linspace(<span class="dv">0</span>, <span class="dv">3</span> <span class="op">/</span> <span class="dv">2</span> <span class="op">*</span> np.pi, n),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    ggplot(spiral, aes(x<span class="op">=</span><span class="st">"theta"</span>, y<span class="op">=</span><span class="st">"r"</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_path()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> geom_point(size<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> coord_polar()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> theme(figure_size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div id="fig-polar-spiral" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -958,8 +991,8 @@ Figure&nbsp;2.4: A Cartesian line becomes a spiral under coord_polar()
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./coord-radial-examples.html" class="pagination-link" aria-label="ggplot2 `coord_radial()` examples">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">ggplot2 <code>coord_radial()</code> examples</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./coord-radial-examples.html" class="pagination-link" aria-label="Examples from `coord_radial()` documentation">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Examples from <code>coord_radial()</code> documentation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
