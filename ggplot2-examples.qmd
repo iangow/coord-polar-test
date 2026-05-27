@@ -1,3 +1,7 @@
+---
+jupyter: coord-polar-test
+---
+
 # Examples from the `ggplot2` documentation {#sec-ggplot}
 
 The following examples are adapted from the [ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).

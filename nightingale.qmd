@@ -1,3 +1,7 @@
+---
+jupyter: coord-polar-test
+---
+
 # Florence Nightingale's Rose Diagram {#sec-night}
 
 Florence Nightingale (1820–1910) was a pioneer of statistical graphics as well as nursing. 
@@ -119,6 +123,7 @@ The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argumen
             "Efficiency, and Hospital Administration of the British Army."
         ),
     )
+    .add_guides(theta=p9.guide_axis_theta(angle=0))
     .add_theme(
         figure_size=(13, 7),
         axis_title=p9.element_blank(),
