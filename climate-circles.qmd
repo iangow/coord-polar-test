@@ -1,3 +1,7 @@
+---
+jupyter: coord-polar-test
+---
+
 # Climate circles {#sec-climate}
 
 This chapter adapts Dominic Royé's [climate circles](https://dominicroye.github.io/blog/climate-circles/) example

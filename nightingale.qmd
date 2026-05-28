@@ -90,6 +90,7 @@ cause_colors = {
 ### Basic Version
 
 The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argument, which reads the $x$-scale's breaks and labels and places them around the outer rim of the circle.
+Adding `guide_axis_theta(angle=0)` rotates each label to follow the arc at its position.
 
 ```{python}
 #| label: fig-nightingale-basic

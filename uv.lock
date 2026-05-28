@@ -1510,8 +1510,8 @@ wheels = [
 
 [[package]]
 name = "plotnine"
-version = "999.post2746+ga974de21c"
-source = { git = "https://github.com/iangow/plotnine?branch=coord-polar#a974de21c81a9978336bbbcf67ed185b6a03646c" }
+version = "999.post2819+ge78d1ea2f"
+source = { git = "https://github.com/iangow/plotnine?branch=coord-polar#e78d1ea2f87a7cab3ea7b92fb9e56bb482ca4402" }
 dependencies = [
     { name = "matplotlib" },
     { name = "mizani" },

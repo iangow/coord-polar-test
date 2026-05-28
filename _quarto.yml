@@ -11,6 +11,7 @@ book:
     - socviz-examples.qmd
     - climate-circles.qmd
     - nightingale.qmd
+    - guide-axis-theta.qmd
 
 format:
   html:
@@ -29,6 +30,8 @@ bibliography: references.bib
 execute:
   freeze: auto
   keep-ipynb: false
+
+jupyter: coord-polar-test
 
 publish:
   gh-pages:

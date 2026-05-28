@@ -1,5 +1,6 @@
 ---
 title: "Polar Coordinates with `coord_polar()`"
+jupyter: coord-polar-test
 execute:
   warning: false
 ---
