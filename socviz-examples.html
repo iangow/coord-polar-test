@@ -379,6 +379,12 @@ div.csl-indent {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./guide-axis-theta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title"><code>guide_axis_theta()</code></span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -430,12 +436,13 @@ Caution
 <p>The examples in this chapter require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. Standard releases of plotnine do not yet include these changes.</p>
 </div>
 </div>
-<div id="77673d55" class="cell" data-execution_count="1">
+<div id="13956da7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> socviz_pl <span class="im">as</span> sv</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.themes.themeable <span class="im">import</span> themeable</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -450,78 +457,91 @@ Note
 <p>In this chapter, I use <code>plotnine_polars</code>, a package that allows me to use method chains to access most of the functionality of <code>plotnine</code>. I also use <code>socviz_pl</code>, a small package I created to give me the equivalent of Kieran Healy’s <code>socviz</code> R package.</p>
 </div>
 </div>
+<div id="d465c9fb" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> radial_theta_label_pad(themeable):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> coord_radial_themed(p9.coord_radial):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> setup_ax(<span class="va">self</span>, ax, panel_params, theme):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().setup_ax(ax, panel_params, theme)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        pad <span class="op">=</span> theme.getp(<span class="st">"radial_theta_label_pad"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> pad <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            ax.tick_params(axis<span class="op">=</span><span class="st">"x"</span>, pad<span class="op">=</span>pad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <section id="fars-pedestrian-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="fars-pedestrian-data"><span class="header-section-number">4.1</span> FARS pedestrian data</h2>
 <p>The <code>farsinvolved</code> dataset records daily counts of child pedestrians (aged 0–17) involved in fatal motor vehicle crashes in the United States from 2009 to 2023. We aggregate by calendar month and day, averaging across years. Year 2000 is used as a placeholder date because 2000 was a leap year.</p>
-<div id="c4d68306" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>farsinvolved <span class="op">=</span> sv.load_data(<span class="st">"farsinvolved"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>month_order <span class="op">=</span> [</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>, <span class="st">"May"</span>, <span class="st">"June"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"July"</span>, <span class="st">"August"</span>, <span class="st">"September"</span>, <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>month_num <span class="op">=</span> {m: i <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> i, m <span class="kw">in</span> <span class="bu">enumerate</span>(month_order)}</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fars_agg <span class="op">=</span> (</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    farsinvolved</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    .with_columns(pl.col(<span class="st">"day"</span>).cast(pl.Int32))</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"month"</span>, <span class="st">"day"</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    .agg(n<span class="op">=</span>pl.col(<span class="st">"n"</span>).mean())</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        month_num<span class="op">=</span>pl.col(<span class="st">"month"</span>).replace(month_num).cast(pl.Int32),</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        fake_yr<span class="op">=</span>pl.date(<span class="dv">2000</span>, pl.col(<span class="st">"month_num"</span>), pl.col(<span class="st">"day"</span>)),</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        flag<span class="op">=</span>(pl.col(<span class="st">"month"</span>) <span class="op">==</span> <span class="st">"October"</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"day"</span>) <span class="op">==</span> <span class="dv">31</span>),</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"fake_yr"</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d3090860" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>farsinvolved <span class="op">=</span> sv.load_data(<span class="st">"farsinvolved"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>month_order <span class="op">=</span> [</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>, <span class="st">"May"</span>, <span class="st">"June"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"July"</span>, <span class="st">"August"</span>, <span class="st">"September"</span>, <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>month_num <span class="op">=</span> {m: i <span class="op">+</span> <span class="dv">1</span> <span class="cf">for</span> i, m <span class="kw">in</span> <span class="bu">enumerate</span>(month_order)}</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fars_agg <span class="op">=</span> (</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    farsinvolved</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    .with_columns(pl.col(<span class="st">"day"</span>).cast(pl.Int32))</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    .group_by(<span class="st">"month"</span>, <span class="st">"day"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    .agg(n<span class="op">=</span>pl.col(<span class="st">"n"</span>).mean())</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        month_num<span class="op">=</span>pl.col(<span class="st">"month"</span>).replace(month_num).cast(pl.Int32),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        fake_yr<span class="op">=</span>pl.date(<span class="dv">2000</span>, pl.col(<span class="st">"month_num"</span>), pl.col(<span class="st">"day"</span>)),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        flag<span class="op">=</span>(pl.col(<span class="st">"month"</span>) <span class="op">==</span> <span class="st">"October"</span>) <span class="op">&amp;</span> (pl.col(<span class="st">"day"</span>) <span class="op">==</span> <span class="dv">31</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    .sort(<span class="st">"fake_yr"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Halloween (October 31) stands out as the single most dangerous day for child pedestrians.</p>
 <p>The chart below uses <code>coord_radial()</code> with <code>inner_radius=0.25</code> to create a donut-shaped calendar, matching the style from <a href="https://socviz.co/08-polishing.html#workhorses-show-ponies-unicorns"><em>Data Visualization: A Practical Introduction</em></a>. The r-axis limits are fixed at <code>(0, 4.25)</code> so the hollow centre corresponds to zero daily average fatalities, and <code>r_axis_inside=True</code> keeps the radial tick labels inside the ring.</p>
-<div id="cell-fig-coord-polar-fars" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="op">=</span> (</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    fars_agg</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        doy<span class="op">=</span>pl.col(<span class="st">"fake_yr"</span>).dt.ordinal_day(),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        day_type<span class="op">=</span>pl.when(pl.col(<span class="st">"flag"</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                   .then(pl.lit(<span class="st">"Halloween"</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                   .otherwise(pl.lit(<span class="st">"Other"</span>)),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>m_breaks <span class="op">=</span> [date(<span class="dv">2000</span>, m, <span class="dv">15</span>).timetuple().tm_yday <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)]</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>m_labels <span class="op">=</span> [<span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"May"</span>, <span class="st">"June"</span>, <span class="st">"July"</span>, <span class="st">"August"</span>, <span class="st">"September"</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>(</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    plot_data</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    .ggplot(p9.aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, fill<span class="op">=</span><span class="st">"day_type"</span>, color<span class="op">=</span><span class="st">"day_type"</span>))</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    .geom_point(shape<span class="op">=</span><span class="st">"o"</span>, size<span class="op">=</span><span class="fl">2.5</span>, stroke<span class="op">=</span><span class="fl">0.4</span>)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    .scale_fill_manual(values<span class="op">=</span>{<span class="st">"Halloween"</span>: <span class="st">"#E06000"</span>, <span class="st">"Other"</span>: <span class="st">"white"</span>})</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    .scale_color_manual(values<span class="op">=</span>{<span class="st">"Halloween"</span>: <span class="st">"#333333"</span>, <span class="st">"Other"</span>: <span class="st">"#222222"</span>})</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    .geom_text(data<span class="op">=</span>plot_data.<span class="bu">filter</span>(pl.col(<span class="st">"day_type"</span>) <span class="op">==</span> <span class="st">"Halloween"</span>),</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>               mapping<span class="op">=</span>p9.aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, label<span class="op">=</span><span class="st">"day_type"</span>),</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"#E06000"</span>, size<span class="op">=</span><span class="dv">7</span>, nudge_x<span class="op">=</span><span class="dv">2</span>, nudge_y<span class="op">=-</span><span class="dv">1</span>,</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>               ha<span class="op">=</span><span class="st">"right"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    .scale_x_continuous(breaks<span class="op">=</span>m_breaks, labels<span class="op">=</span>m_labels)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    .coord_radial(inner_radius<span class="op">=</span><span class="fl">0.25</span>, r_axis_inside<span class="op">=</span><span class="va">True</span>, expand<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>                  theta_labels<span class="op">=</span><span class="va">True</span>, theta_label_pad<span class="op">=</span><span class="dv">9</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(limits<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">4.25</span>))</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes"</span>,</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Daily average, 2009–2023</span><span class="ch">\n\n</span><span class="st">"</span>,</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span><span class="st">"#444444"</span>),</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        axis_ticks_major_x<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"none"</span>,</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="fl">5.5</span>, <span class="fl">5.5</span>),</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="cell-fig-coord-polar-fars" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot_data <span class="op">=</span> (</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    fars_agg</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        doy<span class="op">=</span>pl.col(<span class="st">"fake_yr"</span>).dt.ordinal_day(),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        day_type<span class="op">=</span>pl.when(pl.col(<span class="st">"flag"</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                   .then(pl.lit(<span class="st">"Halloween"</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                   .otherwise(pl.lit(<span class="st">"Other"</span>)),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>m_breaks <span class="op">=</span> [date(<span class="dv">2000</span>, m, <span class="dv">15</span>).timetuple().tm_yday <span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">13</span>)]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>m_labels <span class="op">=</span> [<span class="st">"January"</span>, <span class="st">"February"</span>, <span class="st">"March"</span>, <span class="st">"April"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"May"</span>, <span class="st">"June"</span>, <span class="st">"July"</span>, <span class="st">"August"</span>, <span class="st">"September"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"October"</span>, <span class="st">"November"</span>, <span class="st">"December"</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    plot_data</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    .ggplot(p9.aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, fill<span class="op">=</span><span class="st">"day_type"</span>, color<span class="op">=</span><span class="st">"day_type"</span>))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    .geom_point(shape<span class="op">=</span><span class="st">"o"</span>, size<span class="op">=</span><span class="fl">2.5</span>, stroke<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    .scale_fill_manual(values<span class="op">=</span>{<span class="st">"Halloween"</span>: <span class="st">"#E06000"</span>, <span class="st">"Other"</span>: <span class="st">"white"</span>})</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    .scale_color_manual(values<span class="op">=</span>{<span class="st">"Halloween"</span>: <span class="st">"#333333"</span>, <span class="st">"Other"</span>: <span class="st">"#222222"</span>})</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    .geom_text(data<span class="op">=</span>plot_data.<span class="bu">filter</span>(pl.col(<span class="st">"day_type"</span>) <span class="op">==</span> <span class="st">"Halloween"</span>),</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>               mapping<span class="op">=</span>p9.aes(x<span class="op">=</span><span class="st">"doy"</span>, y<span class="op">=</span><span class="st">"n"</span>, label<span class="op">=</span><span class="st">"day_type"</span>),</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>               color<span class="op">=</span><span class="st">"#E06000"</span>, size<span class="op">=</span><span class="dv">7</span>, nudge_x<span class="op">=</span><span class="dv">2</span>, nudge_y<span class="op">=-</span><span class="dv">1</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>               ha<span class="op">=</span><span class="st">"right"</span>, inherit_aes<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    .scale_x_continuous(breaks<span class="op">=</span>m_breaks, labels<span class="op">=</span>m_labels)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    .scale_y_continuous(limits<span class="op">=</span>(<span class="dv">0</span>, <span class="fl">4.25</span>))</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes"</span>,</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Daily average, 2009–2023</span><span class="ch">\n\n</span><span class="st">"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    .add(coord_radial_themed(inner_radius<span class="op">=</span><span class="fl">0.25</span>, r_axis_inside<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                         expand<span class="op">=</span><span class="va">False</span>, theta_labels<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span><span class="st">"#444444"</span>),</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        axis_ticks_major_x<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        radial_theta_label_pad<span class="op">=</span><span class="dv">9</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="fl">5.5</span>, <span class="fl">5.5</span>),</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div id="fig-coord-polar-fars" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-coord-polar-fars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">

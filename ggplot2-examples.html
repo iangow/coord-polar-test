@@ -389,6 +389,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./guide-axis-theta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title"><code>guide_axis_theta()</code></span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -442,7 +448,7 @@ Caution
 <p>The source code for this repository can be found <a href="https://github.com/iangow/coord-polar-test">here</a> and includes a <code>pyproject.toml</code> file that can be used with <code>uv</code> to install everything needed to run all the examples here.</p>
 </div>
 </div>
-<div id="5a74967b" class="cell" data-execution_count="1">
+<div id="54561f88" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -459,7 +465,7 @@ Caution
 <section id="bar-pie-bullseye-mtcars" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="bar-pie-bullseye-mtcars"><span class="header-section-number">2.1</span> Bar → Pie → Bullseye (mtcars)</h2>
 <p>A stacked bar chart becomes a pie chart when <code>theta = "y"</code> maps height (count) to angle, and a bullseye chart when the default <code>theta = "x"</code> maps the discrete x position to angle instead.</p>
-<div id="a6eab817" class="cell" data-execution_count="2">
+<div id="398d5b14" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> (</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    pl.from_pandas(mtcars)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    .with_columns(</span>

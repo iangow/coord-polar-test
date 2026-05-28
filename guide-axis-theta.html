@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Polar Coordinates with plotnine</title>
+<title>7&nbsp; guide_axis_theta() – Polar Coordinates with plotnine</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,26 +23,42 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -52,7 +68,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ggplot2-examples.html" rel="next">
+<link href="./nightingale.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -279,7 +295,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./guide-axis-theta.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title"><code>guide_axis_theta()</code></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -309,7 +325,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -345,7 +361,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./guide-axis-theta.html" class="sidebar-item-text sidebar-link">
+  <a href="./guide-axis-theta.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title"><code>guide_axis_theta()</code></span></span></a>
   </div>
 </li>
@@ -359,7 +375,10 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#base-plot" id="toc-base-plot" class="nav-link active" data-scroll-target="#base-plot"><span class="header-section-number">7.1</span> Base plot</a></li>
+  <li><a href="#angle-0-tangential-labels" id="toc-angle-0-tangential-labels" class="nav-link" data-scroll-target="#angle-0-tangential-labels"><span class="header-section-number">7.2</span> <code>angle = 0</code>: tangential labels</a></li>
+  <li><a href="#angle-90-radial-labels" id="toc-angle-90-radial-labels" class="nav-link" data-scroll-target="#angle-90-radial-labels"><span class="header-section-number">7.3</span> <code>angle = 90</code>: radial labels</a></li>
+  <li><a href="#relationship-between-angle-and-the-tangent" id="toc-relationship-between-angle-and-the-tangent" class="nav-link" data-scroll-target="#relationship-between-angle-and-the-tangent"><span class="header-section-number">7.4</span> Relationship between <code>angle</code> and the tangent</a></li>
   </ul>
 </nav>
     </div>
@@ -369,7 +388,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Polar Coordinates with plotnine</h1>
+<h1 class="title"><span id="sec-guide-axis-theta" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title"><code>guide_axis_theta()</code></span></span></h1>
 </div>
 
 
@@ -386,9 +405,8 @@ div.csl-indent {
 </header>
 
 
-<section id="sec-intro" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>This online book provides a gallery of plots using either <code>coord_polar()</code> or <code>coord_radial()</code> with a custom version of <a href="https://plotnine.org">plotnine</a>, a Python library implementing the grammar of graphics <span class="citation" data-cites="wilkinson:2006">(<a href="#ref-wilkinson:2006" role="doc-biblioref">Wilkinson 2005</a>)</span> using an API based on that of the R package<a href="https://ggplot2.tidyverse.org"><code>ggplot2</code></a>.</p>
+<p><code>guide_axis_theta()</code> is a specialized guide for the theta axis in <code>coord_radial()</code> plots. It controls how tick labels are oriented around the circle.</p>
+<p>The examples below are adapted from the <a href="https://ggplot2.tidyverse.org/reference/guide_axis_theta.html">ggplot2 reference page</a>.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -399,28 +417,126 @@ Caution
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
+<p>The examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. Standard releases of plotnine do not yet include these changes.</p>
 </div>
 </div>
-<p>I have chosen examples from a number of sources that serve both as targets for development of <code>coord_polar()</code> and <code>coord_radial()</code> and as illustrations of how those functions can be used.</p>
-<ul>
-<li>In <a href="ggplot2-examples.html" class="quarto-xref"><span>Chapter 2</span></a>, I use examples from the <a href="https://ggplot2.tidyverse.org/reference/coord_polar.html">ggplot2 documentation for <code>coord_polar()</code></a>.</li>
-<li>In <a href="coord-radial-examples.html" class="quarto-xref"><span>Chapter 3</span></a>, I use examples from the <a href="https://ggplot2.tidyverse.org/reference/coord_radial.html">ggplot2 documentation for <code>coord_radial()</code></a>.</li>
-<li>In <a href="socviz-examples.html" class="quarto-xref"><span>Chapter 4</span></a>, I use an example from Chapter 8 of <span class="citation" data-cites="Healy2026">Healy (<a href="#ref-Healy2026" role="doc-biblioref">2026</a>)</span>.</li>
-<li>In <a href="climate-circles.html" class="quarto-xref"><span>Chapter 5</span></a>, I Dominic Royé’s <a href="https://dominicroye.github.io/blog/climate-circles/">climate circles</a>.</li>
-<li>In <a href="nightingale.html" class="quarto-xref"><span>Chapter 6</span></a>, I replicate Florence Nightingale’s famous plot.</li>
-</ul>
-<p>The source code for this page can be found at <a href="https://github.com/iangow/coord-polar-test" class="uri">https://github.com/iangow/coord-polar-test</a>.</p>
+<div id="58d5c349" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.data <span class="im">import</span> mtcars</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine_polars <span class="im">import</span> aes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="base-plot" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="base-plot"><span class="header-section-number">7.1</span> Base plot</h2>
+<p>The base plot uses <code>coord_radial(theta_labels=True)</code> to display tick labels on the outer edge of the circle. By default, Matplotlib renders each label horizontally.</p>
+<div id="cell-fig-guide-theta-base" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> pl.from_pandas(mtcars)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    mtcars_pl</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(<span class="st">"disp"</span>, <span class="st">"mpg"</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    .geom_point()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    .coord_radial(theta_labels<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    .add_theme(figure_size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div id="fig-guide-theta-base" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-guide-theta-base-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="guide-axis-theta_files/figure-html/fig-guide-theta-base-output-1.png" width="480" height="480" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guide-theta-base-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: Base <code>coord_radial()</code> plot with theta labels
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="angle-0-tangential-labels" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="angle-0-tangential-labels"><span class="header-section-number">7.2</span> <code>angle = 0</code>: tangential labels</h2>
+<p>Passing <code>guide_axis_theta(angle=0)</code> to <code>.add_guides()</code> orients each label tangentially, parallel to the arc, at its position around the circle. This is the most common use and mirrors <code>guide_axis_theta(angle = 0)</code> in ggplot2.</p>
+<div id="cell-fig-guide-theta-angle0" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p.add_guides(theta<span class="op">=</span>p9.guide_axis_theta(angle<span class="op">=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="fig-guide-theta-angle0" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-guide-theta-angle0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="guide-axis-theta_files/figure-html/fig-guide-theta-angle0-output-1.png" width="480" height="480" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guide-theta-angle0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: Theta labels rotated to follow the arc (<code>angle=0</code>)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="angle-90-radial-labels" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="angle-90-radial-labels"><span class="header-section-number">7.3</span> <code>angle = 90</code>: radial labels</h2>
+<p>Setting <code>angle=90</code> rotates each label a further 90 degrees from the tangential direction, so labels point outward along the spoke.</p>
+<div id="cell-fig-guide-theta-angle90" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p.add_guides(theta<span class="op">=</span>p9.guide_axis_theta(angle<span class="op">=</span><span class="dv">90</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="fig-guide-theta-angle90" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-guide-theta-angle90-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="guide-axis-theta_files/figure-html/fig-guide-theta-angle90-output-1.png" width="480" height="480" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guide-theta-angle90-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.3: Theta labels pointing radially outward (<code>angle=90</code>)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="relationship-between-angle-and-the-tangent" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="relationship-between-angle-and-the-tangent"><span class="header-section-number">7.4</span> Relationship between <code>angle</code> and the tangent</h2>
+<p>The <code>angle</code> parameter is an <strong>offset from the tangential direction</strong> at each tick position, not an absolute rotation.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;"><code>angle</code></th>
+<th>Label orientation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><code>0</code></td>
+<td>Tangential, parallel to the arc (default ggplot2 heuristic)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>90</code></td>
+<td>Radial, pointing outward from the centre</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>-90</code></td>
+<td>Radial, pointing inward toward the centre</td>
+</tr>
+</tbody>
+</table>
+<p>This matches ggplot2’s semantics, where the heuristics for <code>waiver()</code> also choose an angle relative to the arc direction. In contrast, Matplotlib’s default <code>tick_params(labelrotation=N)</code> sets an <em>absolute</em> angle, which is why <code>guide_axis_theta()</code> patches the tick rotation mode directly.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>minor_ticks</code> and <code>cap</code> parameters of ggplot2’s <code>guide_axis_theta()</code> are not yet implemented in the Python version.</p>
+</div>
+</div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Healy2026" class="csl-entry" role="listitem">
-Healy, Kieran. 2026. <em>Data Visualization: A Practical Introduction</em>. 2nd ed. Princeton University Press. <a href="https://socviz.co/">https://socviz.co/</a>.
-</div>
-<div id="ref-wilkinson:2006" class="csl-entry" role="listitem">
-Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>. 2nd ed. Statistics and Computing. Springer.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -839,11 +955,11 @@ Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>. 2nd ed. Statistics an
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./nightingale.html" class="pagination-link" aria-label="Florence Nightingale's Rose Diagram">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Florence Nightingale’s Rose Diagram</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ggplot2-examples.html" class="pagination-link" aria-label="Examples from the `ggplot2` documentation">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Examples from the <code>ggplot2</code> documentation</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
