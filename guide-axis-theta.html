@@ -376,9 +376,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#base-plot" id="toc-base-plot" class="nav-link active" data-scroll-target="#base-plot"><span class="header-section-number">7.1</span> Base plot</a></li>
-  <li><a href="#angle-0-tangential-labels" id="toc-angle-0-tangential-labels" class="nav-link" data-scroll-target="#angle-0-tangential-labels"><span class="header-section-number">7.2</span> <code>angle = 0</code>: tangential labels</a></li>
-  <li><a href="#angle-90-radial-labels" id="toc-angle-90-radial-labels" class="nav-link" data-scroll-target="#angle-90-radial-labels"><span class="header-section-number">7.3</span> <code>angle = 90</code>: radial labels</a></li>
-  <li><a href="#relationship-between-angle-and-the-tangent" id="toc-relationship-between-angle-and-the-tangent" class="nav-link" data-scroll-target="#relationship-between-angle-and-the-tangent"><span class="header-section-number">7.4</span> Relationship between <code>angle</code> and the tangent</a></li>
+  <li><a href="#label-rotation" id="toc-label-rotation" class="nav-link" data-scroll-target="#label-rotation"><span class="header-section-number">7.2</span> Label Rotation</a></li>
+  <li><a href="#relationship-between-ggplot2s-angle-and-the-tangent" id="toc-relationship-between-ggplot2s-angle-and-the-tangent" class="nav-link" data-scroll-target="#relationship-between-ggplot2s-angle-and-the-tangent"><span class="header-section-number">7.3</span> Relationship between ggplot2’s <code>angle</code> and the tangent</a></li>
   </ul>
 </nav>
     </div>
@@ -405,22 +404,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>guide_axis_theta()</code> is a specialized guide for the theta axis in <code>coord_radial()</code> plots. It controls how tick labels are oriented around the circle.</p>
+<p><code>guide_axis_theta()</code> is a specialized guide for the theta axis in ggplot2 <code>coord_radial()</code> plots. It is not part of the plotnine 0.16.0 pre-release API.</p>
 <p>The examples below are adapted from the <a href="https://ggplot2.tidyverse.org/reference/guide_axis_theta.html">ggplot2 reference page</a>.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Caution
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. Standard releases of plotnine do not yet include these changes.</p>
+<p>The <code>coord_polar()</code> and <code>coord_radial()</code> functions are available in the plotnine pre-release, but <code>guide_axis_theta()</code> is not currently exported.</p>
 </div>
 </div>
-<div id="58d5c349" class="cell" data-execution_count="1">
+<div id="5d420e9d" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotnine_polars <span class="im">as</span> p9</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine.data <span class="im">import</span> mtcars</span>
@@ -428,7 +427,7 @@ Caution
 </div>
 <section id="base-plot" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="base-plot"><span class="header-section-number">7.1</span> Base plot</h2>
-<p>The base plot uses <code>coord_radial(theta_labels=True)</code> to display tick labels on the outer edge of the circle. By default, Matplotlib renders each label horizontally.</p>
+<p>The base plot uses <code>coord_radial()</code> to display theta tick labels on the outer edge of the circle. By default, Matplotlib renders each label horizontally.</p>
 <div id="cell-fig-guide-theta-base" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars_pl <span class="op">=</span> pl.from_pandas(mtcars)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -436,7 +435,7 @@ Caution
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    mtcars_pl</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    .ggplot(aes(<span class="st">"disp"</span>, <span class="st">"mpg"</span>))</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    .geom_point()</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    .coord_radial(theta_labels<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    .coord_radial()</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    .add_theme(figure_size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -454,46 +453,12 @@ Figure&nbsp;7.1: Base <code>coord_radial()</code> plot with theta labels
 </div>
 </div>
 </section>
-<section id="angle-0-tangential-labels" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="angle-0-tangential-labels"><span class="header-section-number">7.2</span> <code>angle = 0</code>: tangential labels</h2>
-<p>Passing <code>guide_axis_theta(angle=0)</code> to <code>.add_guides()</code> orients each label tangentially, parallel to the arc, at its position around the circle. This is the most common use and mirrors <code>guide_axis_theta(angle = 0)</code> in ggplot2.</p>
-<div id="cell-fig-guide-theta-angle0" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p.add_guides(theta<span class="op">=</span>p9.guide_axis_theta(angle<span class="op">=</span><span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div id="fig-guide-theta-angle0" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-guide-theta-angle0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="guide-axis-theta_files/figure-html/fig-guide-theta-angle0-output-1.png" width="480" height="480" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guide-theta-angle0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.2: Theta labels rotated to follow the arc (<code>angle=0</code>)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<section id="label-rotation" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="label-rotation"><span class="header-section-number">7.2</span> Label Rotation</h2>
+<p>The ggplot2 guide can rotate labels tangentially or radially. The equivalent guide is not available in plotnine 0.16.0a12, so those examples are omitted until the guide API exists.</p>
 </section>
-<section id="angle-90-radial-labels" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="angle-90-radial-labels"><span class="header-section-number">7.3</span> <code>angle = 90</code>: radial labels</h2>
-<p>Setting <code>angle=90</code> rotates each label a further 90 degrees from the tangential direction, so labels point outward along the spoke.</p>
-<div id="cell-fig-guide-theta-angle90" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p.add_guides(theta<span class="op">=</span>p9.guide_axis_theta(angle<span class="op">=</span><span class="dv">90</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<div id="fig-guide-theta-angle90" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-guide-theta-angle90-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="guide-axis-theta_files/figure-html/fig-guide-theta-angle90-output-1.png" width="480" height="480" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-guide-theta-angle90-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.3: Theta labels pointing radially outward (<code>angle=90</code>)
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="relationship-between-angle-and-the-tangent" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="relationship-between-angle-and-the-tangent"><span class="header-section-number">7.4</span> Relationship between <code>angle</code> and the tangent</h2>
+<section id="relationship-between-ggplot2s-angle-and-the-tangent" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="relationship-between-ggplot2s-angle-and-the-tangent"><span class="header-section-number">7.3</span> Relationship between ggplot2’s <code>angle</code> and the tangent</h2>
 <p>The <code>angle</code> parameter is an <strong>offset from the tangential direction</strong> at each tick position, not an absolute rotation.</p>
 <table class="caption-top table">
 <colgroup>
@@ -521,7 +486,7 @@ Figure&nbsp;7.3: Theta labels pointing radially outward (<code>angle=90</code>)
 </tr>
 </tbody>
 </table>
-<p>This matches ggplot2’s semantics, where the heuristics for <code>waiver()</code> also choose an angle relative to the arc direction. In contrast, Matplotlib’s default <code>tick_params(labelrotation=N)</code> sets an <em>absolute</em> angle, which is why <code>guide_axis_theta()</code> patches the tick rotation mode directly.</p>
+<p>This matches ggplot2’s semantics, where the heuristics for <code>waiver()</code> also choose an angle relative to the arc direction. In contrast, Matplotlib’s default <code>tick_params(labelrotation=N)</code> sets an <em>absolute</em> angle, which is why this behavior needs a dedicated guide rather than a simple theme setting.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -532,7 +497,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <code>minor_ticks</code> and <code>cap</code> parameters of ggplot2’s <code>guide_axis_theta()</code> are not yet implemented in the Python version.</p>
+<p>The <code>minor_ticks</code> and <code>cap</code> parameters of ggplot2’s <code>guide_axis_theta()</code> are also unavailable in the plotnine pre-release.</p>
 </div>
 </div>
 

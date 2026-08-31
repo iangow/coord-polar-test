@@ -445,20 +445,20 @@ window.Quarto = {
 <li><strong>Other Causes</strong> — all remaining causes</li>
 </ul>
 <p>The dramatic collapse of the blue (disease) bars between the two panels reflects the sanitary improvements introduced in March 1855.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Caution
+Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All of the examples on this page require the <code>coord-polar</code> branch of <a href="https://github.com/iangow/plotnine/tree/coord-polar">iangow/plotnine</a>. The standard version of plotnine does not include the <code>coord_polar()</code> and <code>coord_radial()</code> functions used here.</p>
+<p>All of the examples on this page require a pre-release version of <a href="https://plotnine.org">plotnine</a> that includes <code>coord_polar()</code> and <code>coord_radial()</code>.</p>
 </div>
 </div>
-<div id="a9b9114c" class="cell" data-execution_count="1">
+<div id="e371e3a5" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> polars <span class="im">as</span> pl</span>
@@ -482,11 +482,11 @@ Note
 <section id="data" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="data"><span class="header-section-number">6.1</span> Data</h2>
 <p>The data below are Florence Nightingale’s published death counts for the British army in the Crimea. Each row in the final long-format table records the number of deaths from one cause in one month of one year.</p>
-<div id="a562bc2e" class="cell" data-execution_count="2">
+<div id="1b06ce22" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nightingale <span class="op">=</span> sv.load_data(<span class="st">"nightingale"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To create overlapping bars with <code>geom_col(position="identity")</code>, the data must be sorted so that the <strong>largest</strong> value for each month comes first—it is drawn behind, letting the smaller wedges appear on top. Note that <code>month_label</code> is an <code>Enum</code> with categories in April-to-March order, so Polars sorts it correctly without a separate ordering column.</p>
-<div id="44f95160" class="cell" data-execution_count="3">
+<div id="ea710a15" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>month_enum <span class="op">=</span> pl.Enum([</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>, <span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>,</span>
@@ -511,7 +511,7 @@ Note
 </section>
 <section id="the-rose-diagram" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-rose-diagram"><span class="header-section-number">6.2</span> The Rose Diagram</h2>
-<div id="08a503b6" class="cell" data-execution_count="4">
+<div id="523c33b5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cause_colors <span class="op">=</span> {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"diseases"</span>:     <span class="st">"#91C4D8"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wounds"</span>:       <span class="st">"#E8A0A0"</span>,</span>
@@ -520,7 +520,7 @@ Note
 </div>
 <section id="basic-version" class="level3 page-columns page-full" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="basic-version"><span class="header-section-number">6.2.1</span> Basic Version</h3>
-<p>The simplest approach uses <code>coord_radial</code>’s built-in <code>theta_labels=True</code> argument, which reads the <span class="math inline">\(x\)</span>-scale’s breaks and labels and places them around the outer rim of the circle. Adding <code>guide_axis_theta(angle=0)</code> rotates each label to follow the arc at its position.</p>
+<p>The simplest approach uses the x-scale’s breaks and labels as the theta-axis labels around the outer rim of the circle.</p>
 <div id="cell-fig-nightingale-basic" class="cell page-columns page-full" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    ng_long</span>
@@ -538,30 +538,28 @@ Note
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        theta<span class="op">=</span><span class="st">"x"</span>,</span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        start<span class="op">=</span><span class="dv">3</span> <span class="op">*</span> math.pi <span class="op">/</span> <span class="dv">2</span>,</span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        expand<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        theta_labels<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    .facet_wrap(<span class="st">"~period"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Causes of Mortality in the British Army during the Crimean War"</span>,</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Radius proportional to sqrt(deaths), so wedge area proportional to deaths"</span>,</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        caption<span class="op">=</span>(</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Source: Nightingale (1858), Notes on Matters Affecting the Health, "</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Efficiency, and Hospital Administration of the British Army."</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        ),</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    .add_guides(theta<span class="op">=</span>p9.guide_axis_theta(angle<span class="op">=</span><span class="dv">0</span>))</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">7</span>),</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span><span class="st">"#444444"</span>),</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        axis_text_y<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        axis_ticks<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        panel_grid_major<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        panel_background<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        panel_border<span class="op">=</span>p9.element_blank(),</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"bottom"</span>,</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    .facet_wrap(<span class="st">"~period"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    .labs(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"Causes of Mortality in the British Army during the Crimean War"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        subtitle<span class="op">=</span><span class="st">"Radius proportional to sqrt(deaths), so wedge area proportional to deaths"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        caption<span class="op">=</span>(</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Source: Nightingale (1858), Notes on Matters Affecting the Health, "</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Efficiency, and Hospital Administration of the British Army."</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    .add_theme(</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        figure_size<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">7</span>),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        axis_title<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        axis_text_x<span class="op">=</span>p9.element_text(size<span class="op">=</span><span class="dv">7</span>, color<span class="op">=</span><span class="st">"#444444"</span>),</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        axis_text_y<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        axis_ticks<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        panel_grid_major<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        panel_background<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        panel_border<span class="op">=</span>p9.element_blank(),</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        legend_position<span class="op">=</span><span class="st">"bottom"</span>,</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display page-columns page-full" data-execution_count="5">
 <div id="fig-nightingale-basic" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
@@ -569,7 +567,7 @@ Note
 <img src="nightingale_files/figure-html/fig-nightingale-basic-output-1.png" width="1248" height="672" class="figure-img column-page">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nightingale-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.1: Basic rose diagram using theta_labels to place month names on the outer rim.
+Figure&nbsp;6.1: Basic rose diagram using month names on the theta axis.
 </figcaption>
 </figure>
 </div>
@@ -579,7 +577,7 @@ Figure&nbsp;6.1: Basic rose diagram using theta_labels to place month names on t
 <section id="refined-version" class="level3 page-columns page-full" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="refined-version"><span class="header-section-number">6.2.2</span> Refined Version</h3>
 <p>For labels that sit at the tip of each month’s tallest bar—closer to the data, like in the original diagram—I use <code>.geom_text()</code> with pre-computed positions and rotation angles. Each label is placed <code>pad_r</code> units beyond the largest bar for that month (in square-root space), and rotated to read naturally at its position around the circle. The <span class="math inline">\(y\)</span>-axis upper limit is extended to accommodate these floating labels.</p>
-<div id="f7456e11" class="cell" data-execution_count="6">
+<div id="f5b4fa1e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _radial_angle(idx, n<span class="op">=</span><span class="dv">12</span>, start_deg<span class="op">=</span><span class="dv">270</span>):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Text rotation angle (degrees) for the label at arc slice idx."""</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>(start_deg <span class="op">+</span> (idx <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">/</span> n <span class="op">*</span> <span class="dv">360</span>) <span class="op">%</span> <span class="dv">360</span></span>
