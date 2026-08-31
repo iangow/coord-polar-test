@@ -6,10 +6,10 @@ jupyter: coord-polar-test
 
 The following examples are adapted from the [ggplot2 book's coord chapter](https://ggplot2-book.org/coord.html#polar-coordinates-with-coord_polar).
 
-::: {.callout-caution}
-All of the examples on this page require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+::: {.callout-note}
+All of the examples on this page require a pre-release version of
+[plotnine](https://plotnine.org) that includes `coord_polar()` and
+`coord_radial()`.
 
 The source code for this repository can be found [here](https://github.com/iangow/coord-polar-test) and includes a `pyproject.toml` file that can be used with `uv` to install everything needed to run all the examples here.
 :::

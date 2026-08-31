@@ -9,10 +9,10 @@ to `plotnine_polars`.
 The data are daily station temperatures for nine US cities, averaged by day of year over 1991-2020. 
 Each line shows the average daily temperature range, while colour marks the daily mean temperature.
 
-::: {.callout-caution}
-All of the examples on this page require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+::: {.callout-note}
+All of the examples on this page require a pre-release version of
+[plotnine](https://plotnine.org) that includes `coord_polar()` and
+`coord_radial()`.
 :::
 
 ```{python}
@@ -98,7 +98,7 @@ ny_city = meteo_yday.filter(pl.col("name") == "NEW YORK")
 ```
 
 Adding `coord_radial()` wraps the same daily ranges around the year.
-The month labels are theta-axis labels, while the temperature axis is drawn inside the circle.
+The month labels are drawn explicitly with `geom_text()`.
 
 ```{python}
 #| label: fig-climate-circles-ny
@@ -115,7 +115,7 @@ The month labels are theta-axis labels, while the temperature axis is drawn insi
     .scale_color_cmap(cmap_name="Spectral_r", limits=(-12, 35),
                       breaks=range(-10, 36, 5))
     .scale_x_continuous(breaks=month_breaks, labels=month_labels)
-    .coord_radial(r_axis_inside=True, expand=False)
+    .coord_radial(expand=False)
     .labs(
         title="New York Climate Circle",
         color="Daily average temperature",
@@ -134,7 +134,7 @@ The month labels are theta-axis labels, while the temperature axis is drawn insi
 The faceted version adds reference rings and month spokes before drawing the
 daily ranges. 
 This follows the structure of Royé's final chart, translated to
-`plotnine_polars` and the current `coord_radial()` argument names.
+`plotnine_polars`.
 
 ```{python}
 #| label: fig-climate-circles-cities
@@ -164,7 +164,7 @@ This follows the structure of Royé's final chart, translated to
                       breaks=range(-10, 36, 5))
     .scale_x_continuous(breaks=month_breaks, labels=month_labels)
     .facet_wrap("name", nrow=3)
-    .coord_radial(r_axis_inside=True, expand=False)
+    .coord_radial(expand=False)
     .labs(
         title="Climate Circles",
         color="Daily average temperature",

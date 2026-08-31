@@ -3,14 +3,10 @@ name = "coord-polar-test"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "plotnine",
+    "plotnine>=0.16.0a12",
     "plotnine-polars",
     "socviz-py>=0.0.6",
     "polars",
+    "matplotlib>=3.11.1",
     "jupyter",
 ]
-
-[tool.uv.sources]
-plotnine = { git = "https://github.com/iangow/plotnine", branch = "coord-polar" }
-# plotnine = { path = "/Users/iangow/git/plotnine", editable = true }
-# socviz-py = { path = "/Users/iangow/git/socviz_py", editable = true }

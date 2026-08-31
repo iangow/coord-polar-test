@@ -21,10 +21,10 @@ The radius of each wedge is proportional to the **square root** of the death cou
 
 The dramatic collapse of the blue (disease) bars between the two panels reflects the sanitary improvements introduced in March 1855.
 
-::: {.callout-caution}
-All of the examples on this page require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+::: {.callout-note}
+All of the examples on this page require a pre-release version of
+[plotnine](https://plotnine.org) that includes `coord_polar()` and
+`coord_radial()`.
 :::
 
 ```{python}
@@ -89,13 +89,13 @@ cause_colors = {
 
 ### Basic Version
 
-The simplest approach uses `coord_radial`'s built-in `theta_labels=True` argument, which reads the $x$-scale's breaks and labels and places them around the outer rim of the circle.
-Adding `guide_axis_theta(angle=0)` rotates each label to follow the arc at its position.
+The simplest approach uses the x-scale's breaks and labels as the theta-axis
+labels around the outer rim of the circle.
 
 ```{python}
 #| label: fig-nightingale-basic
 #| fig-cap: >
-#|   Basic rose diagram using theta_labels to place month names on the outer rim.
+#|   Basic rose diagram using month names on the theta axis.
 #| column: page
 (
     ng_long
@@ -113,7 +113,6 @@ Adding `guide_axis_theta(angle=0)` rotates each label to follow the arc at its p
         theta="x",
         start=3 * math.pi / 2,
         expand=False,
-        theta_labels=True,
     )
     .facet_wrap("~period")
     .labs(
@@ -124,7 +123,6 @@ Adding `guide_axis_theta(angle=0)` rotates each label to follow the arc at its p
             "Efficiency, and Hospital Administration of the British Army."
         ),
     )
-    .add_guides(theta=p9.guide_axis_theta(angle=0))
     .add_theme(
         figure_size=(13, 7),
         axis_title=p9.element_blank(),

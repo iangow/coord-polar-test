@@ -8,16 +8,15 @@ Version 3.5.0 of `ggplot2` introducted `coord_radial()`, a modernized polar coor
 
 - **Partial arcs** via an `end` argument (any arc from a sliver to a full circle).
 - **Inner radius** (`inner_radius`) to create donut and gauge charts.
-- **Radial-axis placement** (`r_axis_inside`) and optional angle-aesthetic
-  rotation (`rotate_angle`).
+- **Angle-aesthetic rotation** via `rotate_angle`.
 
 The examples below are adapted from the
 [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/coord_radial.html).
 
-::: {.callout-caution}
-All of the examples on this page require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+::: {.callout-note}
+All of the examples on this page require a pre-release version of
+[plotnine](https://plotnine.org) that includes `coord_polar()` and
+`coord_radial()`.
 :::
 
 ```{python}

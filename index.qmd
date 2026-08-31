@@ -1,11 +1,11 @@
 # Introduction {#sec-intro}
 
-This online book provides a gallery of plots using either `coord_polar()` or `coord_radial()` with a custom version of [plotnine](https://plotnine.org), a Python library implementing the grammar of graphics [@wilkinson:2006] using an API based on that of the R package[`ggplot2`](https://ggplot2.tidyverse.org).
+This online book provides a gallery of plots using either `coord_polar()` or `coord_radial()` with a pre-release version of [plotnine](https://plotnine.org), a Python library implementing the grammar of graphics [@wilkinson:2006] using an API based on that of the R package [`ggplot2`](https://ggplot2.tidyverse.org).
 
-::: {.callout-caution}
-All of the examples on this page require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-The standard version of plotnine does not include the `coord_polar()` and `coord_radial()` functions used here.
+::: {.callout-note}
+All of the examples on this page require a pre-release version of
+[plotnine](https://plotnine.org) that includes `coord_polar()` and
+`coord_radial()`.
 :::
 
 I have chosen examples from a number of sources that serve both as targets for development of `coord_polar()` and `coord_radial()` and as illustrations of how those functions can be used.
@@ -13,7 +13,7 @@ I have chosen examples from a number of sources that serve both as targets for d
 - In @sec-ggplot, I use examples from the [ggplot2 documentation for `coord_polar()`](https://ggplot2.tidyverse.org/reference/coord_polar.html).
 - In @sec-coord-radial, I use examples from the [ggplot2 documentation for `coord_radial()`](https://ggplot2.tidyverse.org/reference/coord_radial.html).
 - In @sec-socviz, I use an example from Chapter 8 of @Healy2026.
-- In @sec-climate, I Dominic Royé's [climate circles](https://dominicroye.github.io/blog/climate-circles/).
+- In @sec-climate, I adapt Dominic Royé's [climate circles](https://dominicroye.github.io/blog/climate-circles/).
 - In @sec-night, I replicate Florence Nightingale's famous plot.
 
 The source code for this page can be found at <https://github.com/iangow/coord-polar-test>.

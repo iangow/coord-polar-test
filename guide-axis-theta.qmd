@@ -4,17 +4,16 @@ jupyter: coord-polar-test
 
 # `guide_axis_theta()` {#sec-guide-axis-theta}
 
-`guide_axis_theta()` is a specialized guide for the theta axis in
+`guide_axis_theta()` is a specialized guide for the theta axis in ggplot2
 `coord_radial()` plots.
-It controls how tick labels are oriented around the circle.
+It is not part of the plotnine 0.16.0 pre-release API.
 
 The examples below are adapted from the
 [ggplot2 reference page](https://ggplot2.tidyverse.org/reference/guide_axis_theta.html).
 
-::: {.callout-caution}
-The examples on this page require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-Standard releases of plotnine do not yet include these changes.
+::: {.callout-note}
+The `coord_polar()` and `coord_radial()` functions are available in the
+plotnine pre-release, but `guide_axis_theta()` is not currently exported.
 :::
 
 ```{python}
@@ -26,8 +25,8 @@ from plotnine_polars import aes
 
 ## Base plot
 
-The base plot uses `coord_radial(theta_labels=True)` to display tick
-labels on the outer edge of the circle.
+The base plot uses `coord_radial()` to display theta tick labels on the outer
+edge of the circle.
 By default, Matplotlib renders each label horizontally.
 
 ```{python}
@@ -39,37 +38,19 @@ p = (
     mtcars_pl
     .ggplot(aes("disp", "mpg"))
     .geom_point()
-    .coord_radial(theta_labels=True)
+    .coord_radial()
     .add_theme(figure_size=(5, 5))
 )
 p
 ```
 
-## `angle = 0`: tangential labels
+## Label Rotation
 
-Passing `guide_axis_theta(angle=0)` to `.add_guides()` orients each label
-tangentially, parallel to the arc, at its position around the circle.
-This is the most common use and mirrors `guide_axis_theta(angle = 0)` in
-ggplot2.
+The ggplot2 guide can rotate labels tangentially or radially. The equivalent
+guide is not available in plotnine 0.16.0a12, so those examples are omitted
+until the guide API exists.
 
-```{python}
-#| label: fig-guide-theta-angle0
-#| fig-cap: "Theta labels rotated to follow the arc (`angle=0`)"
-p.add_guides(theta=p9.guide_axis_theta(angle=0))
-```
-
-## `angle = 90`: radial labels
-
-Setting `angle=90` rotates each label a further 90 degrees from the tangential
-direction, so labels point outward along the spoke.
-
-```{python}
-#| label: fig-guide-theta-angle90
-#| fig-cap: "Theta labels pointing radially outward (`angle=90`)"
-p.add_guides(theta=p9.guide_axis_theta(angle=90))
-```
-
-## Relationship between `angle` and the tangent
+## Relationship between ggplot2's `angle` and the tangent
 
 The `angle` parameter is an **offset from the tangential direction** at
 each tick position, not an absolute rotation.
@@ -83,10 +64,10 @@ each tick position, not an absolute rotation.
 This matches ggplot2's semantics, where the heuristics for `waiver()` also
 choose an angle relative to the arc direction.
 In contrast, Matplotlib's default `tick_params(labelrotation=N)` sets an
-*absolute* angle, which is why `guide_axis_theta()` patches the tick
-rotation mode directly.
+*absolute* angle, which is why this behavior needs a dedicated guide rather
+than a simple theme setting.
 
 ::: {.callout-note}
-The `minor_ticks` and `cap` parameters of ggplot2's `guide_axis_theta()`
-are not yet implemented in the Python version.
+The `minor_ticks` and `cap` parameters of ggplot2's `guide_axis_theta()` are
+also unavailable in the plotnine pre-release.
 :::

@@ -6,10 +6,10 @@ jupyter: coord-polar-test
 
 Here I do a rough replication of a chart from [Chapter 8](https://socviz.co/08-polishing.html) of @Healy2026.
 
-::: {.callout-caution}
-The examples in this chapter require the `coord-polar` branch of
-[iangow/plotnine](https://github.com/iangow/plotnine/tree/coord-polar).
-Standard releases of plotnine do not yet include these changes.
+::: {.callout-note}
+The examples in this chapter require a pre-release version of
+[plotnine](https://plotnine.org) that includes `coord_polar()` and
+`coord_radial()`.
 :::
 
 ```{python}
@@ -18,26 +18,12 @@ from datetime import date
 import polars as pl
 import plotnine_polars as p9
 import socviz_pl as sv
-from plotnine.themes.themeable import themeable
 ```
 
 ::: {.callout-note}
 In this chapter, I use `plotnine_polars`, a package that allows me to use method chains to access most of the functionality of `plotnine`.
 I also use `socviz_pl`, a small package I created to give me the equivalent of Kieran Healy's `socviz` R package.
 :::
-
-```{python}
-class radial_theta_label_pad(themeable):
-    pass
-
-
-class coord_radial_themed(p9.coord_radial):
-    def setup_ax(self, ax, panel_params, theme):
-        super().setup_ax(ax, panel_params, theme)
-        pad = theme.getp("radial_theta_label_pad")
-        if pad is not None:
-            ax.tick_params(axis="x", pad=pad)
-```
 
 ## FARS pedestrian data
 
@@ -78,8 +64,7 @@ The chart below uses `coord_radial()` with `inner_radius=0.25` to create a
 donut-shaped calendar, matching the style from
 [*Data Visualization: A Practical Introduction*](https://socviz.co/08-polishing.html#workhorses-show-ponies-unicorns).
 The r-axis limits are fixed at `(0, 4.25)` so the hollow centre corresponds
-to zero daily average fatalities, and `r_axis_inside=True` keeps the radial
-tick labels inside the ring.
+to zero daily average fatalities.
 
 ```{python}
 #| label: fig-coord-polar-fars
@@ -115,14 +100,12 @@ m_labels = ["January", "February", "March", "April",
         title="Pedestrians aged 0–17 in Fatal Motor Vehicle Crashes",
         subtitle="Daily average, 2009–2023\n\n",
     )
-    .add(coord_radial_themed(inner_radius=0.25, r_axis_inside=True,
-                         expand=False, theta_labels=True))
+    .coord_radial(inner_radius=0.25, expand=False)
     .add_theme(
         axis_title=p9.element_blank(),
         axis_text_x=p9.element_text(size=7, color="#444444"),
         axis_ticks_major_x=p9.element_blank(),
         legend_position="none",
-        radial_theta_label_pad=9,
         figure_size=(5.5, 5.5),
     )
 )
